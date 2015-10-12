@@ -15,6 +15,8 @@ At last add your user to docker group, so you don't have to type sudo every time
 $ sudo groupadd docker
 $ sudo gpasswd -a $(whoami) docker
 ```
+#### Ubuntu
+A section of [this](https://www.digitalocean.com/community/tutorials/how-to-dockerise-and-deploy-multiple-wordpress-applications-on-ubuntu) tutorial can be helpful while installing Docker on Ubuntu.
 ### Mac & Windows users
 Nor Windows, neither Macs run Docker natively as of yet. To get it there we're going to use [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and [Docker Toolbox](https://www.docker.com/toolbox). Install VirtualBox first, then Docker Toolbox. After installing both, run the Toolbox. It will download necessary images and load Boot2Docker. Now you can test your installation.
 ## Test
