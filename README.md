@@ -15,6 +15,7 @@ At last add your user to docker group, so you don't have to type sudo every time
 $ sudo groupadd docker
 $ sudo gpasswd -a $(whoami) docker
 ```
+If you wonder why this is necessary Dan Walsh has written an [article](http://www.projectatomic.io/blog/2015/08/why-we-dont-let-non-root-users-run-docker-in-centos-fedora-or-rhel/), where he goes deep into the security settings of Fedora and RHEL.
 #### Ubuntu
 A section of [this](https://www.digitalocean.com/community/tutorials/how-to-dockerise-and-deploy-multiple-wordpress-applications-on-ubuntu) tutorial can be helpful while installing Docker on Ubuntu.
 ### Mac & Windows users
