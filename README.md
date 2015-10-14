@@ -34,7 +34,7 @@ $ vagrant ssh
 ```
 Now you're running your own installation of the Atomic project's bundle! You can test your docker installation by typing `docker run hello-world`.
 
-## Mac Users
+## <a name="mac_users"></a>Mac Users
 Just use brew to do the job for you ;-)
 ```
 $ brew cask install virtualbox
