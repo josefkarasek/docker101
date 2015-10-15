@@ -1,4 +1,6 @@
 # Docker 101
+## Presentation
+Slides for this workshop are available [online](http://redhat.slides.com/jkarasek/docker101/fullscreen?token=V6ismABL) now!
 ## Installation
 This tutorial guides you through installation of Docker. It doesn't try to second the official docs. If you happen to miss some information, you'll most likely find it [here](http://docs.docker.com/).
 ### Linux Users
