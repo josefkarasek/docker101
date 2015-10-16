@@ -4,9 +4,9 @@ Slides for this workshop are available [online](http://redhat.slides.com/jkarase
 ## Installation
 This tutorial guides you through installation of Docker. It doesn't try to second the official docs. If you happen to miss some information, you'll most likely find it [here](http://docs.docker.com/).
 ### Linux Users
-Docker runs on recent Linux machines natively, so you only need to download Docker binaries and start docker engine. Docker documentation describes installation for a variety of distros. Please note that to get the latest release we recommend to use the script installation method instead of using package repository of your distro. Check the official [docs](http://docs.docker.com/installation/) for your Linux distro. Example installation for Fedora:
+Docker runs on recent Linux machines natively, so you only need to install Docker package and start docker engine. Search your repositories for this package. Example installation for Fedora:
 ```
-$ curl -sSL https://get.docker.com/ | sh
+# sudo yum install docker-io
 ```
 Start docker engine:
 ```
@@ -14,15 +14,14 @@ $ sudo systemctl start docker
 ```
 At last add your user to docker group, so you don't have to type sudo every time you use docker client.
 ```
-$ sudo groupadd docker
-$ sudo gpasswd -a $(whoami) docker
+$ sudo usermod -aG docker $(whoami)
 ```
 If you wonder why this is necessary Dan Walsh has written an [article](http://www.projectatomic.io/blog/2015/08/why-we-dont-let-non-root-users-run-docker-in-centos-fedora-or-rhel/), where he goes deep into the security settings of Fedora and RHEL.
 #### Ubuntu
 A section of [this](https://www.digitalocean.com/community/tutorials/how-to-dockerise-and-deploy-multiple-wordpress-applications-on-ubuntu) tutorial can be helpful while installing Docker on Ubuntu.
 ### Windows Users
 #### Important: UPDATE
-Running Boot2docker to bring Linux containers to Windows and Mac machine is sometimes cumbersome and can behave differently than native installation. That's why we looked for a deffirent way, how to bring Docker to non-native enviroments, however still using Virtualbox. But without using Boot2docker. Next couple of lines describe the Atomic Project's bundle, which not only contains Docker, but additional features related to Docker, such as Nulecule (1st talk will be about Nulecule!) or Kubernetes. To install the bundle, you will need these apps (Mac users are encouradged to use brew to [install](#mac_users) them):
+Running Boot2docker to bring Linux containers to Windows and Mac machine is sometimes cumbersome and can behave differently than native installation. That's why we looked for a different way, how to bring Docker to non-native enviroments, however still using Virtualbox, but without using Boot2docker. Next couple of lines describe the Atomic Project's bundle, which not only contains Docker, but additional features related to Docker, such as Nulecule (1st talk will be about Nulecule!) or Kubernetes. To install the bundle, you will need these apps (Mac users are encouradged to use brew to [install](#mac_users) them):
 
 1. [VirtualBox](https://www.virtualbox.org/wiki/Downloads) 
 2. [Cygwin](https://www.cygwin.com/) - command line terminal to run your commands ([direct download](https://www.cygwin.com/setup-x86_64.exe)). Click through the installation and on the **Choose A Download Site** select **mirrors.kernel.org** as a download site. In the next window (**Select packages**) search for (1) **rsync** and click on the cycling arrows on the **net** line to install this package, then search for (2) **openssh** and do the same to install it. Then continue.
