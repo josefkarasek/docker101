@@ -1,10 +1,9 @@
-# Docker 101
-## Presentation
-Slides for this workshop are available [online](http://redhat.slides.com/jkarasek/docker101/fullscreen?token=V6ismABL) now!
+# Docker 101 - DevConf.cz 2016
+At the workshop all atendees will be given a USB stick with Fedora Live image, that will contain all necessary binaries, so no preparation for the workshop required. That said, having Docker installed localy will be beneficial for your own experiments once the workshop ends.
 ## Installation
-This tutorial guides you through installation of Docker. It doesn't try to second the official docs. If you happen to miss some information, you'll most likely find it [here](http://docs.docker.com/).
+This tutorial guides you through installation of Docker. However, it does not second the official documentation. If you happen to miss some information, you'll most likely find it [there](http://docs.docker.com/).
 ### Linux Users
-Docker runs on recent Linux machines natively, so you only need to install Docker package and start docker engine. Search your repositories for Docker package. Example installation for Fedora:
+Docker runs on recent Linux machines natively, so you only need to install Docker package and start docker daemon. A good practice is to install package from your distro repository, just search for Docker package.  Example installation for Fedora:
 ```
 # sudo dnf install docker
 ```
@@ -12,9 +11,10 @@ Start docker engine:
 ```
 $ sudo systemctl start docker
 ```
-At last add your user to docker group, so you don't have to type sudo every time you use docker client.
+At last create a docker group and add your user to that group, so you don't have to type sudo every time you use docker client.
 ```
-$ sudo usermod -aG docker $(whoami)
+$ sudo groupadd docker
+$ sudo gpasswd -a $(whoami) docker
 ```
 If you wonder why this is necessary Dan Walsh has written an [article](http://www.projectatomic.io/blog/2015/08/why-we-dont-let-non-root-users-run-docker-in-centos-fedora-or-rhel/), where he goes deep into the security settings of Fedora and RHEL.
 #### Ubuntu
