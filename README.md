@@ -1,5 +1,5 @@
 # Docker 101 - DevConf.cz 2016
-At the workshop all atendees will be given a USB stick with Fedora Live image, that will contain all necessary binaries, so no preparation for the workshop required. That said, having Docker installed localy will be beneficial for your own experiments once the workshop ends.
+At the workshop all attendees will be given a USB stick with Fedora Live image, that will contain all necessary binaries, so no preparation for the workshop required. That said, having Docker installed localy will be beneficial for your own experiments once the workshop ends.
 ## Installation
 This tutorial guides you through installation of Docker. However, it does not second the official documentation. If you happen to miss some information, you'll most likely find it [there](http://docs.docker.com/).
 ### Linux Users
