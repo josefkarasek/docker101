@@ -69,16 +69,16 @@
 					<p>There are two options:</p>
 					<ul>
 						<li>
-							<strong>Boot from the live USB drive</strong>
-							<ul>
-								<li>Contains pre-configured Fedora with Docker</li>
-							</ul>
-						</li>
-						<li>
 							<strong>In your own environment</strong>
 							<ul>
 								<li>Install guide on <a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a></li>
-								<li>We can provide only limited support in this case</li>
+								<li>For Linux, OSX and Win</li>
+							</ul>
+						</li>
+						<li>
+							<strong>VM image for VirtualBox on USB</strong>
+							<ul>
+								<li>Contains pre-configured Fedora with Docker</li>
 							</ul>
 						</li>
 					</ul>
@@ -94,7 +94,7 @@
 
 				<section>
 					<h2>What is a container?</h2>
-					<p class="fragment">actually, there is no container</p>
+					<p><span class="fragment">actually</span><span class="fragment">, there is no container</span></p>
 					<p class="fragment">but there are constrained applications*</p>
 					<p class="fragment"><small>*application = 1 or more running processes</small></p>
 
@@ -109,6 +109,53 @@
 					<h2>When we talk about containers</h2>
 					<p class="fragment">we talk about multiple Linux kernel features</p>
 					<p class="fragment">configured for one or set of processes</p>
+
+					<aside class="notes">
+						It's not even an environment, but like set of environments, not necessarily dependent on each other
+					</aside>
+				</section>
+
+				<section>
+					<h2>Docker</h2>
+					<p class="fragment">a platform<span class="fragment"> for running</span><span class="fragment">, shipping</span><span class="fragment"> (and building containers)</span></p>
+					<p class="fragment">Docker daemon manages containers on the host by configuring the kernel features for requested applications</p>
+
+					<aside class="notes">
+						Containers are old, but why the hype about Docker? Because of the complete platform
+					</aside>
+				</section>
+
+				<section style="text-align: left;">
+					<h2>Docker Image</h2>
+					<p><strong>An archive containing:</strong></p>
+					<ul>
+						<li class="fragment" data-fragment-index="1">Minimal OS for installing and running applications</li>
+						<li class="fragment" data-fragment-index="2">Application with all dependencies</li>
+					</ul>
+					<div class="fragment" data-fragment-index="3">
+						<p><strong>Image is uniquely identified by:</strong></p>
+						<ul>
+							<li class="fragment" data-fragment-index="4">Image registry</li>
+							<li class="fragment" data-fragment-index="5">Author</li>
+							<li class="fragment" data-fragment-index="6">Image name</li>
+							<li class="fragment" data-fragment-index="7">Image tag (version)</li>
+						</ul>
+						<pre><code data-trim data-noescape>
+							<span class="fragment" data-fragment-index="4">registry.access.redhat.com</span>/<span class="fragment" data-fragment-index="5">jboss-eap-6</span>/<span class="fragment" data-fragment-index="6">eap-openshift</span>:<span class="fragment" data-fragment-index="7">6.4</span>
+						</code></pre>
+					</div>
+
+					<aside class="notes">
+						What can be omitted? What are the defaults?
+					</aside>
+				</section>
+
+				<section>
+					<h2>docker pull</h2>
+					<p class="fragment">Downloads and updates Docker images</p>
+					<pre class="fragment"><code data-trim data-noescape>
+						$ docker pull <span class="fragment">docker.io/</span>fedora<span class="fragment">:latest</span>
+					</code></pre>
 				</section>
 
 			</div>
@@ -125,7 +172,7 @@
 			Reveal.initialize({
 				controls: false,
 				progress: true,
-				history: true,
+				history: false,
 				center: true,
 
 				transition: 'none', // none/fade/slide/convex/concave/zoom
