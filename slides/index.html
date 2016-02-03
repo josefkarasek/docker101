@@ -267,6 +267,47 @@ docker.io/fedora  latest  0721f2b3cb16  4 weeks ago  206.3 MB</span>
 					</dl>
 				</section>
 
+				<section>
+					<h2>Let's look around</h2>
+					<p>In the container:</p>
+					<pre><code data-trim data-noescape>
+<span class="fragment" data-fragment-index="1"># dnf install procps-ng iproute hostname  # Bad practice!</span>
+<span class="fragment" data-fragment-index="2"># ps ax</span>
+<span class="fragment" data-fragment-index="3"># sleep 10000</span>
+<span class="fragment" data-fragment-index="5"># ip a</span>
+<span class="fragment" data-fragment-index="6"># hostname</span>
+					</code></pre>
+					<p>On the host:</p>
+					<pre><code data-trim data-noescape>
+<span class="fragment" data-fragment-index="4">$ ps axjf</span>
+<span class="fragment" data-fragment-index="6"># hostname</span>
+					</code></pre>
+
+					<aside class="notes">
+						Namespaces
+					</aside>
+				</section>
+
+				<section>
+					<h2>Let's look around II</h2>
+					<pre><code data-trim data-noescape>
+						$ docker run -it --rm --name my_fedora --memory 256m fedora bash
+					</code></pre>
+					<p>In container:</p>
+					<pre><code data-trim data-noescape>
+<span class="fragment" data-fragment-index="1"># dnf install stress  # Bad practice!</span>
+<span class="fragment" data-fragment-index="2"># stress --vm 2 --vm-bytes 512M</span>
+					</code></pre>
+					<p>On the host:</p>
+					<pre><code data-trim data-noescape>
+<span class="fragment" data-fragment-index="3">$ systemd-cgtop</span>
+					</code></pre>
+
+					<aside class="notes">
+						Cgroups
+					</aside>
+				</section>
+
 			</div>
 
 		</div>
