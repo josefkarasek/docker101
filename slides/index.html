@@ -52,7 +52,8 @@
 					<ul>
 						<li>How to participate</li>
 						<li>What is a container</li>
-						<li>...</li>
+						<li>Docker images</li>
+						<li>Docker containers</li>
 					</ul>
 				</section>
 
@@ -69,16 +70,16 @@
 					<p>There are two options:</p>
 					<ul>
 						<li>
-							<strong>Boot from the live USB drive</strong>
-							<ul>
-								<li>Contains pre-configured Fedora with Docker</li>
-							</ul>
-						</li>
-						<li>
 							<strong>In your own environment</strong>
 							<ul>
 								<li>Install guide on <a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a></li>
-								<li>We can provide only limited support in this case</li>
+								<li>For Linux, OSX and Win</li>
+							</ul>
+						</li>
+						<li>
+							<strong>VM image for VirtualBox on USB</strong>
+							<ul>
+								<li>Contains pre-configured Fedora with Docker</li>
 							</ul>
 						</li>
 					</ul>
@@ -94,7 +95,7 @@
 
 				<section>
 					<h2>What is a container?</h2>
-					<p class="fragment">actually, there is no container</p>
+					<p><span class="fragment">actually</span><span class="fragment">, there is no container</span></p>
 					<p class="fragment">but there are constrained applications*</p>
 					<p class="fragment"><small>*application = 1 or more running processes</small></p>
 
@@ -109,6 +110,202 @@
 					<h2>When we talk about containers</h2>
 					<p class="fragment">we talk about multiple Linux kernel features</p>
 					<p class="fragment">configured for one or set of processes</p>
+
+					<aside class="notes">
+						It's not even an environment, but like set of environments, not necessarily dependent on each other
+					</aside>
+				</section>
+
+				<section>
+					<h2>Docker</h2>
+					<p class="fragment">a platform<span class="fragment"> for running</span><span class="fragment">, shipping</span><span class="fragment"> (and building containers)</span></p>
+					<p class="fragment">Docker daemon manages containers on the host by configuring the kernel features for requested applications</p>
+
+					<aside class="notes">
+						Containers are old, but why the hype about Docker? Because of the complete platform
+					</aside>
+				</section>
+
+				<section style="text-align: left;">
+					<h2>Docker Image</h2>
+					<p><strong>An archive containing:</strong></p>
+					<ul>
+						<li class="fragment" data-fragment-index="1">Minimal OS for installing and running applications</li>
+						<li class="fragment" data-fragment-index="2">Application with all dependencies</li>
+					</ul>
+					<div class="fragment" data-fragment-index="3">
+						<p><strong>Image is uniquely identified by:</strong></p>
+						<ul>
+							<li class="fragment" data-fragment-index="4">Image registry</li>
+							<li class="fragment" data-fragment-index="5">Author</li>
+							<li class="fragment" data-fragment-index="6">Image name</li>
+							<li class="fragment" data-fragment-index="7">Image tag (version)</li>
+						</ul>
+						<pre><code data-trim data-noescape>
+							<span class="fragment" data-fragment-index="4">registry.access.redhat.com</span>/<span class="fragment" data-fragment-index="5">jboss-eap-6</span>/<span class="fragment" data-fragment-index="6">eap-openshift</span>:<span class="fragment" data-fragment-index="7">6.4</span>
+						</code></pre>
+					</div>
+
+					<aside class="notes">
+						What can be omitted? What are the defaults?
+					</aside>
+				</section>
+
+				<section>
+					<h2>docker pull</h2>
+					<p class="fragment">Downloads and updates Docker images</p>
+					<pre class="fragment"><code data-trim data-noescape>
+						$ docker pull <span class="fragment">docker.io/</span>fedora<span class="fragment">:latest</span>
+					</code></pre>
+					<h2 class="fragment">docker images</h2>
+					<p class="fragment">Lists all Docker images on the host</p>
+					<pre class="fragment"><code data-trim data-noescape>
+						$ docker images
+<span class="fragment">REPOSITORY        TAG     IMAGE ID      CREATED      VIRTUAL SIZE
+docker.io/fedora  latest  0721f2b3cb16  4 weeks ago  206.3 MB</span>
+					</code></pre>
+					<h2 class="fragment">docker rmi</h2>
+					<p class="fragment">Remove Docker image from the host</p>
+					<pre class="fragment"><code data-trim data-noescape>
+						$ docker rmi fedora
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>docker create</h2>
+					<p class="fragment" data-fragment-index="1">Creates stopped container from the image</p>
+					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
+						$ docker create<span class="fragment" data-fragment-index="6"> -i</span><span class="fragment" data-fragment-index="7"> -t</span><span class="fragment" data-fragment-index="5"> --name my_fedora</span><span class="fragment" data-fragment-index="3"> fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
+<span class="fragment" data-fragment-index="8">3c314776542af5507fce81f3ee0a4318e06e617e58a250e4ddcf9b88736624a5</span>
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="6">-i</dt>
+							<dd class="fragment" data-fragment-index="6">Interactive mode (keeps the STDIN open)</dd>
+						<dt class="fragment" data-fragment-index="7">-t</dt>
+							<dd class="fragment" data-fragment-index="7">Allocates a pseudo-TTY</dd>
+						<dt class="fragment" data-fragment-index="5">--name</dt>
+							<dd class="fragment" data-fragment-index="5">Name of the container. Good practice is to set one</dd>
+						<dt class="fragment" data-fragment-index="3">fedora</dt>
+							<dd class="fragment" data-fragment-index="3">Image to be instantiated</dd>
+						<dt class="fragment" data-fragment-index="4">bash</dt>
+							<dd class="fragment" data-fragment-index="4">Application to be run inside of the container</dd>
+					</dl>
+
+					<aside class="notes">
+						Application (last param) may be optional
+					</aside>
+				</section>
+
+				<section>
+					<h2>docker ps</h2>
+					<p class="fragment" data-fragment-index="1">Display containers</p>
+					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
+						$ docker ps
+<span class="fragment" data-fragment-index="3">CONTAINER ID  IMAGE  COMMAND  CREATED  STATUS  PORTS  NAMES</span>
+					</code></pre>
+					<pre class="fragment" data-fragment-index="4"><code data-trim data-noescape>
+						$ docker ps<span class="fragment" data-fragment-index="5"> -a</span>
+<span class="fragment" data-fragment-index="6">CONTAINER ID  IMAGE   COMMAND  CREATED         STATUS   NAMES
+3c314776542a  fedora  "bash"   11 minutes ago  Created  my_fedora</span>
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="5">-a</dt>
+							<dd class="fragment" data-fragment-index="5">Show all containers. Only running are shown by default</dd>
+					</dl>
+				</section>
+
+				<section>
+					<h2>docker start</h2>
+					<p class="fragment" data-fragment-index="1">Starts created container</p>
+					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
+						$ docker start<span class="fragment" data-fragment-index="5"> -a</span><span class="fragment" data-fragment-index="4"> -i</span><span class="fragment" data-fragment-index="3"> my_fedora</span>
+<span class="fragment" data-fragment-index="6">[root@3c314776542a /]#</span>
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="5">-a</dt>
+							<dd class="fragment" data-fragment-index="5">Attach to the pseudo-TTY</dd>
+						<dt class="fragment" data-fragment-index="4">-i</dt>
+							<dd class="fragment" data-fragment-index="4">Interactive mode (keeps the STDIN open)</dd>
+						<dt class="fragment" data-fragment-index="3">my_fedora</dt>
+							<dd class="fragment" data-fragment-index="3">Name of the container</dd>
+					</dl>
+				</section>
+
+				<section>
+					<h2>docker rm</h2>
+					<p class="fragment" data-fragment-index="1">Removes container</p>
+					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
+						$ docker rm<span class="fragment" data-fragment-index="4"> -f</span><span class="fragment" data-fragment-index="3"> my_fedora</span>
+<span class="fragment" data-fragment-index="5">my_fedora</span>
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="4">-f</dt>
+							<dd class="fragment" data-fragment-index="4">Removes container even if it's running</dd>
+						<dt class="fragment" data-fragment-index="3">my_fedora</dt>
+							<dd class="fragment" data-fragment-index="3">Name of the container</dd>
+					</dl>
+				</section>
+
+				<section>
+					<h2>docker run</h2>
+					<p class="fragment" data-fragment-index="1">docker create + docker start</p>
+					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
+						$ docker run<span class="fragment" data-fragment-index="6"> -it</span><span class="fragment" data-fragment-index="7"> --rm</span><span class="fragment" data-fragment-index="5"> --name my_fedora</span><span class="fragment" data-fragment-index="3"> fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
+<span class="fragment" data-fragment-index="8">[root@7b222b35a6c7 /]#</span>
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="6">-it</dt>
+							<dd class="fragment" data-fragment-index="6">Interactive mode</dd>
+						<dt class="fragment" data-fragment-index="7">--rm</dt>
+							<dd class="fragment" data-fragment-index="7">Removes container when it stops</dd>
+						<dt class="fragment" data-fragment-index="5">--name</dt>
+							<dd class="fragment" data-fragment-index="5">Name of the container. Good practice is to set one</dd>
+						<dt class="fragment" data-fragment-index="3">fedora</dt>
+							<dd class="fragment" data-fragment-index="3">Image to be instantiated</dd>
+						<dt class="fragment" data-fragment-index="4">bash</dt>
+							<dd class="fragment" data-fragment-index="4">Application to be run inside of the container</dd>
+					</dl>
+				</section>
+
+				<section>
+					<h2>Let's look around</h2>
+					<p>In the container:</p>
+					<pre><code data-trim data-noescape>
+<span class="fragment" data-fragment-index="1"># dnf install procps-ng iproute hostname  # Bad practice!</span>
+<span class="fragment" data-fragment-index="2"># ps ax</span>
+<span class="fragment" data-fragment-index="3"># sleep 10000</span>
+<span class="fragment" data-fragment-index="5"># ip a</span>
+<span class="fragment" data-fragment-index="6"># hostname</span>
+					</code></pre>
+					<p>On the host:</p>
+					<pre><code data-trim data-noescape>
+<span class="fragment" data-fragment-index="4">$ ps axjf</span>
+<span class="fragment" data-fragment-index="6"># hostname</span>
+					</code></pre>
+
+					<aside class="notes">
+						Namespaces
+					</aside>
+				</section>
+
+				<section>
+					<h2>Let's look around II</h2>
+					<pre><code data-trim data-noescape>
+						$ docker run -it --rm --name my_fedora --memory 256m fedora bash
+					</code></pre>
+					<p>In container:</p>
+					<pre><code data-trim data-noescape>
+<span class="fragment" data-fragment-index="1"># dnf install stress  # Bad practice!</span>
+<span class="fragment" data-fragment-index="2"># stress --vm 2 --vm-bytes 512M</span>
+					</code></pre>
+					<p>On the host:</p>
+					<pre><code data-trim data-noescape>
+<span class="fragment" data-fragment-index="3">$ systemd-cgtop</span>
+					</code></pre>
+
+					<aside class="notes">
+						Cgroups
+					</aside>
 				</section>
 
 			</div>
