@@ -1,4 +1,19 @@
 ## Docker cheat sheet for Devconf.cz 2016 workshop
+
+### Images
+__Pull `fedora:23` image__
+```
+docker pull fedora:23
+```
+__List locally available images__ | `-a` list all layers
+```
+docker images -a
+```
+__Delete `fedora:23` image__
+```
+docker rmi -f fedora:23
+```
+
 ### Containers
 __Create container__ | `-i` keep STDIN open | `-t` create pseudo TTY | `--name` name the container | `bash` process to run
 ```
@@ -36,23 +51,10 @@ __Set enviromental variables__ | `-e` key=value pair
 ```
 docker run -e MYSQL_ROOT_PASSWORD=admin -e MYSQL_DATABASE=admin --name DB -d mysql
 ```
-__Link with another container__
+__Link with another container__ | `--link` \<id of designated container\>:\<alias used inside new container\>
 ```
 docker run --name DB -e MYSQL_ROOT_PASSWORD=admin -e MYSQL_DATABASE=admin -d mysql
 docker run -e WORDPRESS_DB_PASSWORD=admin -d --name WP --link DB:mysql -p 8080:80 wordpress
-```
-### Images
-__Pull `fedora:23` image__
-```
-docker pull fedora:23
-```
-__List locally available images__ | `-a` list all layers
-```
-docker images -a
-```
-__Delete `fedora:23` image__
-```
-docker rmi -f fedora:23
 ```
 
 ### Troubleshooting
