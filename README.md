@@ -1,4 +1,7 @@
 # Docker 101 - DevConf.cz 2016
+
+Slides are available here - [josefkarasek.github.io/docker101/](https://josefkarasek.github.io/docker101/)
+
 All attendees at the workshop will be given USB drive with pre-installed VirtualBox virtual machine image. But if you are running Linux on your notebook, installing docker via distribution packages is recommended.
 ## Installation
 This tutorial guides you through installation of Docker. However, it does not second the official documentation. If you happen to miss some information, you'll most likely find it [there](http://docs.docker.com/).
