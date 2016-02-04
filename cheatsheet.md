@@ -43,7 +43,7 @@ __Expose ports as specific ports on the host__ | `-p` container port 80 will be 
 ```
 docker run -d -p 8080:80 nginx
 ```
-__Mount volume from host__ | `-v` mount hostdir ~HOME/www to container as /var/www, read only, `Z` enable access through selinux 
+__Mount volume from host__ | `-v` mount hostdir /tmp/nginx to container as /usr/share/nginx/html, read only, `Z` enable access through selinux 
 ```
 docker run -d -p 8080:80 -v /tmp/nginx:/usr/share/nginx/html:ro,Z nginx
 ```
