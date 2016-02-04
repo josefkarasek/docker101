@@ -308,6 +308,50 @@ docker.io/fedora  latest  0721f2b3cb16  4 weeks ago  206.3 MB</span>
 					</aside>
 				</section>
 
+				<section>
+					<h2>Demo 1</h2>
+					<p>Start an NGINX container that will serve html files.</p>
+					<ul>
+						<li>Create index.html file in /var/www directory</li>
+						<li>Run NGINX container as follows:</li>
+						<ul>
+							<li>Expose port 80</li>
+							<li>Mount /var/www as /usr/share/nginx/html</li>
+							<li>Run the container as daemon</li>
+							<li>...and don't forget to set some name!</li>
+						</ul>
+						<li>
+							When you're done visit localhost URL in your browser
+						</li>
+					</ul>
+
+					<aside class="notes">
+						Based on what you have learnt you now know how to start a container using Docker, expose a port and mount a volume.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Demo 2</h2>
+					<p>Link Wordpress with MySQL</p>
+					<ul>
+					 	<li>MySQL</li>
+					 	<ul>
+							<li>Use mysql:5.7 image</li>
+					 		<li>Set ENV VARs MYSQL_ROOT_PASSWORD=admin and MYSQL_DATABASE=admin</li>
+					 		<li>Run it as daemon</li>
+					 		<li>Give it name "DB"</li>
+					 	</ul>
+					 	<li>Wordpress</li>
+					 	<ul>
+					 		<li>Use wordpress latest image</li>
+					 		<li>Set ENV VAR WORDPRESS_DB_PASSWORD=admin</li>
+					 		<li>Run it as daemon</li>
+					 		<li>Create a link to container "DB"</li>
+					 		<li>Export port 80 as 8080</li>
+				 		</ul>
+					</ul>
+				</section>
+
 			</div>
 
 		</div>
