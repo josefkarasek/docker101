@@ -403,7 +403,7 @@ $ docker run -d<span class="fragment" data-fragment-index="2"> -e MYSQL_ROOT_PAS
 				<section>
 					<h2>Linking containers</h2>
 					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-$ docker run -d -p 80:80<span class="fragment" data-fragment-index="2"> --link mariadb:mysql</span> \
+$ docker run -d -p 80:80<span class="fragment" data-fragment-index="2"> --link my_mariadb:mysql</span> \
 --name my_wordpress wordpress
 					</code></pre>
 					<dl>
