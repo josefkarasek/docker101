@@ -1,20 +1,20 @@
 # Docker 101 - DevConf.cz 2016
-At the workshop all attendees will be given a USB stick with Fedora Live image, that will contain all necessary binaries, so no preparation for the workshop required. That said, having Docker installed localy will be beneficial for your own experiments once the workshop ends.
+All attendees at the workshop will be given USB drive with pre-installed VirtualBox virtual machine image. But if you are running Linux on your notebook, installing docker via distribution packages is recommended.
 ## Installation
 This tutorial guides you through installation of Docker. However, it does not second the official documentation. If you happen to miss some information, you'll most likely find it [there](http://docs.docker.com/).
 ### Linux Users
 Docker runs on recent Linux machines natively, so you only need to install Docker package and start docker daemon. A good practice is to install package from your distro repository, just search for Docker package.  Example installation for Fedora:
 ```
-# sudo dnf install docker
+sudo dnf install docker
 ```
 Start docker engine:
 ```
-$ sudo systemctl start docker
+sudo systemctl start docker
 ```
 At last create a docker group and add your user to that group, so you don't have to type sudo every time you use docker client.
 ```
-$ sudo groupadd docker
-$ sudo gpasswd -a $(whoami) docker
+sudo groupadd docker
+sudo gpasswd -a $(whoami) docker
 ```
 If you wonder why this is necessary Dan Walsh has written an [article](http://www.projectatomic.io/blog/2015/08/why-we-dont-let-non-root-users-run-docker-in-centos-fedora-or-rhel/), where he goes deep into the security settings of Fedora and RHEL.
 #### Ubuntu
@@ -28,40 +28,48 @@ Next couple of lines describe the Atomic Project's bundle, which not only contai
 
 After the installation restart your PC to apply changes. Then run **CygWin64 Terminal** and type:
 ```
-$ export VAGRANT_DETECTED_OS=cygwin
-$ mkdir vagrant_images
-$ cd vagrant_images
-$ vagrant init atomicapp/dev
-$ vagrant up
-$ vagrant ssh
+export VAGRANT_DETECTED_OS=cygwin
+mkdir vagrant_images
+cd vagrant_images
+vagrant init atomicapp/dev
+vagrant up
+vagrant ssh
 ```
 Now you're running your own installation of the Atomic project's bundle! You can test your docker installation by typing `docker run hello-world`.
 
 ## <a name="mac_users"></a>Mac Users
 Just use brew to download and install necessary software:
 ```
-$ brew cask install virtualbox
-$ brew cask install vagrant
-$ brew cask install vagrant-manager
-$ mkdir vagrant_images
-$ cd vagrant_images
-$ vagrant init atomicapp/dev
-$ vagrant up
-$ vagrant ssh
+brew cask install virtualbox
+brew cask install vagrant
+brew cask install vagrant-manager
+mkdir vagrant_images
+cd vagrant_images
+vagrant init atomicapp/dev
+vagrant up
+vagrant ssh
 ```
 If installation via brew fails, use the links above and download installers for MacOS.
 After succesfull installation open up terminal and type:
 ```
-$ mkdir vagrant_images
-$ cd vagrant_images
-$ vagrant init atomicapp/dev
-$ vagrant up
-$ vagrant ssh
+mkdir vagrant_images
+cd vagrant_images
+vagrant init atomicapp/dev
+vagrant up
+vagrant ssh
 ```
 ## Last resort installation
 Nor Windows, neither Macs run Docker natively as of yet. To get it there you can use [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and [Docker Toolbox](https://www.docker.com/toolbox). Install VirtualBox first, then Docker Toolbox. After installing both, run the Toolbox. It will download necessary images and load Boot2Docker. Now you can test your installation.
 ## Test
 To ensure you have succesfully installed Docker issue following command:
 ```
-$ docker run hello-world
+docker run hello-world
+```
+
+## To pre-download Docker images for workshop, do:
+```
+docker pull fedora
+docker pull nginx
+docker pull mariadb
+docker pull wordpress
 ```
