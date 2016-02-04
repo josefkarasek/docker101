@@ -413,6 +413,23 @@ $ docker run -d -p 80:80<span class="fragment" data-fragment-index="2"> --link m
 				</section>
 
 				<section>
+					<h2>docker exec</h2>
+					<p class="fragment" data-fragment-index="1">Execute command inside running container</p>
+					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
+$ docker exec<span class="fragment" data-fragment-index="5"> -it</span><span class="fragment" data-fragment-index="3"> my_wordpress</span><span class="fragment" data-fragment-index="4"> bash</span>
+<span class="fragment" data-fragment-index="6">root@e3b575fc1707:/var/www/html#</span>
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="5">-it</dt>
+							<dd class="fragment" data-fragment-index="5">Interactive mode</dd>
+						<dt class="fragment" data-fragment-index="3">my_wordpress</dt>
+							<dd class="fragment" data-fragment-index="3">Container name</dd>
+						<dt class="fragment" data-fragment-index="4">bash</dt>
+							<dd class="fragment" data-fragment-index="4">Command to execute in the container</dd>
+					</dl>
+				</section>
+
+				<section>
 					<h2>Links</h2>
 					<ul>
 						<li><a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a></li>
