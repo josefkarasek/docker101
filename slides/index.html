@@ -119,7 +119,7 @@
 				<section>
 					<h2>Docker</h2>
 					<p class="fragment">a platform<span class="fragment"> for running</span><span class="fragment">, shipping</span><span class="fragment"> (and building containers)</span></p>
-					<p class="fragment">Docker daemon manages containers on the host by configuring the kernel features for requested applications</p>
+					<p class="fragment">Docker daemon manages containers on the host</p>
 
 					<aside class="notes">
 						Containers are old, but why the hype about Docker? Because of the complete platform
@@ -309,46 +309,116 @@ docker.io/fedora  latest  0721f2b3cb16  4 weeks ago  206.3 MB</span>
 				</section>
 
 				<section>
-					<h2>Demo 1</h2>
-					<p>Start an NGINX container that will serve html files.</p>
-					<ul>
-						<li>Create index.html file in /var/www directory</li>
-						<li>Run NGINX container as follows:</li>
-						<ul>
-							<li>Expose port 80</li>
-							<li>Mount /var/www as /usr/share/nginx/html</li>
-							<li>Run the container as daemon</li>
-							<li>...and don't forget to set some name!</li>
-						</ul>
-						<li>
-							When you're done visit localhost URL in your browser
-						</li>
-					</ul>
+					<h2>Container in the background</h2>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+						$ docker run<span class="fragment" data-fragment-index="4"> -d</span><span class="fragment" data-fragment-index="3"> --name my_nginx</span><span class="fragment" data-fragment-index="2"> nginx</span>
+<span class="fragment" data-fragment-index="5">c44b0ce917e877615f4f0b36a7c0310f4fa4aaef9219b2e776af103abe92ac7b</span>
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="4">-d</dt>
+							<dd class="fragment" data-fragment-index="4">Run the container in the background</dd>
+						<dt class="fragment" data-fragment-index="3">--name</dt>
+							<dd class="fragment" data-fragment-index="3">Name of the container. Good practice is to set one</dd>
+						<dt class="fragment" data-fragment-index="2">nginx</dt>
+							<dd class="fragment" data-fragment-index="2">Image to be instantiated</dd>
+					</dl>
+					<pre class="fragment" data-fragment-index="6"><code data-trim data-noescape>
+						$ docker ps
+CONTAINER ID  IMAGE  COMMAND                 CREATED        STATUS        PORTS            NAMES
+c44b0ce917e8  nginx  "nginx -g 'daemon off"  6 minutes ago  Up 6 minutes  80/tcp, 443/tcp  my_nginx
+					</code></pre>
 
 					<aside class="notes">
-						Based on what you have learnt you now know how to start a container using Docker, expose a port and mount a volume.
+						Talk about command and ports, ports are not yet exposed.
 					</aside>
 				</section>
 
 				<section>
-					<h2>Demo 2</h2>
-					<p>Link Wordpress with MySQL</p>
+					<h2>Exposing ports</h2>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+						$ docker run -d<span class="fragment" data-fragment-index="2"> -P</span> --name my_nginx nginx
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="2">-P</dt>
+							<dd class="fragment" data-fragment-index="2">Publish all exposed ports to random ports on the host</dd>
+					</dl>
+					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
+$ docker port my_nginx
+<span class="fragment" data-fragment-index="4">443/tcp -> 0.0.0.0:32768
+80/tcp -> 0.0.0.0:32769</span>
+
+<span class="fragment" data-fragment-index="5">$ docker ps
+CONTAINER ID  IMAGE  COMMAND  CREATED        STATUS        PORTS                                          NAMES
+dd0802ce4333  nginx  "ngi.."  6 minutes ago  Up 6 minutes  0.0.0.0:32769->80/tcp, 0.0.0.0:32768->443/tcp  my_nginx</span>
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Exposing ports II</h2>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+						$ docker run -d<span class="fragment" data-fragment-index="2"> -p 80:80</span> --name my_nginx nginx
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="2">-p</dt>
+							<dd class="fragment" data-fragment-index="2">Publish a container's port to the host</dd>
+					</dl>
+					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
+$ docker port my_nginx
+<span class="fragment" data-fragment-index="4">80/tcp -> 0.0.0.0:80</span>
+
+<span class="fragment" data-fragment-index="5">$ docker ps
+CONTAINER ID  IMAGE  COMMAND  CREATED        STATUS        PORTS                        NAMES
+f7b1be4c1c9c  nginx  "ngi.."  6 minutes ago  Up 6 minutes  0.0.0.0:80->80/tcp, 443/tcp  my_nginx</span>
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Volumes</h2>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+$ docker run -d -p 80:80 \
+<span class="fragment" data-fragment-index="2">-v /tmp/nginx:/usr/share/nginx/html:ro,Z</span> \
+--name my_nginx nginx
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="2">-v</dt>
+							<dd class="fragment" data-fragment-index="2">Bind mount a volume from the host to a container</dd>
+					</dl>
+					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
+						$ docker inspect my_nginx
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Environment Variables</h2>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+$ docker run -d<span class="fragment" data-fragment-index="2"> -e MYSQL_ROOT_PASSWORD=my-secret-pw</span> \
+--name my_mariadb mariadb
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="2">-e</dt>
+							<dd class="fragment" data-fragment-index="2">Set environment variable</dd>
+					</dl>
+				</section>
+
+				<section>
+					<h2>Linking containers</h2>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+$ docker run -d -p 80:80<span class="fragment" data-fragment-index="2"> --link mariadb:mysql</span> \
+--name my_wordpress wordpress
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="2">--link</dt>
+							<dd class="fragment" data-fragment-index="2">Add link to another container</dd>
+					</dl>
+				</section>
+
+				<section>
+					<h2>Links</h2>
 					<ul>
-					 	<li>MySQL</li>
-					 	<ul>
-							<li>Use mysql:5.7 image</li>
-					 		<li>Set ENV VARs MYSQL_ROOT_PASSWORD=admin and MYSQL_DATABASE=admin</li>
-					 		<li>Run it as daemon</li>
-					 		<li>Give it name "DB"</li>
-					 	</ul>
-					 	<li>Wordpress</li>
-					 	<ul>
-					 		<li>Use wordpress latest image</li>
-					 		<li>Set ENV VAR WORDPRESS_DB_PASSWORD=admin</li>
-					 		<li>Run it as daemon</li>
-					 		<li>Create a link to container "DB"</li>
-					 		<li>Export port 80 as 8080</li>
-				 		</ul>
+						<li><a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a></li>
+						<li><a href="https://www.docker.com/">docker.com</a></li>
+						<li><a href="https://hub.docker.com/">hub.docker.com</a></li>
+						<li><a href="http://www.projectatomic.io/">projectatomic.io</a></li>
 					</ul>
 				</section>
 
