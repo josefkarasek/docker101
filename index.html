@@ -53,7 +53,7 @@
 						<li>How to participate</li>
 						<li>What is a container</li>
 						<li>Docker images</li>
-						<li>Docker containers</li>
+						<li>Working with Docker containers</li>
 					</ul>
 				</section>
 
@@ -100,9 +100,11 @@
 					<p class="fragment"><small>*application = 1 or more running processes</small></p>
 
 					<aside class="notes">
-						Ask audience what is a container<br>
-						Compare VM and container; show, that there can be empty VM (without running application), but not empty container<br>
-						Container must have running application, otherwise it doesn't exist
+						<ul>
+							<li>Ask audience what is a container</li>
+							<li>Compare VM and container; show that there can be empty VM (without running application), but not an empty container</li>
+							<li>Container must have running application, otherwise it doesn't exist</li>
+						</ul>
 					</aside>
 				</section>
 
@@ -280,7 +282,7 @@ docker.io/fedora  latest  0721f2b3cb16  4 weeks ago  206.3 MB</span>
 					<p>On the host:</p>
 					<pre><code data-trim data-noescape>
 <span class="fragment" data-fragment-index="4">$ ps axjf</span>
-<span class="fragment" data-fragment-index="6"># hostname</span>
+<span class="fragment" data-fragment-index="6">$ hostname</span>
 					</code></pre>
 
 					<aside class="notes">
@@ -329,7 +331,7 @@ c44b0ce917e8  nginx  "nginx -g 'daemon off"  6 minutes ago  Up 6 minutes  80/tcp
 					</code></pre>
 
 					<aside class="notes">
-						Talk about command and ports, ports are not yet exposed.
+						Talk about command and ports, ports are not exposed yet.
 					</aside>
 				</section>
 
@@ -409,6 +411,23 @@ $ docker run -d -p 80:80<span class="fragment" data-fragment-index="2"> --link m
 					<dl>
 						<dt class="fragment" data-fragment-index="2">--link</dt>
 							<dd class="fragment" data-fragment-index="2">Add link to another container</dd>
+					</dl>
+				</section>
+
+				<section>
+					<h2>docker exec</h2>
+					<p class="fragment" data-fragment-index="1">Execute command inside running container</p>
+					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
+$ docker exec<span class="fragment" data-fragment-index="5"> -it</span><span class="fragment" data-fragment-index="3"> my_wordpress</span><span class="fragment" data-fragment-index="4"> bash</span>
+<span class="fragment" data-fragment-index="6">root@e3b575fc1707:/var/www/html#</span>
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="5">-it</dt>
+							<dd class="fragment" data-fragment-index="5">Interactive mode</dd>
+						<dt class="fragment" data-fragment-index="3">my_wordpress</dt>
+							<dd class="fragment" data-fragment-index="3">Container name</dd>
+						<dt class="fragment" data-fragment-index="4">bash</dt>
+							<dd class="fragment" data-fragment-index="4">Command to execute in the container</dd>
 					</dl>
 				</section>
 
