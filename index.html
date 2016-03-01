@@ -67,30 +67,80 @@
 
 				<section style="text-align: left;">
 					<h2>How to participate</h2>
-					<p>There are two options:</p>
 					<ul>
-						<li>
-							<strong>In your own environment</strong>
-							<ul>
-								<li>Install guide on <a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a></li>
-								<li>For Linux, OSX and Win</li>
-							</ul>
-						</li>
-						<li>
-							<strong>VM image for VirtualBox on USB</strong>
-							<ul>
-								<li>Contains pre-configured Fedora with Docker</li>
-							</ul>
-						</li>
+						<li>Install guide on <a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a></li>
+						<li>For Linux, Mac and Windows</li>
 					</ul>
 					<div class="fragment">
-						<p>Other than that:</p>
+						<p><strong>Other than that:</strong></p>
 						<ul>
 							<li>Follow the instructions</li>
 							<li>When you have a question, just fire it</li>
 							<li>Enjoy yourself</li>
 						</ul>
 					</div>
+				</section>
+
+				<section>
+					<section>
+						<h2>Atomic Developer Bundle (ADB)</h2>
+					</section>
+
+					<section>
+						<h2>Atomic Developer Bundle (ADB)</h2>
+						<ul>
+							<li>Prepackaged development environment filled with pre-configured tools that makes container developer's lives easier</li>
+							<li>For Linux, Mac and Windows</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Install guide for Windows</h2>
+						<ul>
+							<li>Install VirtualBox from <a href="https://www.virtualbox.org/wiki/Downloads">virtualbox.org</a></li>
+							<li>Install Vagrant 1.7.4 from <a href="https://releases.hashicorp.com/vagrant/1.7.4/vagrant_1.7.4.msi">vagrantup.com</a>
+								<ul>
+									<li>Version 1.8.x is buggy on Windows</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Install guide for Windows II</h2>
+						<ul>
+							<li>Install Cygwin from <a href="https://www.cygwin.com/">cygwin.com</a>
+								<ul>
+									<li>Select download site - <strong>mirrors.kernel.org</strong></li>
+								</ul>
+							</li>
+						</ul>
+						<img src="img/cygwin-mirrors.png">
+					</section>
+
+					<section>
+						<h2>Install guide for Windows III</h2>
+						<ul>
+							<li>Select <strong>rsync</strong> and <strong>openssh</strong> during installation</li>
+						</ul>
+						<img src="img/cygwin-rsync.png" width="468px">
+						<img src="img/cygwin-ssh.png" width="468px">
+					</section>
+
+					<section>
+						<h2>Install guide for Windows IV</h2>
+						<ul>
+							<li>In <strong>CygWin64 Terminal</strong> write:</li>
+						</ul>
+						<pre><code data-trim data-noescape>
+export VAGRANT_DETECTED_OS=cygwin
+mkdir vagrant-images
+cd vagrant-images
+vagrant init projectatomic/adb
+vagrant up
+vagrant ssh
+						</code></pre>
+					</section>
 				</section>
 
 				<section>
