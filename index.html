@@ -115,7 +115,7 @@
 								</ul>
 							</li>
 						</ul>
-						<img src="img/cygwin-mirrors.png">
+						<img src="img/cygwin-mirrors.png" alt="cygwin-mirrors">
 					</section>
 
 					<section>
@@ -123,8 +123,8 @@
 						<ul>
 							<li>Select <strong>rsync</strong> and <strong>openssh</strong> during installation</li>
 						</ul>
-						<img src="img/cygwin-rsync.png" width="468px">
-						<img src="img/cygwin-ssh.png" width="468px">
+						<img src="img/cygwin-rsync.png" alt="cygwin-rsync" width="468">
+						<img src="img/cygwin-ssh.png" alt="cygwin-ssh" width="468">
 					</section>
 
 					<section>
@@ -479,6 +479,89 @@ $ docker exec<span class="fragment" data-fragment-index="5"> -it</span><span cla
 						<dt class="fragment" data-fragment-index="4">bash</dt>
 							<dd class="fragment" data-fragment-index="4">Command to execute in the container</dd>
 					</dl>
+				</section>
+
+				<section>
+					<section>
+						<h2>GCC Example</h2>
+					</section>
+
+					<section>
+						<h2>Simple C program</h2>
+						<pre><code data-trim>
+#include &lt;stdio.h&gt;
+
+int main()
+{
+   int a, b, c;
+
+   printf("Enter two numbers to add:\n");
+   scanf("%d%d", &amp;a, &amp;b);
+
+   c = a + b;
+
+   printf("Sum of entered numbers = %d\n", c);
+
+   return 0;
+}
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Prepare Docker Image</h2>
+						<pre><code data-trim>
+FROM fedora:23
+MAINTAINER "Peter Schiffer" &lt;pschiffe@redhat.com&gt;
+
+RUN dnf -y --setopt=tsflags=nodocs install \
+        gcc \
+    &amp;&amp; dnf -y clean all
+
+WORKDIR /gcc
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Create Makefile</h2>
+						<pre><code data-trim>
+CC=gcc
+SOURCES=sum.c
+EXECUTABLE=sum
+DOCKER_IMAGE=pschiffe/docker101-gcc
+DOCKER_IMAGE_PATH=/gcc
+
+all: $(EXECUTABLE)
+
+$(EXECUTABLE): $(SOURCES)
+	docker run --rm -v `pwd`:$(DOCKER_IMAGE_PATH):Z \
+		$(DOCKER_IMAGE) $(CC) $(SOURCES) -o $@
+
+run: $(EXECUTABLE)
+	docker run -it --rm -v `pwd`:$(DOCKER_IMAGE_PATH):Z \
+		$(DOCKER_IMAGE) ./$(EXECUTABLE)
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Profit $$$</h2>
+						<pre><code data-trim>
+$ make run
+docker run --rm -v `pwd`:/gcc:Z pschiffe/docker101-gcc gcc sum.c -o sum
+Unable to find image 'pschiffe/docker101-gcc:latest' locally
+Trying to pull repository docker.io/pschiffe/docker101-gcc ... latest: Pulling from pschiffe/docker101-gcc
+b0082ba983ef: Already exists
+...
+42a6c75469ef: Pull complete
+Digest: sha256:ac4b5d46f46e64d8fc63e23bbcc9d95c96c847febab3d3e9e65d6ed9a044b538
+Status: Downloaded newer image for docker.io/pschiffe/docker101-gcc:latest
+
+docker run -it --rm -v `pwd`:/gcc:Z pschiffe/docker101-gcc ./sum
+Enter two numbers to add:
+1
+2
+Sum of entered numbers = 3
+						</code></pre>
+					</section>
 				</section>
 
 				<section>
