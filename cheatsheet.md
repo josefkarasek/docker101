@@ -1,4 +1,4 @@
-## Docker cheat sheet for Devconf.cz 2016 workshop
+## Docker cheat sheet for the workshop
 
 ### Images
 __Pull `fedora` image__
