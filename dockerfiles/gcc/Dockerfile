@@ -3,7 +3,6 @@ MAINTAINER "Peter Schiffer" <pschiffe@redhat.com>
 
 RUN dnf -y --setopt=tsflags=nodocs install \
         gcc \
-        make \
     && dnf -y clean all
 
 WORKDIR /gcc
