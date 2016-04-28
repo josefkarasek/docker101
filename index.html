@@ -74,7 +74,8 @@
 				</section>
 
 				<section>
-					<h2>Running containers without Docker</h2>
+					<h2>Containers without Docker</h2>
+					<script type="text/javascript" src="https://asciinema.org/a/a0yqn2ryzyhio3s32ngcuiy4f.js" id="asciicast-a0yqn2ryzyhio3s32ngcuiy4f" async></script>
 				</section>
 
 				<section>
@@ -86,15 +87,44 @@
 				</section>
 
 				<section>
+					<h2>docker engine architecture</h2>
+					<img src="img/docker-architecture.png" />
+				</section>
+
+				<section>
 					<h2>Interactive/daemon mode</h2>
+					<ul>
+						<li><code>--tty</code> allocates PTY for the container
+							<ul>
+								<li>or if you want see some colors</li>
+								<li>is meant for running interactive programs</li>
+							</ul>
+						</li>
+						<li><code>--interactive</code> lets you control your program</li>
+						<li>you can <code>attach</code> to a running container</li>
+						<li>running containers in daemon mode</li>
+					</ul>
 				</section>
 
 				<section>
 					<h2>Demo</h2>
+					<script type="text/javascript" src="https://asciinema.org/a/9w8hlk1xh17rmsoqpoc3u87pp.js" id="asciicast-9w8hlk1xh17rmsoqpoc3u87pp" async></script>
 				</section>
 
 				<section>
 					<h2>Docker hub</h2>
+					<ul>
+						<li>Big value of Docker Inc.</li>
+						<li>(Free) repository with images.</li>
+						<li>Can also build images.</li>
+						<li>Quality varies
+							<ul>
+								<li>vulnerabilities</li>
+								<li>out of date content</li>
+							</ul>
+						</li>
+						<li>Demo: <a href="https://hub.docker.com/r/pschiffe/docker101-gcc/builds/">https://hub.docker.com/r/pschiffe/docker101-gcc/builds/</a></li>
+					</ul>
 				</section>
 
 				<section>
