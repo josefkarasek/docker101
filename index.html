@@ -248,19 +248,24 @@ $ getcap /usr/bin/ping
 					<h2>Basics</h2>
 					<ul>
 						<li>Docker image</li>
-						<li>Getting images</li>
-						<li>Running containers</li>
+						<li>Image operations</li>
+						<li>Containers operations</li>
 						<li>Networking</li>
 						<li>Volumes</li>
 					</ul>
 				</section>
 
+				<section>
+					<h2>docker engine architecture</h2>
+					<img src="img/docker-architecture.png" alt="docker architecture">
+				</section>
+				
 				<section style="text-align: left;">
 					<h2>Docker Image</h2>
 					<p><strong>An archive containing:</strong></p>
 					<ul>
-						<li >Minimal OS for installing and running applications</li>
-						<li >Application with all dependencies</li>
+						<li>Minimal OS for installing and running applications</li>
+						<li>Application with all dependencies</li>
 					</ul>
 					<div class="fragment" data-fragment-index="1">
 						<p><strong>Image is uniquely identified by:</strong></p>
@@ -307,116 +312,28 @@ $ getcap /usr/bin/ping
 				</section>
 
 				<section>
-					<h2>Let's look around</h2>
-					<p>In the container:</p>
-					<pre><code data-trim data-noescape>
-<span class="fragment" data-fragment-index="1">$ docker run -it --rm jkarasek/docker101 bash</span>
-<span class="fragment" data-fragment-index="2"># ps ax</span>
-<span class="fragment" data-fragment-index="3"># sleep 10000</span>
-<span class="fragment" data-fragment-index="5"># ip a</span>
-<span class="fragment" data-fragment-index="6"># hostname</span>
-					</code></pre>
-					<p>On the host:</p>
-					<pre><code data-trim data-noescape>
-<span class="fragment" data-fragment-index="4">$ ps axjf</span>
-<span class="fragment" data-fragment-index="6">$ hostname</span>
-					</code></pre>
-
+					<h2>Networking</h2>
+					<img src="img/networking.png" />
 					<aside class="notes">
-						Namespaces
+						Docker daemon creates bridge interface on the host
+						Each container gets a veth pair (container, bridge)
+						Each container gets IP from the bridge's subnet
 					</aside>
-				</section>
-
-				<section>
-					<h2>Let's look around II</h2>
-					<pre><code data-trim data-noescape>
-						$ docker run -it --rm --name stress --memory 256m jkarasek/docker101 bash
-					</code></pre>
-					<p>In container:</p>
-					<pre><code data-trim data-noescape>
-
-<span class="fragment" data-fragment-index="2"># stress --vm 2 --vm-bytes 512M</span>
-					</code></pre>
-					<p>On the host:</p>
-					<pre><code data-trim data-noescape>
-<span class="fragment" data-fragment-index="3">$ systemd-cgtop</span>
-					</code></pre>
-
-					<aside class="notes">
-						Cgroups
-					</aside>
-				</section>
-
-				<section>
-					<h2>Exposing ports</h2>
-					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-						$ docker run -d<span class="fragment" data-fragment-index="2"> -P</span> --name my_nginx nginx
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="2">-P</dt>
-							<dd class="fragment" data-fragment-index="2">Publish all exposed ports to random ports on the host</dd>
-					</dl>
-					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
-$ docker port my_nginx
-<span class="fragment" data-fragment-index="4">443/tcp -> 0.0.0.0:32768
-80/tcp -> 0.0.0.0:32769</span>
-
-<span class="fragment" data-fragment-index="5">$ docker ps
-CONTAINER ID  IMAGE  COMMAND  CREATED        STATUS        PORTS                                          NAMES
-dd0802ce4333  nginx  "ngi.."  6 minutes ago  Up 6 minutes  0.0.0.0:32769->80/tcp, 0.0.0.0:32768->443/tcp  my_nginx</span>
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Exposing ports II</h2>
-					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-						$ docker run -d<span class="fragment" data-fragment-index="2"> -p 80:80</span> --name my_nginx nginx
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="2">-p</dt>
-							<dd class="fragment" data-fragment-index="2">Publish a container's port to the host</dd>
-					</dl>
-					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
-$ docker port my_nginx
-<span class="fragment" data-fragment-index="4">80/tcp -> 0.0.0.0:80</span>
-
-<span class="fragment" data-fragment-index="5">$ docker ps
-CONTAINER ID  IMAGE  COMMAND  CREATED        STATUS        PORTS                        NAMES
-f7b1be4c1c9c  nginx  "ngi.."  6 minutes ago  Up 6 minutes  0.0.0.0:80->80/tcp, 443/tcp  my_nginx</span>
-					</code></pre>
 				</section>
 
 				<section>
 					<h2>Volumes</h2>
-					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-$ docker run -d -p 80:80 \
-<span class="fragment" data-fragment-index="2">-v /tmp/nginx:/usr/share/nginx/html:ro,Z</span> \
---name my_nginx nginx
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="2">-v</dt>
-							<dd class="fragment" data-fragment-index="2">Bind mount a volume from the host to a container</dd>
-					</dl>
-					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
-						$ docker inspect my_nginx
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Environment Variables</h2>
-					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-$ docker run -d<span class="fragment" data-fragment-index="2"> -e MYSQL_ROOT_PASSWORD=my-secret-pw</span> \
---name my_mariadb mariadb
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="2">-e</dt>
-							<dd class="fragment" data-fragment-index="2">Set environment variable</dd>
-					</dl>
-				</section>
-
-				<section>
-					<h2>docker engine architecture</h2>
-					<img src="img/docker-architecture.png" alt="docker architecture">
+					<p>Containers are ephemeral. Data persistence:</p>
+					<ul>
+						<li>Bind mount</li>
+						<li>Named volume</li>
+						<li>Unnamed volume</li>
+						<li>Data-only containers</li>
+					</ul>
+					<aside class="notes">
+						Images are immutable
+						Containers are ephemeral, easily disposable
+					</aside>
 				</section>
 
 				<section>
@@ -442,6 +359,11 @@ $ docker run -d<span class="fragment" data-fragment-index="2"> -e MYSQL_ROOT_PAS
 
 				<section>
 					<h2>Questions?</h2>
+				</section>
+
+				<section>
+					<h2>Next time: session 2</h2>	
+					<p>May 17th, Tower Big</p>
 				</section>
 
 				<section>
