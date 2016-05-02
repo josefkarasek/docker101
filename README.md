@@ -1,5 +1,7 @@
-# Docker 101
-Slides are available here - [josefkarasek.github.io/docker101/](https://josefkarasek.github.io/docker101/)
+# Linux Containers Course
+Slides are available here - [josefkarasek.github.io/docker101/](https://josefkarasek.github.io/docker101/) (source files can be found in the gh-pages branch)
+
+Feedback form for the first session - [schiffer.typeform.com/to/lNHegp](https://schiffer.typeform.com/to/lNHegp)
 
 ## Installation
 This tutorial guides you through installation of Docker. However, it does not second the official documentation. If you happen to miss some information, you'll most likely find it [there](http://docs.docker.com/).
