@@ -58,79 +58,103 @@
 				</section>
 
 				<section>
-					<h2>Lecture No.1</h2>
+					<h2>Session 1</h2>
 					<ul>
-						<li>Technologies behind containers</li>
-						<li>Purpose of containers</li>
+						<li>Intro</li>
+						<li>History</li>
+						<li>Why containers</li>
+						<li>Containers without Docker</li>
 						<li>Docker basics</li>
 					</ul>
 				</section>
-
 
 				<section>
 					<h2>Introduction to Linux containers</h2>
 				</section>
 
 				<section>
-					<h2>Some important milestones</h2>
-					<ul>
-						<li>1998 - SELinux</li>
-						<li>2000 - FreeBSD jail</li>
-						<li>2004 - SWsoft openVZ (parallels, virtuozzo)</li>
-						<li>2006 - process containers (Google)</li>
-						<li>2007 - PC merged upstream as cGroups</li>
-						<li>2008 - kernel namespaces</li>
-					</ul>
-				</section>
-
-				<section>
 					<h2>What is a container?</h2>
-					<img src=crane.jpg />
-					
+					<img src="img/crane.jpg" alt="crane">
+
+					<aside class="notes">
+						<ul>
+							<li>What do we tell here?</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
 					<h2>What is a container?</h2>
 					<p><span class="fragment">actually</span><span class="fragment">, there is no container</span></p>
-					<p class="fragment">but there are constrained applications*</p>
-					<p class="fragment"><small>*application = 1 or more running processes</small></p>
+					<p class="fragment">
+						but there are constrained applications*<br>
+						<small>*application = 1 or more running processes</small>
+					</p>
 
 					<aside class="notes">
 						<ul>
 							<li>Ask audience what is a container</li>
 							<li>Compare VM and container; show that there can be empty VM (without running application), but not an empty container</li>
 							<li>Container must have running application, otherwise it doesn't exist</li>
+							<li>Container vs chroot</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
 					<h2>When we talk about containers</h2>
-					<p class="fragment">we talk about multiple Linux kernel features</p>
-					<p class="fragment">configured for one or set of processes</p>
+					<p class="fragment">
+						we talk about multiple Linux kernel features<br>
+						configured together for set of processes
+					</p>
 
 					<aside class="notes">
-						It's not even an environment, but like set of environments, not necessarily dependent on each other
+						It's not even an environment, but like set of independent environments.
 					</aside>
 				</section>
 
 				<section>
-					<h2>Underlying kernerl features</h2>
+					<h2>History</h2>
+					<ul>
+						<li>2000 - <a href="https://en.wikipedia.org/wiki/FreeBSD_jail">FreeBSD jail</a></li>
+						<li>2005 - <a href="https://en.wikipedia.org/wiki/OpenVZ">OpenVZ</a></li>
+						<li>2007 - <a href="https://en.wikipedia.org/wiki/Cgroups">cgroups</a> &amp; <a href="https://en.wikipedia.org/wiki/Linux_namespaces">Kernel namespaces</a></li>
+						<li>2008 - <a href="https://en.wikipedia.org/wiki/LXC">LXC</a></li>
+						<li>2011 - <a href="https://en.wikipedia.org/wiki/OpenShift">OpenShift</a></li>
+						<li>2013 - <a href="https://en.wikipedia.org/wiki/Docker_(software)">Docker</a></li>
+						<li>2014 - <a href="https://en.wikipedia.org/wiki/Kubernetes">Kubernetes</a></li>
+					</ul>
+					<p><small><a href="http://rhelblog.redhat.com/2015/08/28/the-history-of-containers/">rhelblog.redhat.com/2015/08/28/the-history-of-containers</a><br><a href="https://www.youtube.com/watch?v=wW9CAH9nSLs">youtu.be/wW9CAH9nSLs</a> - first announcement of Docker [5min]</small></p>
+
+					<aside class="notes">
+						<ul>
+							<li>2002 - mount namespace</li>
+							<li>2013 (kernel 3.8) - namespaces mostly complete</li>
+							<li>LXC - userspace tools around cgroups and namespaces</li>
+							<li>Docker was using LXC in the beginnings</li>
+							<li>2015 - OpenShift v3</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Underlying kernel features</h2>
 					<p><strong>A process with certain properties</strong></p>
 					<ul>
-						<li><strong>namespaces</strong> - limit what a process can see (PID, network, mount, UID, GID)</li>
-						<li><strong>cgroups</strong> - limit how much a process can use (CPU, memory, IO)</li>
+						<li><strong>namespaces</strong> - limit what a process can see (pid, net, user, ...)</li>
+						<li><strong>cgroups</strong> - limit how much a process can use (cpu, mem, i/o)</li>
+						<li><strong>copy-on-write</strong> - instant start, tracking changes (overlayfs, ...)</li>
+						<li><strong>POSIX capabilities</strong> - managing root permissions</li>
+						<li><strong>SELinux</strong> - let containers contain</li>
 						<li><strong>seccomp</strong> - syscall filtering</li>
-						<li><strong>POSIX capabilities</strong> - managing permission checks</li>
-						<li><strong>OverlayFS</strong></li>
 					</ul>
 				</section>
 
 				<section>
 					<h2>Namespaces</h2>
 					<p>PID namespacing</p>
-					<img src="pids.jpg" />
-					<p>...also net, mnt, ipc, user</p>
+					<img src="img/pids.jpg" alt="pids">
+					<p>also mnt, net, ipc, uts, user</p>
 				</section>
 
 				<section>
@@ -138,16 +162,50 @@
 					<ul>
 						<li>cpu share</li>
 						<li>cpu lock</li>
-						<li>memory allocation</li>
+						<li>
+							memory allocation
+							<ul><li>soft vs. hard limits</li></ul>
+						</li>
 						<li>read/write speed</li>
-						<li>soft vs. hard limits</li>
+						<li>devices cgroup</li>
 						<li>How many processes per group?</li>
 					</ul>
 				</section>
 
 				<section>
+					<h2>copy-on-write</h2>
+					<ul>
+						<li>Instead of copying whole file system</li>
+						<li>Storage keeps track of changes</li>
+						<li>BTRFS, ZFS, device mapper, overlayfs, aufs</li>
+					</ul>
+					<p><img src="img/cow.png" alt="copy on write"></p>
+				</section>
+
+				<section>
+					<h2>POSIX capabilities</h2>
+					<ul>
+						<li>More granular permission checks than the traditional <strong>PRIVILEGED</strong> vs <strong>UNPRIVILEGED</strong> user</li>
+						<li>Containers runnig as <code>UID 0</code> less harmfull</li>
+					</ul>
+						<pre><code data-trim data-noescape>
+$ getcap /usr/bin/ping
+/usr/bin/ping = cap_net_admin,cap_net_raw+ep
+						</code></pre>
+				</section>
+
+				<section>
+					<h2>SELinux</h2>
+					<ul>
+						<li>Enforcing container separation</li>
+						<li>Labeling system</li>
+						<li>Multi level security</li>
+					</ul>
+				</section>
+
+				<section>
 					<h2>Secure Computing</h2>
-					<p>syscall filtering</p>
+					<p><strong>syscall filtering</strong></p>
 					<ul>
 						<li>SECCOMP_SET_MODE_STRICT - only read, write, exit and sigreturn</li>
 						<li>SECCOMP_SET_MODE_FILTER - whitelist only some syscalls</li>
@@ -157,34 +215,12 @@
 				</section>
 
 				<section>
-					<h2>POSIX capabilities</h2>
-					<p></p>
-					<ul>
-						<li>More granular permission checks than traditional PRIVILEGED vs UNPRIVILEGED user</li>
-						<li>Containers runnig as UID 0 less harmfull</li>
-					</ul>
-						<pre><code data-trim data-noescape>
-$ getcap /usr/bin/ping
-/usr/bin/ping = cap_net_admin,cap_net_raw+ep
-						</code></pre>
-				</section>
-
-				<section>
-					<h2>OverlayFS</h2>
-					<p>Provides unified view of 2 directories</p>
-					<ul>
-						<li>lowerdir - dir that the new file system will be layed over</li>
-						<li>upperdir - dir that will overlay the lowerdir</li>
-					</ul>
-					<img src="overlay.jpg" />
-				</section>
-
-				<section>
 					<h2>What is a container good for?</h2>
 					<ul>
 						<li>Application with all its dependencies</li>
 						<li>Clean environment in fraction of a second</li>
 						<li>Isolation mitigates binary interference - distribution and runnning multiple versions of programs</li>
+						<li>Easy deployment - rolling updates, rollback to previous versions</li>
 					</ul>
 				</section>
 
@@ -240,7 +276,7 @@ $ getcap /usr/bin/ping
 
 				<section>
 					<h2>Image II</h2>
-					<img src="container-layers.jpg" />
+					<img src="img/container-layers.jpg" alt="container layers">
 				</section>
 
 				<section>
