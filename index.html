@@ -504,39 +504,12 @@ $ docker run -d<span class="fragment" data-fragment-index="2"> -e MYSQL_ROOT_PAS
 				</section>
 
 				<section>
-					<h2>Linking containers</h2>
-					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-$ docker run -d -p 80:80<span class="fragment" data-fragment-index="2"> --link my_mariadb:mysql</span> \
---name my_wordpress wordpress
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="2">--link</dt>
-							<dd class="fragment" data-fragment-index="2">Add link to another container</dd>
-					</dl>
-				</section>
-
-				<section>
 					<h2>docker engine architecture</h2>
 					<img src="img/docker-architecture.png" alt="docker architecture">
 				</section>
 
 				<section>
-					<h2>Interactive/daemon mode</h2>
-					<ul>
-						<li><code>--tty</code> allocates PTY for the container
-							<ul>
-								<li>or if you want see some colors</li>
-								<li>is meant for running interactive programs</li>
-							</ul>
-						</li>
-						<li><code>--interactive</code> lets you control your program</li>
-						<li>you can <code>attach</code> to a running container</li>
-						<li>running containers in daemon mode</li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>Demo</h2>
+					<h2>Demo — docker basics</h2>
 					<iframe id="asciicast-iframe-9w8hlk1xh17rmsoqpoc3u87pp" src="https://asciinema.org/api/asciicasts/9w8hlk1xh17rmsoqpoc3u87pp" name="asciicast-iframe-9w8hlk1xh17rmsoqpoc3u87pp" scrolling="no" allowfullscreen="true" style="overflow: hidden; margin: 0px; border: 0px none; display: inline-block; width: 789px; float: none; visibility: visible; height: 516px;"></iframe>
 				</section>
 
@@ -567,6 +540,25 @@ $ docker run -d -p 80:80<span class="fragment" data-fragment-index="2"> --link m
 				<section>
 					<h2>Thank you for attention!</h2>
 					We have a <a href="https://www.google.com/url?q=https%3A%2F%2Fschiffer.typeform.com%2Fto%2FlNHegp&sa=D&sntz=1&usg=AFQjCNHO7KFGyYzWHzLe2b8RxTWkws2rqg">feedback form</a>
+				</section>
+
+				<section>
+					<h2>Future content</h2>
+				</section>
+
+				<section>
+					<h2>Interactive/daemon mode</h2>
+					<ul>
+						<li><code>--tty</code> allocates PTY for the container
+							<ul>
+								<li>or if you want see some colors</li>
+								<li>is meant for running interactive programs</li>
+							</ul>
+						</li>
+						<li><code>--interactive</code> lets you control your program</li>
+						<li>you can <code>attach</code> to a running container</li>
+						<li>running containers in daemon mode</li>
+					</ul>
 				</section>
 
 				<section>
