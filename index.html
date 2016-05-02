@@ -280,119 +280,24 @@ $ getcap /usr/bin/ping
 				</section>
 
 				<section>
-					<h2>docker pull</h2>
-					<p class="fragment">Downloads and updates Docker images</p>
-					<pre class="fragment"><code data-trim data-noescape>
-						$ docker pull <span class="fragment">docker.io/</span>fedora<span class="fragment">:latest</span>
-					</code></pre>
-					<h2 class="fragment">docker images</h2>
-					<p class="fragment">Lists all Docker images on the host</p>
-					<pre class="fragment"><code data-trim data-noescape>
-						$ docker images
-<span class="fragment">REPOSITORY        TAG     IMAGE ID      CREATED      VIRTUAL SIZE
-docker.io/fedora  latest  0721f2b3cb16  4 weeks ago  206.3 MB</span>
-					</code></pre>
-					<h2 class="fragment">docker rmi</h2>
-					<p class="fragment">Remove Docker image from the host</p>
-					<pre class="fragment"><code data-trim data-noescape>
-						$ docker rmi fedora
-					</code></pre>
+					<h2>Image Operations</h2>
+					<ul>
+						<li><code>pull</code> — Downloads and updates Docker images.</li>
+						<li><code>images</code> — Lists all Docker images on the host.</li>
+						<li><code>rmi</code> — Remove specified Docker image from the host</li>
+					</ul>
 				</section>
 
 				<section>
-					<h2>docker create</h2>
-					<p class="fragment" data-fragment-index="1">Creates stopped container from the image</p>
-					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
-						$ docker create<span class="fragment" data-fragment-index="6"> -i</span><span class="fragment" data-fragment-index="7"> -t</span><span class="fragment" data-fragment-index="5"> --name my_fedora</span><span class="fragment" data-fragment-index="3"> fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
-<span class="fragment" data-fragment-index="8">3c314776542af5507fce81f3ee0a4318e06e617e58a250e4ddcf9b88736624a5</span>
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="6">-i</dt>
-							<dd class="fragment" data-fragment-index="6">Interactive mode (keeps the STDIN open)</dd>
-						<dt class="fragment" data-fragment-index="7">-t</dt>
-							<dd class="fragment" data-fragment-index="7">Allocates a pseudo-TTY</dd>
-						<dt class="fragment" data-fragment-index="5">--name</dt>
-							<dd class="fragment" data-fragment-index="5">Name of the container. Good practice is to set one</dd>
-						<dt class="fragment" data-fragment-index="3">fedora</dt>
-							<dd class="fragment" data-fragment-index="3">Image to be instantiated</dd>
-						<dt class="fragment" data-fragment-index="4">bash</dt>
-							<dd class="fragment" data-fragment-index="4">Application to be run inside of the container</dd>
-					</dl>
-
-					<aside class="notes">
-						Application (last param) may be optional
-					</aside>
-				</section>
-
-				<section>
-					<h2>docker ps</h2>
-					<p class="fragment" data-fragment-index="1">Display containers</p>
-					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
-						$ docker ps
-<span class="fragment" data-fragment-index="3">CONTAINER ID  IMAGE  COMMAND  CREATED  STATUS  PORTS  NAMES</span>
-					</code></pre>
-					<pre class="fragment" data-fragment-index="4"><code data-trim data-noescape>
-						$ docker ps<span class="fragment" data-fragment-index="5"> -a</span>
-<span class="fragment" data-fragment-index="6">CONTAINER ID  IMAGE   COMMAND  CREATED         STATUS   NAMES
-3c314776542a  fedora  "bash"   11 minutes ago  Created  my_fedora</span>
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="5">-a</dt>
-							<dd class="fragment" data-fragment-index="5">Show all containers. Only running are shown by default</dd>
-					</dl>
-				</section>
-
-				<section>
-					<h2>docker start</h2>
-					<p class="fragment" data-fragment-index="1">Starts created container</p>
-					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
-						$ docker start<span class="fragment" data-fragment-index="5"> -a</span><span class="fragment" data-fragment-index="4"> -i</span><span class="fragment" data-fragment-index="3"> my_fedora</span>
-<span class="fragment" data-fragment-index="6">[root@3c314776542a /]#</span>
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="5">-a</dt>
-							<dd class="fragment" data-fragment-index="5">Attach to the pseudo-TTY</dd>
-						<dt class="fragment" data-fragment-index="4">-i</dt>
-							<dd class="fragment" data-fragment-index="4">Interactive mode (keeps the STDIN open)</dd>
-						<dt class="fragment" data-fragment-index="3">my_fedora</dt>
-							<dd class="fragment" data-fragment-index="3">Name of the container</dd>
-					</dl>
-				</section>
-
-				<section>
-					<h2>docker rm</h2>
-					<p class="fragment" data-fragment-index="1">Removes container</p>
-					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
-						$ docker rm<span class="fragment" data-fragment-index="4"> -f</span><span class="fragment" data-fragment-index="3"> my_fedora</span>
-<span class="fragment" data-fragment-index="5">my_fedora</span>
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="4">-f</dt>
-							<dd class="fragment" data-fragment-index="4">Removes container even if it's running</dd>
-						<dt class="fragment" data-fragment-index="3">my_fedora</dt>
-							<dd class="fragment" data-fragment-index="3">Name of the container</dd>
-					</dl>
-				</section>
-
-				<section>
-					<h2>docker run</h2>
-					<p class="fragment" data-fragment-index="1">docker create + docker start</p>
-					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
-						$ docker run<span class="fragment" data-fragment-index="6"> -it</span><span class="fragment" data-fragment-index="7"> --rm</span><span class="fragment" data-fragment-index="5"> --name my_fedora</span><span class="fragment" data-fragment-index="3"> fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
-<span class="fragment" data-fragment-index="8">[root@7b222b35a6c7 /]#</span>
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="6">-it</dt>
-							<dd class="fragment" data-fragment-index="6">Interactive mode</dd>
-						<dt class="fragment" data-fragment-index="7">--rm</dt>
-							<dd class="fragment" data-fragment-index="7">Removes container when it stops</dd>
-						<dt class="fragment" data-fragment-index="5">--name</dt>
-							<dd class="fragment" data-fragment-index="5">Name of the container. Good practice is to set one</dd>
-						<dt class="fragment" data-fragment-index="3">fedora</dt>
-							<dd class="fragment" data-fragment-index="3">Image to be instantiated</dd>
-						<dt class="fragment" data-fragment-index="4">bash</dt>
-							<dd class="fragment" data-fragment-index="4">Application to be run inside of the container</dd>
-					</dl>
+					<h2>Container Operations</h2>
+					<ul>
+						<li><code>create</code> — Creates stopped container from the image.</li>
+						<li><code>start</code> — Starts specified container.</li>
+						<li><code>run</code> — <code>create</code> and <code>start</code> in one command.</li>
+						<li><code>ps</code> — Lists containers available on the host.</li>
+						<li><code>rm</code> — Remove specified Docker container from the host</li>
+						<li>This is a topic of next session.</li>
+					</ul>
 				</section>
 
 				<section>
