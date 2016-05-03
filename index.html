@@ -78,7 +78,10 @@
 
 					<aside class="notes">
 						<ul>
-							<li>What do we tell here?</li>
+							<li>Container in shipping industry</li>
+							<li>Dimensions based on standards</li>
+							<li>Can be loaded and unloaded by many types of machinery</li>
+							<li>Cargo ships, cranes, trains...</li>
 						</ul>
 					</aside>
 				</section>
@@ -93,6 +96,7 @@
 
 					<aside class="notes">
 						<ul>
+							<li>...and now in SW industry</li>
 							<li>Ask audience what is a container</li>
 							<li>Compare VM and container; show that there can be empty VM (without running application), but not an empty container</li>
 							<li>Container must have running application, otherwise it doesn't exist</li>
@@ -155,6 +159,14 @@
 					<p>PID namespacing</p>
 					<img src="img/pids.jpg" alt="pids">
 					<p>also mnt, net, ipc, uts, user</p>
+					<aside class="notes">
+						<ul>
+							<li>struct pid now contains array of upid</li>
+							<li>nesting supported</li>
+							<li>parent process sees its children</li>
+							<li>child sees processes of its own namespace</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -173,6 +185,10 @@
 
 					<aside class="notes">
 						<ul>
+							<li>cpu lock - NUMA</li>
+							<li>page level accounting</li>
+							<li>pages may be shared across cgroups</li>
+							<li>bulkIO - writes to cache transparent, hw write enforced</li>
 							<li>How many processes per group?</li>
 						</ul>
 					</aside>
