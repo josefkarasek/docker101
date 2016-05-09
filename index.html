@@ -405,15 +405,17 @@ $ getcap /usr/bin/ping
 					<pre><code data-trim data-noescape>
 $ docker pull <span class="fragment">docker.io/</span>fedora<span class="fragment">:latest</span>
 <span class="fragment">$ docker pull registry.access.redhat.com/rhel</span>
+<span class="fragment">$ docker pull <span class="fragment">docker.io/</span>pschiffe/docker101-fedora</span>
 					</code></pre>
 					<div class="fragment">
 						<h2>docker images</h2>
 						<p>Lists all Docker images on the host</p>
 						<pre><code data-trim data-noescape>
 $ docker images
-REPOSITORY               TAG     IMAGE ID  CREATED      VIRTUAL SIZE
-docker.io/fedora         latest  9bdb5101  9 weeks ago  204.7 MB
-registry.acc...com/rhel  latest  95612a32  6 weeks ago  203.3 MB
+REPOSITORY               TAG     IMAGE ID  CREATED       VIRTUAL SIZE
+docker.io/fedora         latest  9bdb5101  9 weeks ago   204.7 MB
+registry.access.../rhel  latest  95612a32  6 weeks ago   203.3 MB
+dock../docker101-fedora  latest  68f574f4  10 hours ago  217.9 MB
 						</code></pre>
 					</div>
 					<div class="fragment">
@@ -423,6 +425,10 @@ registry.acc...com/rhel  latest  95612a32  6 weeks ago  203.3 MB
 							$ docker rmi <span class="fragment">-f</span> fedora
 						</code></pre>
 					<div>
+
+					<aside class="notes">
+						fedora image is official image - thus no author
+					</aside>
 				</section>
 
 				<section>
@@ -503,8 +509,8 @@ $ docker rm<span class="fragment" data-fragment-index="4"> -f</span><span class=
 					<h2>docker run</h2>
 					<p>docker create + docker start</p>
 					<pre><code data-trim data-noescape>
-$ docker run<span class="fragment" data-fragment-index="6"> -it</span><span class="fragment" data-fragment-index="7"> --rm</span><span class="fragment" data-fragment-index="5"> --name my_fedora</span><span class="fragment" data-fragment-index="3"> fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
-<span class="fragment" data-fragment-index="8">[root@7b222b35a6c7 /]#</span>
+$ docker run<span class="fragment" data-fragment-index="6"> -it</span><span class="fragment" data-fragment-index="7"> --rm</span><span class="fragment" data-fragment-index="5"> --name my_fedora</span><span class="fragment" data-fragment-index="3"> pschiffe/docker101-fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
+<span class="fragment" data-fragment-index="8">[root@35e75c60305c /]#</span>
 					</code></pre>
 					<dl>
 						<dt class="fragment" data-fragment-index="6">-it</dt>
@@ -513,7 +519,7 @@ $ docker run<span class="fragment" data-fragment-index="6"> -it</span><span clas
 							<dd class="fragment" data-fragment-index="7">Removes container when it stops</dd>
 						<dt class="fragment" data-fragment-index="5">--name</dt>
 							<dd class="fragment" data-fragment-index="5">Name of the container. Good practice is to set one</dd>
-						<dt class="fragment" data-fragment-index="3">fedora</dt>
+						<dt class="fragment" data-fragment-index="3">pschiffe/docker101-fedora</dt>
 							<dd class="fragment" data-fragment-index="3">Image to be instantiated</dd>
 						<dt class="fragment" data-fragment-index="4">bash</dt>
 							<dd class="fragment" data-fragment-index="4">Application to be run inside of the container</dd>
@@ -524,40 +530,130 @@ $ docker run<span class="fragment" data-fragment-index="6"> -it</span><span clas
 					<h2>Let's look around</h2>
 					<p>In the container:</p>
 					<pre><code data-trim data-noescape>
-<span class="fragment" data-fragment-index="1"># dnf install procps-ng iproute hostname  # Bad practice!</span>
-<span class="fragment" data-fragment-index="2"># ps ax</span>
-<span class="fragment" data-fragment-index="3"># sleep 10000</span>
-<span class="fragment" data-fragment-index="5"># ip a</span>
-<span class="fragment" data-fragment-index="6"># hostname</span>
+[root@35e75c60305c /]# ip a
+<div class="fragment">1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+24: eth0@if25: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+    link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.17.0.2/16 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::42:acff:fe11:2/64 scope link
+       valid_lft forever preferred_lft forever</div>
 					</code></pre>
-					<p>On the host:</p>
-					<pre><code data-trim data-noescape>
-<span class="fragment" data-fragment-index="4">$ ps axjf</span>
-<span class="fragment" data-fragment-index="6">$ hostname</span>
-					</code></pre>
+					<dl class="fragment">
+						<dt>--net</dt>
+							<dd>bridge, none, container:&lt;name|id&gt;, host</dd>
+					</dl>
 
 					<aside class="notes">
-						Namespaces
+						network namespace
 					</aside>
 				</section>
 
 				<section>
 					<h2>Let's look around II</h2>
+					<p>In the container:</p>
 					<pre><code data-trim data-noescape>
-						$ docker run -it --rm --name my_fedora --memory 256m fedora bash
-					</code></pre>
-					<p>In container:</p>
-					<pre><code data-trim data-noescape>
-<span class="fragment" data-fragment-index="1"># dnf install stress  # Bad practice!</span>
-<span class="fragment" data-fragment-index="2"># stress --vm 2 --vm-bytes 512M</span>
+[root@35e75c60305c /]# hostname
+<span class="fragment" data-fragment-index="1">35e75c60305c</span>
 					</code></pre>
 					<p>On the host:</p>
 					<pre><code data-trim data-noescape>
-<span class="fragment" data-fragment-index="3">$ systemd-cgtop</span>
+$ hostname
+<span class="fragment" data-fragment-index="1">work-ntb</span>
+					</code></pre>
+					<dl class="fragment">
+						<dt>-h, --hostname</dt>
+							<dd>Sets the container host name</dd>
+						<dt>--uts</dt>
+							<dd>host</dd>
+					</dl>
+
+					<aside class="notes">
+						uts namespace
+					</aside>
+				</section>
+
+				<section>
+					<h2>Let's look around III</h2>
+					<p>In the container:</p>
+					<pre><code data-trim data-noescape>
+[root@35e75c60305c /]# ps ax
+<span class="fragment" data-fragment-index="1">  PID TTY      STAT   TIME COMMAND
+    1 ?        Ss     0:00 bash
+   21 ?        R+     0:00 ps ax</span>
+<span class="fragment" data-fragment-index="2">[root@35e75c60305c /]# sleep 10000</span>
+					</code></pre>
+					<p>On the host:</p>
+					<pre><code data-trim data-noescape>
+<span class="fragment" data-fragment-index="3">$ ps axf | grep -v grep | grep -B 2 sleep
+13796 ?        Sl     0:48  \_ /usr/bin/docker daemon --selinux-enabled
+ 4393 pts/1    Ss     0:00  |   \_ bash
+17171 pts/1    S+     0:00  |       \_ sleep 10000</span>
+					</code></pre>
+
+					<dl class="fragment" data-fragment-index="4">
+						<dt>--pid</dt>
+							<dd>host</dd>
+					</dl>
+
+					<aside class="notes">
+						pid namespace
+					</aside>
+				</section>
+
+				<section>
+					<h2>Let's look around IV</h2>
+					<pre><code data-trim data-noescape>
+$ docker run -it --rm --name my_fedora --memory 256m \
+pschiffe/docker101-fedora bash
+					</code></pre>
+					<p>In container:</p>
+					<pre><code data-trim data-noescape>
+<span class="fragment">[root@35e75c60305c /]# stress --vm 2 --vm-bytes 512M</span>
+<span class="fragment">stress: info: [39] dispatching hogs: 0 cpu, 0 io, 2 vm, 0 hdd
+stress: FAIL: [39] (415) <-- worker 40 got signal 9
+stress: WARN: [39] (417) now reaping child worker processes
+stress: FAIL: [39] (451) failed run completed in 4s</span>
+					</code></pre>
+					<p>On the host:</p>
+					<pre><code data-trim data-noescape>
+<span class="fragment">$ systemd-cgtop | grep docker-</span>
+<span class="fragment">/system.slice/docker-0f946...4f734.scope       4      -   255.9M</span>
 					</code></pre>
 
 					<aside class="notes">
-						Cgroups
+						memory cgroup
+					</aside>
+				</section>
+
+				<section>
+					<h2>Let's look around V</h2>
+					<pre><code data-trim data-noescape>
+$ docker run -it --rm --cpu-period=50000 --cpu-quota=25000 \
+pschiffe/docker101-fedora bash
+					</code></pre>
+					<p>In container:</p>
+					<pre><code data-trim data-noescape>
+<span class="fragment">[root@122c958a57cb /]# stress --cpu 4</span>
+					</code></pre>
+					<p>On the host:</p>
+					<pre><code data-trim data-noescape>
+<span class="fragment">$ systemd-cgtop -n 2 | grep docker- | tail -n 1</span>
+<span class="fragment">/system.slice/docker-122c9...36b25.scope       6   48.8     6.0M</span>
+					</code></pre>
+					<dl class="fragment">
+						<dt>--cpu-shares</dt>
+							<dd>1024 is the default</dd>
+					</dl>
+
+					<aside class="notes">
+						cpu cgroup<br>
+						--cpu-quota can be > than --cpu-period
 					</aside>
 				</section>
 
