@@ -358,7 +358,7 @@ $ getcap /usr/bin/ping
 
 				<section>
 					<h2>Networking</h2>
-					<img src="img/networking.png">
+					<img src="img/networking.png" alt="docker networking">
 
 					<aside class="notes">
 						Docker daemon creates bridge interface on the host
@@ -450,7 +450,7 @@ dock../docker101-fedora  latest  68f574f4  10 hours ago  217.9 MB
 						<pre><code data-trim data-noescape>
 							$ docker rmi <span class="fragment">-f</span> fedora
 						</code></pre>
-					<div>
+					</div>
 
 					<aside class="notes">
 						fedora image is official image - thus no author
@@ -557,18 +557,18 @@ $ docker run<span class="fragment" data-fragment-index="6"> -it</span><span clas
 					<p>In the container:</p>
 					<pre><code data-trim data-noescape>
 [root@35e75c60305c /]# ip a
-<div class="fragment">1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
+<span class="fragment">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
     inet6 ::1/128 scope host
        valid_lft forever preferred_lft forever
-24: eth0@if25: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+24: eth0@if25: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default
     link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
     inet 172.17.0.2/16 scope global eth0
        valid_lft forever preferred_lft forever
     inet6 fe80::42:acff:fe11:2/64 scope link
-       valid_lft forever preferred_lft forever</div>
+       valid_lft forever preferred_lft forever</span>
 					</code></pre>
 					<dl class="fragment">
 						<dt>--net</dt>
@@ -642,7 +642,7 @@ pschiffe/docker101-fedora bash
 					<pre><code data-trim data-noescape>
 <span class="fragment">[root@35e75c60305c /]# stress --vm 2 --vm-bytes 512M</span>
 <span class="fragment">stress: info: [39] dispatching hogs: 0 cpu, 0 io, 2 vm, 0 hdd
-stress: FAIL: [39] (415) <-- worker 40 got signal 9
+stress: FAIL: [39] (415) &lt;-- worker 40 got signal 9
 stress: WARN: [39] (417) now reaping child worker processes
 stress: FAIL: [39] (451) failed run completed in 4s</span>
 					</code></pre>
@@ -979,7 +979,7 @@ int main()
 FROM fedora:23
 MAINTAINER "Peter Schiffer" &lt;pschiffe@redhat.com&gt;
 
-RUN dnf -y --setopt=tsflags=nodocs install \
+RUN dnf -y - -setopt=tsflags=nodocs install \
         gcc \
     &amp;&amp; dnf -y clean all
 
@@ -999,11 +999,11 @@ DOCKER_IMAGE_PATH=/gcc
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(SOURCES)
-	docker run --rm -v `pwd`:$(DOCKER_IMAGE_PATH):Z \
+	docker run - -rm -v `pwd`:$(DOCKER_IMAGE_PATH):Z \
 		$(DOCKER_IMAGE) $(CC) $(SOURCES) -o $@
 
 run: $(EXECUTABLE)
-	docker run -it --rm -v `pwd`:$(DOCKER_IMAGE_PATH):Z \
+	docker run -it - -rm -v `pwd`:$(DOCKER_IMAGE_PATH):Z \
 		$(DOCKER_IMAGE) ./$(EXECUTABLE)
 						</code></pre>
 					</section>
@@ -1012,7 +1012,7 @@ run: $(EXECUTABLE)
 						<h2>Profit $$$</h2>
 						<pre><code data-trim>
 $ make run
-docker run --rm -v `pwd`:/gcc:Z pschiffe/docker101-gcc gcc sum.c -o sum
+docker run - -rm -v `pwd`:/gcc:Z pschiffe/docker101-gcc gcc sum.c -o sum
 Unable to find image 'pschiffe/docker101-gcc:latest' locally
 Trying to pull repository docker.io/pschiffe/docker101-gcc ... latest: Pulling from pschiffe/docker101-gcc
 b0082ba983ef: Already exists
@@ -1021,7 +1021,7 @@ b0082ba983ef: Already exists
 Digest: sha256:ac4b5d46f46e64d8fc63e23bbcc9d95c96c847febab3d3e9e65d6ed9a044b538
 Status: Downloaded newer image for docker.io/pschiffe/docker101-gcc:latest
 
-docker run -it --rm -v `pwd`:/gcc:Z pschiffe/docker101-gcc ./sum
+docker run -it - -rm -v `pwd`:/gcc:Z pschiffe/docker101-gcc ./sum
 Enter two numbers to add:
 1
 2
