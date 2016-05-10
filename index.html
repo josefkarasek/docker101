@@ -12,6 +12,12 @@
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
+		<!-- Asciinema -->
+		<link rel="stylesheet" href="css/asciinema-player.css">
+
+		<!-- Our custom css -->
+		<link rel="stylesheet" href="css/docker-101.css">
+
 		<!-- Printing and PDF exports -->
 		<script>
 			var link = document.createElement( 'link' );
@@ -49,26 +55,34 @@
 								<li>Notebook during the course is optional</li>
 							</ul>
 						</li>
-						<li><a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a></li>
 						<li>
-							We need your feedback!
-							<ul><li><a href="https://schiffer.typeform.com/to/lNHegp">schiffer.typeform.com/to/lNHegp</a></li></ul>
+							Slides - <a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a>
 						</li>
 					</ul>
 				</section>
 
-				<section>
-					<h2>Session 1</h2>
+				<section id="table-of-content">
+					<h2>Table of content</h2>
 					<ul>
-						<li>Intro</li>
-						<li>History</li>
-						<li>Why containers</li>
-						<li>Containers without Docker</li>
-						<li>Docker basics</li>
+						<li><a href="#/session-1">Introduction, history, underlying technologies</a></li>
+						<li><a href="#/session-2">Running containers, atomic, docker compose, ansible</a></li>
 					</ul>
 				</section>
 
-				<section>
+				<section id="session-1">
+					<h2>Session 1</h2>
+					<ul>
+						<li><a href="#/intro">Intro</a></li>
+						<li><a href="#/history">History</a></li>
+						<li><a href="#/kernel-features">Underlying Kernel features</a></li>
+						<li><a href="#/why-containers">Why containers</a></li>
+						<li><a href="#/containers-wo-docker">Containers without Docker</a></li>
+						<li><a href="#/docker-basics">Docker basics</a></li>
+						<li><a href="#/docker-hub">Docker hub</a></li>
+					</ul>
+				</section>
+
+				<section id="intro">
 					<h2>Introduction to Linux containers</h2>
 				</section>
 
@@ -113,13 +127,14 @@
 					</p>
 
 					<aside class="notes">
-						It's not even an environment, but like set of independent environments.
+						It's not even an environment, but like set of independent environments (namespaces).
 					</aside>
 				</section>
 
-				<section>
+				<section id="history">
 					<h2>History</h2>
 					<ul>
+						<li>1992 - <a href="http://www.cs.bell-labs.com/sys/doc/names.html">"The Use of Name Spaces in Plan 9"</a></li>
 						<li>2000 - <a href="https://en.wikipedia.org/wiki/FreeBSD_jail">FreeBSD jail</a></li>
 						<li>2005 - <a href="https://en.wikipedia.org/wiki/OpenVZ">OpenVZ</a></li>
 						<li>2007 - <a href="https://en.wikipedia.org/wiki/Cgroups">cgroups</a> &amp; <a href="https://en.wikipedia.org/wiki/Linux_namespaces">Kernel namespaces</a></li>
@@ -134,6 +149,7 @@
 						<ul>
 							<li>2002 - mount namespace</li>
 							<li>2013 (kernel 3.8) - namespaces mostly complete</li>
+							<li>openvz requires patched Kernel</li>
 							<li>LXC - userspace tools around cgroups and namespaces</li>
 							<li>Docker was using LXC in the beginnings</li>
 							<li>2015 - OpenShift v3</li>
@@ -141,17 +157,22 @@
 					</aside>
 				</section>
 
-				<section>
+				<section id="kernel-features">
 					<h2>Underlying kernel features</h2>
-					<p><strong>A process with certain properties</strong></p>
-					<ul>
-						<li><strong>namespaces</strong> - limit what a process can see (pid, net, user, ...)</li>
-						<li><strong>cgroups</strong> - limit how much a process can use (cpu, mem, i/o)</li>
-						<li><strong>copy-on-write</strong> - instant start, tracking changes (overlayfs, ...)</li>
-						<li><strong>POSIX capabilities</strong> - managing root permissions</li>
-						<li><strong>SELinux</strong> - let containers contain</li>
-						<li><strong>seccomp</strong> - syscall filtering</li>
-					</ul>
+					<dl>
+						<dt>namespaces</dt>
+						<dd>limit what a process can see (pid, net, user, ...)</dd>
+						<dt>cgroups</dt>
+						<dd>limit how much a process can use (cpu, mem, i/o)</dd>
+						<dt>copy-on-write</dt>
+						<dd>instant start, tracking changes (overlayfs, ...)</dd>
+						<dt>POSIX capabilities</dt>
+						<dd>managing root permissions</dd>
+						<dt>SELinux</dt>
+						<dd>let containers contain</dd>
+						<dt>seccomp</dt>
+						<dd>syscall filtering</dd>
+					</dl>
 				</section>
 
 				<section>
@@ -173,23 +194,24 @@
 					<h2>cgroups</h2>
 					<ul>
 						<li>cpu share</li>
-						<li>cpu lock</li>
+						<li>cpuset</li>
 						<li>
 							memory allocation
 							<ul><li>soft vs. hard limits</li></ul>
 						</li>
-						<li>read/write speed</li>
+						<li>I/O</li>
 						<li>devices cgroup</li>
 						<li>freezer cgroup</li>
+						<li>accounting</li>
 					</ul>
 
 					<aside class="notes">
 						<ul>
-							<li>cpu lock - NUMA</li>
+							<li>cpuset - NUMA</li>
 							<li>page level accounting</li>
 							<li>pages may be shared across cgroups</li>
-							<li>bulkIO - writes to cache transparent, hw write enforced</li>
-							<li>How many processes per group?</li>
+							<li>blkio - writes to cache transparent, hw write enforced</li>
+							<li>How many processes per cgroup?</li>
 						</ul>
 					</aside>
 				</section>
@@ -237,7 +259,7 @@ $ getcap /usr/bin/ping
 					</ul>
 				</section>
 
-				<section>
+				<section  id="why-containers">
 					<h2>What is a container good for?</h2>
 					<ul>
 						<li>Application with all its dependencies</li>
@@ -247,15 +269,15 @@ $ getcap /usr/bin/ping
 					</ul>
 				</section>
 
-				<section>
+				<section id="containers-wo-docker">
 					<h2>Containers without Docker</h2>
 				</section>
 
 				<section>
-					<iframe id="asciicast-iframe-a0yqn2ryzyhio3s32ngcuiy4f" src="https://asciinema.org/api/asciicasts/a0yqn2ryzyhio3s32ngcuiy4f" name="asciicast-iframe-a0yqn2ryzyhio3s32ngcuiy4f" scrolling="no" allowfullscreen="true" style="overflow: hidden; margin: 0px; border: 0px none; display: inline-block; width: 912px; float: none; visibility: visible; height: 740px;"></iframe>
+					<div id="containers-wo-docker-asciinema"></div>
 				</section>
 
-				<section>
+				<section id="docker-basics">
 					<h2>Introduction to Docker</h2>
 					<p>platform for running, shipping and building containers</p>
 				</section>
@@ -308,28 +330,36 @@ $ getcap /usr/bin/ping
 
 				<section>
 					<h2>Image Operations</h2>
-					<ul>
-						<li><code>pull</code> — Downloads and updates Docker images</li>
-						<li><code>images</code> — Lists all Docker images on the host</li>
-						<li><code>rmi</code> — Remove specified Docker image from the host</li>
-					</ul>
+					<dl>
+						<dt>pull</dt>
+						<dd>Downloads and updates Docker images</dd>
+						<dt>images</dt>
+						<dd>Lists all Docker images on the host</dd>
+						<dt>rmi</dt>
+						<dd>Remove specified Docker image from the host</dd>
+					</dl>
 				</section>
 
 				<section>
 					<h2>Container Operations</h2>
-					<ul>
-						<li><code>create</code> — Creates stopped container from the image</li>
-						<li><code>start</code> — Starts specified container</li>
-						<li><code>run</code> — <code>create</code> and <code>start</code> in one command</li>
-						<li><code>ps</code> — Lists containers available on the host</li>
-						<li><code>rm</code> — Remove specified Docker container from the host</li>
-						<li>This is a topic of next session</li>
-					</ul>
+					<dl>
+						<dt>create</dt>
+						<dd>Creates stopped container from the image</dd>
+						<dt>start</dt>
+						<dd>Starts specified container</dd>
+						<dt>run</dt>
+						<dd><code>pull</code>, <code>create</code> and <code>start</code> in one command</dd>
+						<dt>ps</dt>
+						<dd>Lists containers available on the host</dd>
+						<dt>rm</dt>
+						<dd>Remove specified Docker container from the host</dd>
+					</dl>
 				</section>
 
 				<section>
 					<h2>Networking</h2>
-					<img src="img/networking.png" />
+					<img src="img/networking.png">
+
 					<aside class="notes">
 						Docker daemon creates bridge interface on the host
 						Each container gets a veth pair (container, bridge)
@@ -346,6 +376,7 @@ $ getcap /usr/bin/ping
 						<li>Bind mount</li>
 						<li>Data-only containers</li>
 					</ul>
+
 					<aside class="notes">
 						Images are immutable
 						Containers are ephemeral, easily disposable
@@ -354,10 +385,10 @@ $ getcap /usr/bin/ping
 
 				<section>
 					<h2>Demo — docker basics</h2>
-					<iframe id="asciicast-iframe-9w8hlk1xh17rmsoqpoc3u87pp" src="https://asciinema.org/api/asciicasts/9w8hlk1xh17rmsoqpoc3u87pp" name="asciicast-iframe-9w8hlk1xh17rmsoqpoc3u87pp" scrolling="no" allowfullscreen="true" style="overflow: hidden; margin: 0px; border: 0px none; display: inline-block; width: 789px; float: none; visibility: visible; height: 516px;"></iframe>
+					<div id="docker-basics-asciinema"></div>
 				</section>
 
-				<section>
+				<section id="docker-hub">
 					<h2>Docker hub</h2>
 					<ul>
 						<li>Big value of Docker Inc.</li>
@@ -369,7 +400,7 @@ $ getcap /usr/bin/ping
 								<li>out of date content</li>
 							</ul>
 						</li>
-						<li>Demo: <a href="https://hub.docker.com/r/pschiffe/docker101-gcc/builds/">https://hub.docker.com/r/pschiffe/docker101-gcc/builds/</a></li>
+						<li>Example: <a href="https://hub.docker.com/r/pschiffe/docker101-fedora/builds/">hub.docker.com/r/pschiffe/docker101-fedora/builds/</a></li>
 					</ul>
 				</section>
 
@@ -378,28 +409,24 @@ $ getcap /usr/bin/ping
 				</section>
 
 				<section>
-					<h2>Next time: session 2</h2>
-					<p>May 17th, 1pm, Tower Big</p>
-				</section>
-
-				<section>
 					<h2>Thank you!</h2>
 					<a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a><br>
 					<a href="https://schiffer.typeform.com/to/lNHegp">schiffer.typeform.com/to/lNHegp</a>
-					<img src="img/qrcode.png" alt="qrcode">
+					<img src="img/qrcode.png" alt="qrcode"><br>
+					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
-				<section>
+				<section id="session-2">
 					<h2>Session 2</h2>
 					<ul>
-						<li>Docker command</li>
-						<li>Atomic command</li>
-						<li>Docker compose</li>
-						<li>Ansible</li>
+						<li><a href="#/docker-cli">Docker cli</a></li>
+						<li><a href="#/docker-cli">Atomic command</a></li>
+						<li><a href="#/docker-cli">Docker compose</a></li>
+						<li><a href="#/docker-cli">Ansible</a></li>
 					</ul>
 				</section>
 
-				<section>
+				<section id="docker-cli">
 					<h2>docker pull</h2>
 					<p>Downloads and updates Docker images</p>
 					<pre><code data-trim data-noescape>
@@ -414,7 +441,6 @@ $ docker pull <span class="fragment">docker.io/</span>fedora<span class="fragmen
 $ docker images
 REPOSITORY               TAG     IMAGE ID  CREATED       VIRTUAL SIZE
 docker.io/fedora         latest  9bdb5101  9 weeks ago   204.7 MB
-registry.access.../rhel  latest  95612a32  6 weeks ago   203.3 MB
 dock../docker101-fedora  latest  68f574f4  10 hours ago  217.9 MB
 						</code></pre>
 					</div>
@@ -435,7 +461,7 @@ dock../docker101-fedora  latest  68f574f4  10 hours ago  217.9 MB
 					<h2>docker create</h2>
 					<p>Creates <strong>stopped</strong> container from the image</p>
 					<pre><code data-trim data-noescape>
-$ docker create<span class="fragment" data-fragment-index="6"> -i</span><span class="fragment" data-fragment-index="7"> -t</span><span class="fragment" data-fragment-index="5"> --name my_fedora</span><span class="fragment" data-fragment-index="3"> fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
+$ docker create<span class="fragment" data-fragment-index="6"> -i</span><span class="fragment" data-fragment-index="7"> -t</span><span class="fragment" data-fragment-index="5"> --name my-fedora</span><span class="fragment" data-fragment-index="3"> fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
 <span class="fragment" data-fragment-index="8">3c314776542af5507fce81f3ee0a4318e06e617e58a250e4ddcf9b88736624a5</span>
 					</code></pre>
 					<dl>
@@ -448,11 +474,11 @@ $ docker create<span class="fragment" data-fragment-index="6"> -i</span><span cl
 						<dt class="fragment" data-fragment-index="3">fedora</dt>
 							<dd class="fragment" data-fragment-index="3">Image to be instantiated</dd>
 						<dt class="fragment" data-fragment-index="4">bash</dt>
-							<dd class="fragment" data-fragment-index="4">Application to be run inside of the container</dd>
+							<dd class="fragment" data-fragment-index="4">Command to be run inside of the container</dd>
 					</dl>
 
 					<aside class="notes">
-						Application (last param) may be optional
+						Command (last param) may be optional
 					</aside>
 				</section>
 
@@ -466,7 +492,7 @@ $ docker ps
 					<pre class="fragment" data-fragment-index="4"><code data-trim data-noescape>
 $ docker ps<span class="fragment" data-fragment-index="5"> -a</span>
 <span class="fragment" data-fragment-index="6">CONTAINER ID  IMAGE   COMMAND  CREATED         STATUS   NAMES
-3c314776542a  fedora  "bash"   11 minutes ago  Created  my_fedora</span>
+3c314776542a  fedora  "bash"   11 minutes ago  Created  my-fedora</span>
 					</code></pre>
 					<dl>
 						<dt class="fragment" data-fragment-index="5">-a</dt>
@@ -478,7 +504,7 @@ $ docker ps<span class="fragment" data-fragment-index="5"> -a</span>
 					<h2>docker start</h2>
 					<p>Starts created container</p>
 					<pre><code data-trim data-noescape>
-$ docker start<span class="fragment" data-fragment-index="5"> -a</span><span class="fragment" data-fragment-index="4"> -i</span><span class="fragment" data-fragment-index="3"> my_fedora</span>
+$ docker start<span class="fragment" data-fragment-index="5"> -a</span><span class="fragment" data-fragment-index="4"> -i</span><span class="fragment" data-fragment-index="3"> my-fedora</span>
 <span class="fragment" data-fragment-index="6">[root@3c314776542a /]#</span>
 					</code></pre>
 					<dl>
@@ -486,7 +512,7 @@ $ docker start<span class="fragment" data-fragment-index="5"> -a</span><span cla
 							<dd class="fragment" data-fragment-index="5">Attach to the pseudo-TTY</dd>
 						<dt class="fragment" data-fragment-index="4">-i</dt>
 							<dd class="fragment" data-fragment-index="4">Interactive mode (keeps the STDIN open)</dd>
-						<dt class="fragment" data-fragment-index="3">my_fedora</dt>
+						<dt class="fragment" data-fragment-index="3">my-fedora</dt>
 							<dd class="fragment" data-fragment-index="3">Name of the container</dd>
 					</dl>
 				</section>
@@ -495,21 +521,21 @@ $ docker start<span class="fragment" data-fragment-index="5"> -a</span><span cla
 					<h2>docker rm</h2>
 					<p>Removes container</p>
 					<pre><code data-trim data-noescape>
-$ docker rm<span class="fragment" data-fragment-index="4"> -f</span><span class="fragment" data-fragment-index="3"> my_fedora</span>
+$ docker rm<span class="fragment" data-fragment-index="4"> -f</span><span class="fragment" data-fragment-index="3"> my-fedora</span>
 					</code></pre>
 					<dl>
 						<dt class="fragment" data-fragment-index="4">-f</dt>
 							<dd class="fragment" data-fragment-index="4">Removes container even if it's running</dd>
-						<dt class="fragment" data-fragment-index="3">my_fedora</dt>
+						<dt class="fragment" data-fragment-index="3">my-fedora</dt>
 							<dd class="fragment" data-fragment-index="3">Name of the container</dd>
 					</dl>
 				</section>
 
 				<section>
 					<h2>docker run</h2>
-					<p>docker create + docker start</p>
+					<p>docker pull + docker create + docker start</p>
 					<pre><code data-trim data-noescape>
-$ docker run<span class="fragment" data-fragment-index="6"> -it</span><span class="fragment" data-fragment-index="7"> --rm</span><span class="fragment" data-fragment-index="5"> --name my_fedora</span><span class="fragment" data-fragment-index="3"> pschiffe/docker101-fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
+$ docker run<span class="fragment" data-fragment-index="6"> -it</span><span class="fragment" data-fragment-index="7"> --rm</span><span class="fragment" data-fragment-index="5"> --name my-fedora</span><span class="fragment" data-fragment-index="3"> pschiffe/docker101-fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
 <span class="fragment" data-fragment-index="8">[root@35e75c60305c /]#</span>
 					</code></pre>
 					<dl>
@@ -591,9 +617,9 @@ $ hostname
 					<p>On the host:</p>
 					<pre><code data-trim data-noescape>
 <span class="fragment" data-fragment-index="3">$ ps axf | grep -v grep | grep -B 2 sleep
-13796 ?        Sl     0:48  \_ /usr/bin/docker daemon --selinux-enabled
- 4393 pts/1    Ss     0:00  |   \_ bash
-17171 pts/1    S+     0:00  |       \_ sleep 10000</span>
+13796 ?        Sl    0:48  \_ /usr/bin/docker daemon --selinux-enabled
+ 4393 pts/1    Ss    0:00  |   \_ bash
+17171 pts/1    S+    0:00  |       \_ sleep 10000</span>
 					</code></pre>
 
 					<dl class="fragment" data-fragment-index="4">
@@ -609,7 +635,7 @@ $ hostname
 				<section>
 					<h2>Let's look around IV</h2>
 					<pre><code data-trim data-noescape>
-$ docker run -it --rm --name my_fedora --memory 256m \
+$ docker run -it --rm --name my-fedora --memory 256m \
 pschiffe/docker101-fedora bash
 					</code></pre>
 					<p>In container:</p>
@@ -657,46 +683,207 @@ pschiffe/docker101-fedora bash
 					</aside>
 				</section>
 
-<!--
 				<section>
-					<h2>Future content</h2>
+					<h2>Containers in the background</h2>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+$ docker run<span class="fragment" data-fragment-index="4"> -d</span><span class="fragment" data-fragment-index="3"> --name my-nginx</span><span class="fragment" data-fragment-index="2"> nginx</span>
+<span class="fragment" data-fragment-index="5">226b6402c0ac9a2a3a49e2a6d52c9c5deac68bbf3fa0517e52c690556d1e556f</span>
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="4">-d</dt>
+							<dd class="fragment" data-fragment-index="4">Run the container in the background</dd>
+						<dt class="fragment" data-fragment-index="3">--name</dt>
+							<dd class="fragment" data-fragment-index="3">Name of the container. Good practice is to set one</dd>
+						<dt class="fragment" data-fragment-index="2">nginx</dt>
+							<dd class="fragment" data-fragment-index="2">Image to be instantiated</dd>
+					</dl>
+					<pre class="fragment" data-fragment-index="6"><code data-trim data-noescape>
+$ docker ps
+CONTAINER ID  IMAGE  COMMAND                 CREATED        STATUS        PORTS            NAMES
+226b6402c0ac  nginx  "nginx -g 'daemon off"  6 minutes ago  Up 6 minutes  80/tcp, 443/tcp  my-nginx
+<span class="fragment" data-fragment-index="7">$ docker inspect --format '{{ .NetworkSettings.IPAddress }}' my-nginx</span>
+<span class="fragment" data-fragment-index="8">172.17.0.2</span>
+<span class="fragment" data-fragment-index="9">$ curl 172.17.0.2</span>
+<span class="fragment" data-fragment-index="10">...&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;...</span>
+					</code></pre>
+
+					<aside class="notes">
+						Talk about command and ports, ports are not exposed yet.
+					</aside>
 				</section>
 
 				<section>
-					<h2>Interactive/daemon mode</h2>
-					<ul>
-						<li><code>--tty</code> allocates PTY for the container
-							<ul>
-								<li>or if you want see some colors</li>
-								<li>is meant for running interactive programs</li>
-							</ul>
-						</li>
-						<li><code>--interactive</code> lets you control your program</li>
-						<li>you can <code>attach</code> to a running container</li>
-						<li>running containers in daemon mode</li>
-					</ul>
+					<h2>Exposing ports</h2>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+						$ docker run -d<span class="fragment" data-fragment-index="2"> -P</span> --name my-nginx nginx
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="2">-P</dt>
+							<dd class="fragment" data-fragment-index="2">Publish all exposed ports to random ports on the host</dd>
+					</dl>
+					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
+$ docker port my-nginx
+<span class="fragment" data-fragment-index="4">443/tcp -> 0.0.0.0:32768
+80/tcp -> 0.0.0.0:32769</span>
+
+<span class="fragment" data-fragment-index="5">$ docker ps
+CONTAINER ID  IMAGE  COMMAND  CREATED        STATUS        PORTS                                          NAMES
+dd0802ce4333  nginx  "ngi.."  6 minutes ago  Up 6 minutes  0.0.0.0:32769->80/tcp, 0.0.0.0:32768->443/tcp  my-nginx</span>
+					</code></pre>
 				</section>
 
 				<section>
-					<h2>YOU SHALL NOT PASS</h2>
-					<p>Original slides are following, you can take some inspiration from them or copy/paste.<p>
+					<h2>Exposing ports II</h2>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+						$ docker run -d<span class="fragment" data-fragment-index="2"> -p 80:80</span> --name my-nginx nginx
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="2">-p</dt>
+							<dd class="fragment" data-fragment-index="2">Publish a container's port to the host; host:container</dd>
+					</dl>
+					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
+$ docker port my-nginx
+<span class="fragment" data-fragment-index="4">80/tcp -> 0.0.0.0:80</span>
+
+<span class="fragment" data-fragment-index="5">$ docker ps
+CONTAINER ID  IMAGE  COMMAND  CREATED        STATUS        PORTS                        NAMES
+f7b1be4c1c9c  nginx  "ngi.."  6 minutes ago  Up 6 minutes  0.0.0.0:80->80/tcp, 443/tcp  my-nginx</span>
+<span class="fragment" data-fragment-index="6">$ curl localhost</span>
+<span class="fragment" data-fragment-index="7">...&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;...</span>
+					</code></pre>
 				</section>
 
-				<section style="text-align: left;">
-					<h2>How to participate</h2>
-					<ul>
-						<li>Install guide on <a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a></li>
-						<li>For Linux, Mac and Windows</li>
-					</ul>
-					<div class="fragment">
-						<p><strong>Other than that:</strong></p>
+				<section>
+					<h2>Volumes</h2>
+					<pre><code data-trim data-noescape>
+$ docker run -d -p 80:80 \
+<span class="fragment" data-fragment-index="2">-v /var/tmp/nginx:/usr/share/nginx/html:ro,Z</span> --name my-nginx nginx
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="2">-v</dt>
+							<dd class="fragment" data-fragment-index="2">Create a bind mount</dd>
+					</dl>
+					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
+$ docker run -d -p 80:80 -v /var/tmp/nginx:/usr/share/nginx/html:ro \
+--privileged --name my-nginx nginx
+<span class="fragment" data-fragment-index="4">$ docker exec -it my-nginx bash</span>
+<span class="fragment" data-fragment-index="5">root@b4f844a75727:/#</span><span class="fragment" data-fragment-index="6"> echo hi > /usr/share/nginx/html/test
+bash: /usr/share/nginx/html/test: Read-only file system</span>
+<span class="fragment" data-fragment-index="7">root@b4f844a75727:/# mount /dev/dm-1 /mnt/</span>
+<span class="fragment" data-fragment-index="8">root@b4f844a75727:/# echo hi > /mnt/var/tmp/nginx/test</span>
+<span class="fragment" data-fragment-index="9">root@b4f844a75727:/# cat /usr/share/nginx/html/test
+hi</span>
+					</code></pre>
+					<pre class="fragment" data-fragment-index="10"><code data-trim data-noescape>
+$ docker run -d -p 80:80 -v /var/tmp/nginx:/usr/share/nginx/html:ro \
+--security-opt label:disable --name my-nginx nginx
+					</code></pre>
+
+					<aside class="notes">
 						<ul>
-							<li>Follow the instructions</li>
-							<li>When you have a question, just fire it</li>
-							<li>Enjoy yourself</li>
+							<li>-v has multiple formats</li>
+							<li>bind mount from host is not recommended</li>
+							<li>info about volumes in the image can be found in documentation or $ docker inspect [image]</li>
+							<li>content from the image is not copied</li>
 						</ul>
-					</div>
+					</aside>
 				</section>
+
+				<section>
+					<h2>Volumes II</h2>
+					<pre><code data-trim data-noescape>
+$ docker run -d -p 80:80 <span class="fragment">-v nginx-data:/usr/share/nginx/html:ro</span> \
+--name my-nginx nginx
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+$ docker create -v nginx-data:/nginx-html --name nginx-data-c nginx
+<span class="fragment">$ docker cp index.html nginx-data-c:nginx-html</span>
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+$ docker run -it --rm -v nginx-data:/nginx-html fedora bash
+<span class="fragment">[root@a8a678c6ce7b /]# ls /nginx-html/
+index.html</span>
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+$ docker volume ls
+<span class="fragment">DRIVER              VOLUME NAME
+local               nginx-data</span>
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+$ docker rm -fv my-nginx
+					</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li>w/o :ro content from the image will be copied</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Environment Variables</h2>
+					<pre><code data-trim data-noescape>
+$ docker run -d<span class="fragment" data-fragment-index="2"> -e MYSQL_ROOT_PASSWORD=my-secret-pw</span> \
+-v mysql-data:/var/lib/mysql --name my-mariadb mariadb
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="2">-e</dt>
+							<dd class="fragment" data-fragment-index="2">Set environment variable</dd>
+					</dl>
+				</section>
+
+				<section>
+					<h2>Linking containers</h2>
+					<pre><code data-trim data-noescape>
+$ docker run -d -p 80:80<span class="fragment" data-fragment-index="2"> --link my-mariadb:mysql</span> \
+--name my-wordpress wordpress
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="2">--link</dt>
+							<dd class="fragment" data-fragment-index="2">Add link to another container</dd>
+					</dl>
+					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
+$ docker exec -it my-wordpress bash
+<span class="fragment" data-fragment-index="4">root@4faf138ae856:/var/www/html# env | grep MYSQL | sort
+MYSQL_ENV_MARIADB_MAJOR=10.1
+MYSQL_ENV_MARIADB_VERSION=10.1.13+maria-1~jessie
+MYSQL_ENV_MYSQL_ROOT_PASSWORD=my-secret-pw
+MYSQL_NAME=/my-wordpress/mysql
+MYSQL_PORT=tcp://172.17.0.2:3306
+MYSQL_PORT_3306_TCP=tcp://172.17.0.2:3306
+MYSQL_PORT_3306_TCP_ADDR=172.17.0.2
+MYSQL_PORT_3306_TCP_PORT=3306
+MYSQL_PORT_3306_TCP_PROTO=tcp</span>
+<span class="fragment" data-fragment-index="5">root@4faf138ae856:/var/www/html# cat /etc/hosts
+172.17.0.3	4faf138ae856
+127.0.0.1	localhost
+...
+172.17.0.2	mysql 2a8d0a80938a my-mariadb</span>
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Other options and tips</h2>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+$ docker run -d -v mysql-data:/var/lib/mysql \
+-e MYSQL_ROOT_PASSWORD=my-secret --name my-mariadb \
+<span class="fragment" data-fragment-index="2">--restart always</span> mariadb
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="2">--restart</dt>
+							<dd class="fragment" data-fragment-index="2">Restart policy</dd>
+					</dl>
+				</section>
+
+				<section>
+					<h2>Thank you!</h2>
+					<a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a><br>
+					<a href="https://schiffer.typeform.com/to/lNHegp">schiffer.typeform.com/to/lNHegp</a>
+					<img src="img/qrcode.png" alt="qrcode"><br>
+					<small><a href="#/table-of-content">Table of Content</a></small>
+				</section>
+
+<!--
 
 				<section>
 					<section>
@@ -758,344 +945,6 @@ vagrant up
 vagrant ssh
 						</code></pre>
 					</section>
-				</section>
-
-				<section>
-					<h2>What is a container?</h2>
-					<p><span class="fragment">actually</span><span class="fragment">, there is no container</span></p>
-					<p class="fragment">but there are constrained applications*</p>
-					<p class="fragment"><small>*application = 1 or more running processes</small></p>
-
-					<aside class="notes">
-						<ul>
-							<li>Ask audience what is a container</li>
-							<li>Compare VM and container; show that there can be empty VM (without running application), but not an empty container</li>
-							<li>Container must have running application, otherwise it doesn't exist</li>
-						</ul>
-					</aside>
-				</section>
-
-				<section>
-					<h2>When we talk about containers</h2>
-					<p class="fragment">we talk about multiple Linux kernel features</p>
-					<p class="fragment">configured for one or set of processes</p>
-
-					<aside class="notes">
-						It's not even an environment, but like set of environments, not necessarily dependent on each other
-					</aside>
-				</section>
-
-				<section>
-					<h2>Docker</h2>
-					<p class="fragment">a platform<span class="fragment"> for running</span><span class="fragment">, shipping</span><span class="fragment"> (and building containers)</span></p>
-					<p class="fragment">Docker daemon manages containers on the host</p>
-
-					<aside class="notes">
-						Containers are old, but why the hype about Docker? Because of the complete platform
-					</aside>
-				</section>
-
-				<section style="text-align: left;">
-					<h2>Docker Image</h2>
-					<p><strong>An archive containing:</strong></p>
-					<ul>
-						<li class="fragment" data-fragment-index="1">Minimal OS for installing and running applications</li>
-						<li class="fragment" data-fragment-index="2">Application with all dependencies</li>
-					</ul>
-					<div class="fragment" data-fragment-index="3">
-						<p><strong>Image is uniquely identified by:</strong></p>
-						<ul>
-							<li class="fragment" data-fragment-index="4">Image registry</li>
-							<li class="fragment" data-fragment-index="5">Author</li>
-							<li class="fragment" data-fragment-index="6">Image name</li>
-							<li class="fragment" data-fragment-index="7">Image tag (version)</li>
-						</ul>
-						<pre><code data-trim data-noescape>
-							<span class="fragment" data-fragment-index="4">registry.access.redhat.com</span>/<span class="fragment" data-fragment-index="5">jboss-eap-6</span>/<span class="fragment" data-fragment-index="6">eap64-openshift</span>:<span class="fragment" data-fragment-index="7">1.2</span>
-						</code></pre>
-					</div>
-
-					<aside class="notes">
-						What can be omitted? What are the defaults?
-					</aside>
-				</section>
-
-				<section>
-					<h2>docker pull</h2>
-					<p class="fragment">Downloads and updates Docker images</p>
-					<pre class="fragment"><code data-trim data-noescape>
-						$ docker pull <span class="fragment">docker.io/</span>fedora<span class="fragment">:latest</span>
-					</code></pre>
-					<h2 class="fragment">docker images</h2>
-					<p class="fragment">Lists all Docker images on the host</p>
-					<pre class="fragment"><code data-trim data-noescape>
-						$ docker images
-<span class="fragment">REPOSITORY        TAG     IMAGE ID      CREATED      VIRTUAL SIZE
-docker.io/fedora  latest  0721f2b3cb16  4 weeks ago  206.3 MB</span>
-					</code></pre>
-					<h2 class="fragment">docker rmi</h2>
-					<p class="fragment">Remove Docker image from the host</p>
-					<pre class="fragment"><code data-trim data-noescape>
-						$ docker rmi fedora
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>docker create</h2>
-					<p class="fragment" data-fragment-index="1">Creates stopped container from the image</p>
-					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
-						$ docker create<span class="fragment" data-fragment-index="6"> -i</span><span class="fragment" data-fragment-index="7"> -t</span><span class="fragment" data-fragment-index="5"> --name my_fedora</span><span class="fragment" data-fragment-index="3"> fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
-<span class="fragment" data-fragment-index="8">3c314776542af5507fce81f3ee0a4318e06e617e58a250e4ddcf9b88736624a5</span>
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="6">-i</dt>
-							<dd class="fragment" data-fragment-index="6">Interactive mode (keeps the STDIN open)</dd>
-						<dt class="fragment" data-fragment-index="7">-t</dt>
-							<dd class="fragment" data-fragment-index="7">Allocates a pseudo-TTY</dd>
-						<dt class="fragment" data-fragment-index="5">--name</dt>
-							<dd class="fragment" data-fragment-index="5">Name of the container. Good practice is to set one</dd>
-						<dt class="fragment" data-fragment-index="3">fedora</dt>
-							<dd class="fragment" data-fragment-index="3">Image to be instantiated</dd>
-						<dt class="fragment" data-fragment-index="4">bash</dt>
-							<dd class="fragment" data-fragment-index="4">Application to be run inside of the container</dd>
-					</dl>
-
-					<aside class="notes">
-						Application (last param) may be optional
-					</aside>
-				</section>
-
-				<section>
-					<h2>docker ps</h2>
-					<p class="fragment" data-fragment-index="1">Display containers</p>
-					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
-						$ docker ps
-<span class="fragment" data-fragment-index="3">CONTAINER ID  IMAGE  COMMAND  CREATED  STATUS  PORTS  NAMES</span>
-					</code></pre>
-					<pre class="fragment" data-fragment-index="4"><code data-trim data-noescape>
-						$ docker ps<span class="fragment" data-fragment-index="5"> -a</span>
-<span class="fragment" data-fragment-index="6">CONTAINER ID  IMAGE   COMMAND  CREATED         STATUS   NAMES
-3c314776542a  fedora  "bash"   11 minutes ago  Created  my_fedora</span>
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="5">-a</dt>
-							<dd class="fragment" data-fragment-index="5">Show all containers. Only running are shown by default</dd>
-					</dl>
-				</section>
-
-				<section>
-					<h2>docker start</h2>
-					<p class="fragment" data-fragment-index="1">Starts created container</p>
-					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
-						$ docker start<span class="fragment" data-fragment-index="5"> -a</span><span class="fragment" data-fragment-index="4"> -i</span><span class="fragment" data-fragment-index="3"> my_fedora</span>
-<span class="fragment" data-fragment-index="6">[root@3c314776542a /]#</span>
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="5">-a</dt>
-							<dd class="fragment" data-fragment-index="5">Attach to the pseudo-TTY</dd>
-						<dt class="fragment" data-fragment-index="4">-i</dt>
-							<dd class="fragment" data-fragment-index="4">Interactive mode (keeps the STDIN open)</dd>
-						<dt class="fragment" data-fragment-index="3">my_fedora</dt>
-							<dd class="fragment" data-fragment-index="3">Name of the container</dd>
-					</dl>
-				</section>
-
-				<section>
-					<h2>docker rm</h2>
-					<p class="fragment" data-fragment-index="1">Removes container</p>
-					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
-						$ docker rm<span class="fragment" data-fragment-index="4"> -f</span><span class="fragment" data-fragment-index="3"> my_fedora</span>
-<span class="fragment" data-fragment-index="5">my_fedora</span>
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="4">-f</dt>
-							<dd class="fragment" data-fragment-index="4">Removes container even if it's running</dd>
-						<dt class="fragment" data-fragment-index="3">my_fedora</dt>
-							<dd class="fragment" data-fragment-index="3">Name of the container</dd>
-					</dl>
-				</section>
-
-				<section>
-					<h2>docker run</h2>
-					<p class="fragment" data-fragment-index="1">docker create + docker start</p>
-					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
-						$ docker run<span class="fragment" data-fragment-index="6"> -it</span><span class="fragment" data-fragment-index="7"> --rm</span><span class="fragment" data-fragment-index="5"> --name my_fedora</span><span class="fragment" data-fragment-index="3"> fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
-<span class="fragment" data-fragment-index="8">[root@7b222b35a6c7 /]#</span>
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="6">-it</dt>
-							<dd class="fragment" data-fragment-index="6">Interactive mode</dd>
-						<dt class="fragment" data-fragment-index="7">--rm</dt>
-							<dd class="fragment" data-fragment-index="7">Removes container when it stops</dd>
-						<dt class="fragment" data-fragment-index="5">--name</dt>
-							<dd class="fragment" data-fragment-index="5">Name of the container. Good practice is to set one</dd>
-						<dt class="fragment" data-fragment-index="3">fedora</dt>
-							<dd class="fragment" data-fragment-index="3">Image to be instantiated</dd>
-						<dt class="fragment" data-fragment-index="4">bash</dt>
-							<dd class="fragment" data-fragment-index="4">Application to be run inside of the container</dd>
-					</dl>
-				</section>
-
-				<section>
-					<h2>Let's look around</h2>
-					<p>In the container:</p>
-					<pre><code data-trim data-noescape>
-<span class="fragment" data-fragment-index="1"># dnf install procps-ng iproute hostname  # Bad practice!</span>
-<span class="fragment" data-fragment-index="2"># ps ax</span>
-<span class="fragment" data-fragment-index="3"># sleep 10000</span>
-<span class="fragment" data-fragment-index="5"># ip a</span>
-<span class="fragment" data-fragment-index="6"># hostname</span>
-					</code></pre>
-					<p>On the host:</p>
-					<pre><code data-trim data-noescape>
-<span class="fragment" data-fragment-index="4">$ ps axjf</span>
-<span class="fragment" data-fragment-index="6">$ hostname</span>
-					</code></pre>
-
-					<aside class="notes">
-						Namespaces
-					</aside>
-				</section>
-
-				<section>
-					<h2>Let's look around II</h2>
-					<pre><code data-trim data-noescape>
-						$ docker run -it --rm --name my_fedora --memory 256m fedora bash
-					</code></pre>
-					<p>In container:</p>
-					<pre><code data-trim data-noescape>
-<span class="fragment" data-fragment-index="1"># dnf install stress  # Bad practice!</span>
-<span class="fragment" data-fragment-index="2"># stress --vm 2 --vm-bytes 512M</span>
-					</code></pre>
-					<p>On the host:</p>
-					<pre><code data-trim data-noescape>
-<span class="fragment" data-fragment-index="3">$ systemd-cgtop</span>
-					</code></pre>
-
-					<aside class="notes">
-						Cgroups
-					</aside>
-				</section>
-
-				<section>
-					<h2>Container in the background</h2>
-					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-						$ docker run<span class="fragment" data-fragment-index="4"> -d</span><span class="fragment" data-fragment-index="3"> --name my_nginx</span><span class="fragment" data-fragment-index="2"> nginx</span>
-<span class="fragment" data-fragment-index="5">c44b0ce917e877615f4f0b36a7c0310f4fa4aaef9219b2e776af103abe92ac7b</span>
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="4">-d</dt>
-							<dd class="fragment" data-fragment-index="4">Run the container in the background</dd>
-						<dt class="fragment" data-fragment-index="3">--name</dt>
-							<dd class="fragment" data-fragment-index="3">Name of the container. Good practice is to set one</dd>
-						<dt class="fragment" data-fragment-index="2">nginx</dt>
-							<dd class="fragment" data-fragment-index="2">Image to be instantiated</dd>
-					</dl>
-					<pre class="fragment" data-fragment-index="6"><code data-trim data-noescape>
-						$ docker ps
-CONTAINER ID  IMAGE  COMMAND                 CREATED        STATUS        PORTS            NAMES
-c44b0ce917e8  nginx  "nginx -g 'daemon off"  6 minutes ago  Up 6 minutes  80/tcp, 443/tcp  my_nginx
-					</code></pre>
-
-					<aside class="notes">
-						Talk about command and ports, ports are not exposed yet.
-					</aside>
-				</section>
-
-				<section>
-					<h2>Exposing ports</h2>
-					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-						$ docker run -d<span class="fragment" data-fragment-index="2"> -P</span> --name my_nginx nginx
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="2">-P</dt>
-							<dd class="fragment" data-fragment-index="2">Publish all exposed ports to random ports on the host</dd>
-					</dl>
-					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
-$ docker port my_nginx
-<span class="fragment" data-fragment-index="4">443/tcp -> 0.0.0.0:32768
-80/tcp -> 0.0.0.0:32769</span>
-
-<span class="fragment" data-fragment-index="5">$ docker ps
-CONTAINER ID  IMAGE  COMMAND  CREATED        STATUS        PORTS                                          NAMES
-dd0802ce4333  nginx  "ngi.."  6 minutes ago  Up 6 minutes  0.0.0.0:32769->80/tcp, 0.0.0.0:32768->443/tcp  my_nginx</span>
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Exposing ports II</h2>
-					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-						$ docker run -d<span class="fragment" data-fragment-index="2"> -p 80:80</span> --name my_nginx nginx
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="2">-p</dt>
-							<dd class="fragment" data-fragment-index="2">Publish a container's port to the host</dd>
-					</dl>
-					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
-$ docker port my_nginx
-<span class="fragment" data-fragment-index="4">80/tcp -> 0.0.0.0:80</span>
-
-<span class="fragment" data-fragment-index="5">$ docker ps
-CONTAINER ID  IMAGE  COMMAND  CREATED        STATUS        PORTS                        NAMES
-f7b1be4c1c9c  nginx  "ngi.."  6 minutes ago  Up 6 minutes  0.0.0.0:80->80/tcp, 443/tcp  my_nginx</span>
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Volumes</h2>
-					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-$ docker run -d -p 80:80 \
-<span class="fragment" data-fragment-index="2">-v /tmp/nginx:/usr/share/nginx/html:ro,Z</span> \
---name my_nginx nginx
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="2">-v</dt>
-							<dd class="fragment" data-fragment-index="2">Bind mount a volume from the host to a container</dd>
-					</dl>
-					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
-						$ docker inspect my_nginx
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Environment Variables</h2>
-					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-$ docker run -d<span class="fragment" data-fragment-index="2"> -e MYSQL_ROOT_PASSWORD=my-secret-pw</span> \
---name my_mariadb mariadb
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="2">-e</dt>
-							<dd class="fragment" data-fragment-index="2">Set environment variable</dd>
-					</dl>
-				</section>
-
-				<section>
-					<h2>Linking containers</h2>
-					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-$ docker run -d -p 80:80<span class="fragment" data-fragment-index="2"> --link my_mariadb:mysql</span> \
---name my_wordpress wordpress
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="2">--link</dt>
-							<dd class="fragment" data-fragment-index="2">Add link to another container</dd>
-					</dl>
-				</section>
-
-				<section>
-					<h2>docker exec</h2>
-					<p class="fragment" data-fragment-index="1">Execute command inside running container</p>
-					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
-$ docker exec<span class="fragment" data-fragment-index="5"> -it</span><span class="fragment" data-fragment-index="3"> my_wordpress</span><span class="fragment" data-fragment-index="4"> bash</span>
-<span class="fragment" data-fragment-index="6">root@e3b575fc1707:/var/www/html#</span>
-					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="5">-it</dt>
-							<dd class="fragment" data-fragment-index="5">Interactive mode</dd>
-						<dt class="fragment" data-fragment-index="3">my_wordpress</dt>
-							<dd class="fragment" data-fragment-index="3">Container name</dd>
-						<dt class="fragment" data-fragment-index="4">bash</dt>
-							<dd class="fragment" data-fragment-index="4">Command to execute in the container</dd>
-					</dl>
 				</section>
 
 				<section>
@@ -1196,6 +1045,7 @@ Sum of entered numbers = 3
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
+		<script src="js/asciinema-player.js"></script>
 
 		<script>
 			// More info https://github.com/hakimel/reveal.js#configuration
@@ -1218,6 +1068,27 @@ Sum of entered numbers = 3
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
 			});
+		</script>
+
+		<script>
+			asciinema.player.js.CreatePlayer(
+				'containers-wo-docker-asciinema',
+				'asciinema/asciicast-43952.json',
+				{
+					width: 133,
+					height: 42,
+					poster: 'npt:1:35',
+				}
+			);
+			asciinema.player.js.CreatePlayer(
+				'docker-basics-asciinema',
+				'asciinema/asciicast-43937.json',
+				{
+					width: 111,
+					height: 28,
+					poster: 'npt:15',
+				}
+			);
 		</script>
 	</body>
 </html>

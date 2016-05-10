@@ -1,0 +1,970 @@
+{
+  "version": 1,
+  "width": 133,
+  "height": 42,
+  "duration": 144.625514,
+  "command": "/usr/bin/zsh",
+  "title": "",
+  "env": {
+    "TERM": "xterm-256color",
+    "SHELL": "/usr/bin/zsh"
+  },
+  "stdout": [
+    [
+      0.115587,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                    \r \r"
+    ],
+    [
+      0.059239,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u0007\u001b[36mttomecek \u001b[37mat \u001b[32mquahog\u001b[00m \u001b[34m~/t/redis-container\u001b[00m \u001b[K\u001b[91C  \u001b[93D"
+    ],
+    [
+      0.000109,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      0.145614,
+      "tmux attach -t 3"
+    ],
+    [
+      1.087099,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000100,
+      "\r\r\n"
+    ],
+    [
+      0.016355,
+      "\u001b[?1049h\u001b(B\u001b[m\u001b[?1l\u001b\u003e\u001b[H\u001b[2J\u001b[?12l\u001b[?25h\u001b[?1000l\u001b[?1006l\u001b[?1005l\u001b[c\u001b]112\u0007\u001b]0;3:1:zsh - \"quahog\"\u0007\u001b[?25l\u001b[1;1H\u001b[36mttomecek \u001b[37mat \u001b[32mquahog\u001b[39m \u001b[34m~/t/redis-container\u001b[39m                                                                                              \u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[38;5;136m\u001b[100m                                                          \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                                               \u001b[37m:: \u001b(B\u001b[m\u001b[42;1H\u001b[1;42r\u001b[H\u001b[39C\u001b[?12l\u001b[?25h\u001b[?1h\u001b="
+    ],
+    [
+      0.014005,
+      "\u001b[?25l\u001b[42;1H\u001b[38;5;136m\u001b[100m                                             \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                                \u001b[32m4.80GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.57\u001b[38;5;136m \u001b[32m0.53\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[1;40H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.997196,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.80GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.57\u001b[38;5;136m \u001b[32m0.53\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[1;40H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      4.455254,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.81GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.57\u001b[38;5;136m \u001b[32m0.53\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[1;40H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.001115,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.81GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.52\u001b[38;5;136m \u001b[32m0.52\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[1;40H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      3.012569,
+      "\u001b[1;41r\u001b[H\u001b[39Cp\u001b[1;42r\u001b[H\u001b[40C"
+    ],
+    [
+      0.135788,
+      "\u001b[1;41r\u001b[H\u001b[39Cpw\u001b[1;42r\u001b[H\u001b[41C"
+    ],
+    [
+      0.111787,
+      "\u001b[1;41r\u001b[H\u001b[41Cd\u001b[1;42r\u001b[H\u001b[42C"
+    ],
+    [
+      0.505174,
+      "\u001b[1;41r\u001b[H\r\n/home/ttomecek/tmp/redis-container\r\n\u001b[1m\u001b[3m%\u001b(B\u001b[m                                                                                                                                    \u001b[3;1H \u001b[1;42r\u001b[H\u001b[2B\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.056410,
+      "\u001b[1;41r\u001b[H\u001b[2B\u001b[K\r\n\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[3d\u001b[36mttomecek \u001b[37mat \u001b[32mquahog\u001b[39m \u001b[34m~/t/redis-container\u001b[39m \u001b[K\u001b[91C  \u0007\u001b[1;42r\u001b[H\u001b[3;40H"
+    ],
+    [
+      0.000023,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      0.382095,
+      "\u001b[1;41r\u001b[H\u001b[3;40Hl\u001b[1;42r\u001b[H\u001b[3;41H"
+    ],
+    [
+      0.136464,
+      "\u001b[1;41r\u001b[H\u001b[3;40Hll\u001b[1;42r\u001b[H\u001b[3;42H"
+    ],
+    [
+      0.056124,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000015,
+      "\r\n"
+    ],
+    [
+      0.002569,
+      "\u001b[?25l\u001b[H\u001b[36mttomecek \u001b[37mat \u001b[32mquahog\u001b[39m \u001b[34m~/t/redis-container\u001b[39m pwd                                                                                          \u001b[K\r\n/home/ttomecek/tmp/redis-container\u001b[K\r\n\u001b[36mttomecek \u001b[37mat \u001b[32mquahog\u001b[39m \u001b[34m~/t/redis-container\u001b[39m ll                                                                                           \u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\u001b[4d\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.003771,
+      "\u001b[1;41r\u001b[H\u001b[3Btotal 20K\u001b[1;42r\u001b[H\u001b[4B\u001b[1;41r\u001b[H\u001b[4Blrwxrwxrwx.   1 root root    7 Aug 16  2014 \u001b[35mbin\u001b[39m -\u003e \u001b[36musr/bin\r\n\u001b[39mdr-xr-xr-x.   1 root root    0 Aug 16  2014 \u001b[36mboot\r\n\u001b[39mdrwxr-xr-x.   1 root root    8 Apr 28 15:00 \u001b[36mdev"
+    ],
+    [
+      0.001579,
+      "\u001b[1;42r\u001b[H\u001b[7B\u001b(B\u001b[m\u001b[1;41r\u001b[H\u001b[7B-rw-r--r--.   1 root root   18 Apr 28 15:41 dump.rdb\r\ndrwxr-xr-x.   1 root root 1.8K Apr 28 15:26 \u001b[36metc\r\n\u001b[39mdrwxr-xr-x.   1 root root    0 Aug 16  2014 \u001b[36mhome\r\n\u001b[39mlrwxrwxrwx.   1 root root    7 Aug 16  2014 \u001b[35mlib\u001b[39m -\u003e \u001b[36musr/lib\r\n\u001b[39mlrwxrwxrwx.   1 root root    9 Aug 16  2014 \u001b[35mlib64\u001b[39m -\u003e \u001b[36musr/lib64\r\n\u001b[39mdrwxr-xr-x.   1 root root    0 Aug 16  2014 \u001b[36mmedia\r\n\u001b[39mdrwxr-xr-x.   1 root root    0 Aug 16  2014 \u001b[36mmnt\r\n\u001b[39mdrwxr-xr-x.   1 root root    0 Aug 16  2014 \u001b[36mopt\r\n\u001b[39mdr-xr-xr-x. 284 root root    0 Apr 28 15:40 \u001b[36mproc\r\n\u001b[39mdr-xr-x---.   1 root root   26 Apr 28 15:21 \u001b[36mroot\r\n\u001b[39mdrwxr-xr-x.   1 root root  126 Apr 28 15:27 \u001b[36mrun\r\n\u001b[39mlrwxrwxrwx.   1 root root    8 Aug 16  2014 \u001b[35msbin\u001b[39m -\u003e \u001b[36musr/sbin\r\n\u001b[39mdrwxr-xr-x.   1 root root    0 Aug 16  2014 \u001b[36msrv\r\n\u001b[39mdr-xr-xr-x.   1 root root    0 Aug 16  2014 \u001b[36msys\u001b[1;42r\u001b[H\u001b[22d\u001b(B\u001b[m"
+    ],
+    [
+      0.000024,
+      "\u001b[1;41r\u001b[H\u001b[22d-rw-r--r--.   1 root root    0 Apr 28 15:37 this-is-container\r\ndrwxrwxrwt.   1 root root   94 Apr 28 15:00 \u001b[30m\u001b[42mtmp\r\n\u001b[39m\u001b[49mdrwxr-xr-x.   1 root root  100 Apr 28 15:00 \u001b[36musr\r\n\u001b[39mdrwxr-xr-x.   1 root root  160 Apr 28 15:00 \u001b[36mvar\r\n\u001b[39m\u001b[1m\u001b[3m%\u001b(B\u001b[m                                                                                                                                    \u001b[26;1H \u001b[1;42r\u001b[H\u001b[26d"
+    ],
+    [
+      0.073201,
+      "\u001b[1;41r\u001b[H\u001b[26d\u001b[K\r\n\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[15A\u001b[36mttomecek \u001b[37mat \u001b[32mquahog\u001b[39m \u001b[34m~/t/redis-container\u001b[39m \u0007\u001b[1;42r\u001b[H\u001b[26;40H\u001b[K\u001b[1;41r\u001b[H\u001b[26;131H  \u001b[1;42r\u001b[H\u001b[26;40H\u001b[?1h\u001b="
+    ],
+    [
+      4.527991,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.80GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.52\u001b[38;5;136m \u001b[32m0.52\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[26;40H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.002109,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.80GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.56\u001b[38;5;136m \u001b[32m0.53\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[26;40H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      2.308940,
+      "\u001b[1;41r\u001b[H\u001b[27dbck-i-search: _\u001b[K\u001b[1;42r\u001b[H\u001b[26;40H"
+    ],
+    [
+      0.279233,
+      "\u001b[1;41r\u001b[H\u001b[26;40Hpw\u001b[4md\u001b[27;15H\u001b(B\u001b[md_\u001b[1;42r\u001b[H\u001b[26;42H"
+    ],
+    [
+      0.136152,
+      "\u001b[1;41r\u001b[H\u001b[26;40Hsudo \u001b[4mdn\u001b(B\u001b[mf --releasever=22 --installroot $PWD install procps-ng redis\u001b[27;16Hn_\u001b[1;42r\u001b[H\u001b[26;45H"
+    ],
+    [
+      0.263868,
+      "\u001b[1;41r\u001b[H\u001b[26;46H\u001b[4mnf\u001b[27;17H\u001b(B\u001b[mf_\u001b[1;42r\u001b[H\u001b[26;45H"
+    ],
+    [
+      1.233105,
+      "\u001b[1;41r\u001b[H\u001b[26;45Hdnf\r\n\u001b[K\u001b[1;42r\u001b[H\u001b[26;45H"
+    ],
+    [
+      0.000072,
+      "\r\n\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.057304,
+      "\u001b]0;3:1:sudo - \"quahog\"\u0007\u001b[?25l\u001b[42d\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m sudo \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.80GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.56\u001b[38;5;136m \u001b[32m0.53\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[27;1H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.633821,
+      "\u001b[1;41r\u001b[H\u001b[27dLast metadata expiration check performed 0:44:20 ago on Thu Apr 28 14:59:55 2016.\u001b[1;42r\u001b[H\u001b[28d"
+    ],
+    [
+      0.084147,
+      "\u001b[1;41r\u001b[H\u001b[28dPackage procps-ng-3.3.10-8.fc22.x86_64 is already installed, skipping.\u001b[1;42r\u001b[H\u001b[29d"
+    ],
+    [
+      0.003705,
+      "\u001b[1;41r\u001b[H\u001b[29dPackage redis-2.8.23-1.fc22.x86_64 is already installed, skipping.\u001b[1;42r\u001b[H\u001b[30d"
+    ],
+    [
+      0.007384,
+      "\u001b[1;41r\u001b[H\u001b[30dDependencies resolved.\u001b[1;42r\u001b[H\u001b[31d"
+    ],
+    [
+      0.534598,
+      "\u001b[1;41r\u001b[H\u001b[31dNothing to do.\u001b[1;42r\u001b[H\u001b[32d"
+    ],
+    [
+      0.022589,
+      "\u001b[1;41r\u001b[H\u001b[32dComplete!\u001b[1;42r\u001b[H\u001b[33d"
+    ],
+    [
+      0.023095,
+      "\u001b[1;41r\u001b[H\u001b[33d\u001b[1m\u001b[3m%\u001b(B\u001b[m                                                                                                                                    \u001b[33;1H \u001b[1;42r\u001b[H\u001b[33d"
+    ],
+    [
+      0.045843,
+      "\u001b[1;41r\u001b[H\u001b[33d\u001b[K\r\n\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[8A\u001b[36mttomecek \u001b[37mat \u001b[32mquahog\u001b[39m \u001b[34m~/t/redis-container\u001b[39m \u001b[K\u001b[91C  \u0007\u001b[1;42r\u001b[H\u001b[33;40H\u001b[?1h\u001b="
+    ],
+    [
+      0.147001,
+      "\u001b]0;3:1:zsh - \"quahog\"\u0007\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.80GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.56\u001b[38;5;136m \u001b[32m0.53\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[33;40H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      4.220971,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.79GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.56\u001b[38;5;136m \u001b[32m0.53\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[33;40H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.000770,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.79GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.64\u001b[38;5;136m \u001b[32m0.55\u001b[38;5;136m \u001b[32m0.64\u001b(B\u001b[m\u001b[33;40H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      1.538623,
+      "\u001b[1;41r\u001b[H\u001b[K\r\n\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[H\u001b[K\r\n\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[H\u001b[36mttomecek \u001b[37mat \u001b[32mquahog\u001b[39m \u001b[34m~/t/redis-container\u001b[39m \u001b[K\u001b[91C  \u0007\u001b[1;42r\u001b[H\u001b[39C"
+    ],
+    [
+      4.465777,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.77GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.64\u001b[38;5;136m \u001b[32m0.55\u001b[38;5;136m \u001b[32m0.64\u001b(B\u001b[m\u001b[1;40H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.003471,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.77GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.61\u001b[38;5;136m \u001b[32m0.54\u001b[38;5;136m \u001b[32m0.64\u001b(B\u001b[m\u001b[1;40H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      1.458194,
+      "\u001b[1;41r\u001b[H\r\nbck-i-search: _\u001b[K\u001b[1;42r\u001b[H\u001b[39C"
+    ],
+    [
+      0.912584,
+      "\u001b[1;41r\u001b[H\u001b[39Cs\u001b[4mu\u001b(B\u001b[mdo dnf --releasever=22 --installroot $PWD install procps-ng redis\u001b[2;15Hu_\u001b[1;42r\u001b[H\u001b[40C"
+    ],
+    [
+      0.143102,
+      "\u001b[1;41r\u001b[H\u001b[39Csu\u001b[3C\u001b[4mun\u001b(B\u001b[mshare --fork --pid /bin/bash --noprofile --norc             \u001b[2;16Hn_\u001b[1;42r\u001b[H\u001b[44C"
+    ],
+    [
+      0.103723,
+      "\u001b[1;41r\u001b[H\u001b[45C\u001b[4mns\u001b[2;17H\u001b(B\u001b[ms_\u001b[1;42r\u001b[H\u001b[44C"
+    ],
+    [
+      0.120045,
+      "\u001b[1;41r\u001b[H\u001b[46C\u001b[4msh\u001b[2;18H\u001b(B\u001b[mh_\u001b[1;42r\u001b[H\u001b[44C"
+    ],
+    [
+      0.104620,
+      "\u001b[1;41r\u001b[H\u001b[47C\u001b[4mha\u001b[2;19H\u001b(B\u001b[ma_\u001b[1;42r\u001b[H\u001b[44C"
+    ],
+    [
+      0.255753,
+      "\u001b[1;41r\u001b[H\u001b[48C\u001b[4mar\u001b[2;20H\u001b(B\u001b[mr_\u001b[1;42r\u001b[H\u001b[44C"
+    ],
+    [
+      0.080606,
+      "\u001b[1;41r\u001b[H\u001b[49C\u001b[4mre\u001b[2;21H\u001b(B\u001b[me_\u001b[1;42r\u001b[H\u001b[44C"
+    ],
+    [
+      2.828237,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.77GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.64\u001b[38;5;136m \u001b[32m0.55\u001b[38;5;136m \u001b[32m0.64\u001b(B\u001b[m\u001b[1;45H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      2.171923,
+      "\u001b[1;41r\u001b[H\u001b[44Cunshare\r\n\u001b[K\u001b[1;42r\u001b[H\u001b[44C\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000024,
+      "\r\n"
+    ],
+    [
+      0.024584,
+      "\u001b[1;41r\u001b[H\r\nbash-4.3# \u001b[1;42r\u001b[H\u001b[2;11H"
+    ],
+    [
+      0.101013,
+      "\u001b]0;3:1:bash - \"quahog\"\u0007\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m bash \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.77GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.64\u001b[38;5;136m \u001b[32m0.55\u001b[38;5;136m \u001b[32m0.64\u001b(B\u001b[m\u001b[2;11H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      4.706559,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m bash \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.77GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.59\u001b[38;5;136m \u001b[32m0.54\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[2;11H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      2.558694,
+      "\r\u001b[12@\u001b[1;41r\u001b[H\r\n(reverse-i-search)`':\u001b[1;42r\u001b[H\u001b[2;23H"
+    ],
+    [
+      0.264142,
+      "\u001b[1;41r\u001b[H\u001b[2;20Hc': chroot . /bin/bash\u001b[1;42r\u001b[H\u001b[2;24H"
+    ],
+    [
+      0.171724,
+      "\u001b[3D\u001b[1@\u001b[1;41r\u001b[H\u001b[2;21Hh\u001b[1;42r\u001b[H\u001b[2;25H"
+    ],
+    [
+      0.108455,
+      "\u001b[3D\u001b[1@\u001b[1;41r\u001b[H\u001b[2;22Hr\u001b[1;42r\u001b[H\u001b[2;26H"
+    ],
+    [
+      0.192678,
+      "\u001b[3D\u001b[1@\u001b[1;41r\u001b[H\u001b[2;23Ho\u001b[1;42r\u001b[H\u001b[2;27H"
+    ],
+    [
+      0.127212,
+      "\u001b[3D\u001b[1@\u001b[1;41r\u001b[H\u001b[2;24Ho\u001b[1;42r\u001b[H\u001b[2;28H"
+    ],
+    [
+      1.200564,
+      "\r\u001b[17P\u001b[1;41r\u001b[H\r\nbash-4.3#\u001b[1;42r\u001b[H\u001b[2B"
+    ],
+    [
+      0.001434,
+      "\u001b[1;41r\u001b[H\u001b[2Bbash-4.3# \u001b[1;42r\u001b[H\u001b[3;11H"
+    ],
+    [
+      1.374444,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m bash \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.78GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.59\u001b[38;5;136m \u001b[32m0.54\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[3;11H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.001336,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m bash \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.78GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.54\u001b[38;5;136m \u001b[32m0.53\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[3;11H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      2.854315,
+      "\r\u001b[12@\u001b[1;41r\u001b[H\u001b[2B(reverse-i-search)`':\u001b[1;42r\u001b[H\u001b[3;23H"
+    ],
+    [
+      0.240199,
+      "\u001b[3D\u001b[14@\u001b[1;41r\u001b[H\u001b[3;20Hs': redis-server\u001b[1;42r\u001b[H\u001b[3;30H"
+    ],
+    [
+      0.103975,
+      "\u001b[9D\u001b[13@\u001b[1;41r\u001b[H\u001b[3;21Ho': source /etc/skel/.bashrc\u001b[1;42r\u001b[H\u001b[3;25H"
+    ],
+    [
+      0.119843,
+      "\u001b[3D\u001b[1@\u001b[1;41r\u001b[H\u001b[3;22Hu\u001b[1;42r\u001b[H\u001b[3;26H"
+    ],
+    [
+      0.112064,
+      "\u001b[3D\u001b[1@\u001b[1;41r\u001b[H\u001b[3;23Hr\u001b[1;42r\u001b[H\u001b[3;27H"
+    ],
+    [
+      0.695998,
+      "\r\u001b[16P\u001b[1;41r\u001b[H\u001b[2Bbash-4.3#\u001b[1;42r\u001b[H\u001b[3B"
+    ],
+    [
+      0.026101,
+      "\u001b[1;41r\u001b[H\u001b[3B[root@quahog /]# \u001b[1;42r\u001b[H\u001b[4;18H"
+    ],
+    [
+      6.325695,
+      "\u001b[1;41r\u001b[H\u001b[4;18Hp\u001b[1;42r\u001b[H\u001b[4;19H"
+    ],
+    [
+      0.055633,
+      "\u001b[1;41r\u001b[H\u001b[4;19Hs\u001b[1;42r\u001b[H\u001b[4;20H"
+    ],
+    [
+      0.536733,
+      "\u001b[1;41r\u001b[H\u001b[4;20H \u001b[1;42r\u001b[H\u001b[4;21H"
+    ],
+    [
+      0.095899,
+      "\u001b[1;41r\u001b[H\u001b[4;21Ha\u001b[1;42r\u001b[H\u001b[4;22H"
+    ],
+    [
+      0.231753,
+      "\u001b[1;41r\u001b[H\u001b[4;22Hu\u001b[1;42r\u001b[H\u001b[4;23H"
+    ],
+    [
+      0.079857,
+      "\u001b[1;41r\u001b[H\u001b[4;23Hx\u001b[1;42r\u001b[H\u001b[4;24H"
+    ],
+    [
+      0.539002,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m bash \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.78GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.58\u001b[38;5;136m \u001b[32m0.54\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[4;24H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.213663,
+      "\r\n"
+    ],
+    [
+      0.002714,
+      "\u001b[1;41r\u001b[H\u001b[4BError, do this: mount -t proc proc /proc\u001b[1;42r\u001b[H\u001b[5B"
+    ],
+    [
+      0.000674,
+      "\u001b[1;41r\u001b[H\u001b[5B[root@quahog /]# \u001b[1;42r\u001b[H\u001b[6;18H"
+    ],
+    [
+      5.784009,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m bash \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.78GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.53\u001b[38;5;136m \u001b[32m0.53\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[6;18H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.276110,
+      "\u001b[1;41r\u001b[H\u001b[6;18H mount -t proc proc /proc\u001b[1;42r\u001b[H\u001b[6;43H"
+    ],
+    [
+      0.232013,
+      "\u001b[18G"
+    ],
+    [
+      0.255853,
+      "\u001b[1P"
+    ],
+    [
+      4.632014,
+      "\r\n"
+    ],
+    [
+      0.001934,
+      "\u001b[1;41r\u001b[H\u001b[6B[root@quahog /]# \u001b[1;42r\u001b[H\u001b[7;18H"
+    ],
+    [
+      0.602861,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m bash \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.80GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.53\u001b[38;5;136m \u001b[32m0.53\u001b[38;5;136m \u001b[32m0.63\u001b(B\u001b[m\u001b[7;18H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.000873,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m bash \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.80GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.49\u001b[38;5;136m \u001b[32m0.52\u001b[38;5;136m \u001b[32m0.62\u001b(B\u001b[m\u001b[7;18H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      1.010707,
+      "\u001b[1;41r\u001b[H\u001b[7;18Hp\u001b[1;42r\u001b[H\u001b[7;19H"
+    ],
+    [
+      0.071618,
+      "\u001b[1;41r\u001b[H\u001b[7;19Hs\u001b[1;42r\u001b[H\u001b[7;20H"
+    ],
+    [
+      0.119932,
+      "\u001b[1;41r\u001b[H\u001b[7;20H \u001b[1;42r\u001b[H\u001b[7;21H"
+    ],
+    [
+      0.120406,
+      "\u001b[1;41r\u001b[H\u001b[7;21Ha\u001b[1;42r\u001b[H\u001b[7;22H"
+    ],
+    [
+      0.143340,
+      "\u001b[1;41r\u001b[H\u001b[7;22Hu\u001b[1;42r\u001b[H\u001b[7;23H"
+    ],
+    [
+      0.112097,
+      "\u001b[1;41r\u001b[H\u001b[7;23Hx\u001b[1;42r\u001b[H\u001b[7;24H"
+    ],
+    [
+      2.935967,
+      "\r\n"
+    ],
+    [
+      0.002440,
+      "\u001b[1;41r\u001b[H\u001b[7BUSER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\u001b[1;42r\u001b[H\u001b[8B\u001b[1;41r\u001b[H\u001b[8Broot         1  0.0  0.0 118568  3408 ?        S    13:44   0:00 /bin/bash --noprofile --norc\u001b[1;42r\u001b[H\u001b[9B"
+    ],
+    [
+      0.000094,
+      "\u001b[1;41r\u001b[H\u001b[9Broot         2  0.0  0.0 118576  3728 ?        S    13:44   0:00 /bin/bash\u001b[1;42r\u001b[H\u001b[10B"
+    ],
+    [
+      0.000099,
+      "\u001b[1;41r\u001b[H\u001b[10Broot        15  0.0  0.0 154696  4036 ?        R+   13:45   0:00 ps aux\u001b[1;42r\u001b[H\u001b[11B"
+    ],
+    [
+      0.000781,
+      "\u001b[1;41r\u001b[H\u001b[11B[root@quahog /]# \u001b[1;42r\u001b[H\u001b[12;18H"
+    ],
+    [
+      1.485339,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m bash \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.80GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.45\u001b[38;5;136m \u001b[32m0.51\u001b[38;5;136m \u001b[32m0.62\u001b(B\u001b[m\u001b[12;18H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      6.005737,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m bash \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.80GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.38\u001b[38;5;136m \u001b[32m0.50\u001b[38;5;136m \u001b[32m0.61\u001b(B\u001b[m\u001b[12;18H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      4.154395,
+      "\u001b[1;41r\u001b[H\u001b[12;18Hr\u001b[1;42r\u001b[H\u001b[12;19H"
+    ],
+    [
+      0.079338,
+      "\u001b[1;41r\u001b[H\u001b[12;19He\u001b[1;42r\u001b[H\u001b[12;20H"
+    ],
+    [
+      0.271860,
+      "\u001b[1;41r\u001b[H\u001b[12;20Hd\u001b[1;42r\u001b[H\u001b[12;21H"
+    ],
+    [
+      1.031820,
+      "\u001b[1;41r\u001b[H\u001b[12;21Hi\u001b[1;42r\u001b[H\u001b[12;22H"
+    ],
+    [
+      0.056273,
+      "\u001b[1;41r\u001b[H\u001b[12;22Hs\u001b[1;42r\u001b[H\u001b[12;23H"
+    ],
+    [
+      0.257199,
+      "\u001b[1;41r\u001b[H\u001b[12;23H-\u0007\u001b[1;42r\u001b[H\u001b[12;24H"
+    ],
+    [
+      0.686480,
+      "\u001b[1;41r\u001b[H\u001b[12;24Hs\u001b[1;42r\u001b[H\u001b[12;25H"
+    ],
+    [
+      0.096220,
+      "\u001b[1;41r\u001b[H\u001b[12;25He\u001b[1;42r\u001b[H\u001b[12;26H"
+    ],
+    [
+      0.224484,
+      "\u001b[1;41r\u001b[H\u001b[12;26Hr\u001b[1;42r\u001b[H\u001b[12;27H"
+    ],
+    [
+      0.257111,
+      "\u001b[1;41r\u001b[H\u001b[12;27Hver \u001b[1;42r\u001b[H\u001b[12;31H"
+    ],
+    [
+      0.503544,
+      "\r\n"
+    ],
+    [
+      0.000948,
+      "\u001b[1;41r\u001b[H\u001b[12B[16] 28 Apr 13:45:29.871 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf\u001b[1;42r\u001b[H\u001b[14B"
+    ],
+    [
+      0.001259,
+      "\u001b[1;41r\u001b[H\u001b[14B[16] 28 Apr 13:45:29.872 * Increased maximum number of open files to 10032 (it was originally set to 1024).\u001b[1;42r\u001b[H\u001b[15B"
+    ],
+    [
+      0.001437,
+      "\u001b[1;41r\u001b[H\u001b[15B                _._                                                  \r\n           _.-``__ ''-._                                             \r\n      _.-``    `.  `_.  ''-._           Redis 2.8.23 (00000000/0) 64 bit\r\n  .-`` .-```.  ```\\/    _.,_ ''-._                                   \r\n (    '      ,       .-`  | `,    )     Running in stand alone mode\r\n |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379\r\n |    `-._   `._    /     _.-'    |     PID: 16\r\n  `-._    `-._  `-./  _.-'    _.-'                                   \r\n |`-._`-._    `-.__.-'    _.-'_.-'|                                  \r\n |    `-._`-._        _.-'_.-'    |           http://redis.io        \r\n  `-._    `-._`-.__.-'_.-'    _.-'                                   \r\n |`-._`-._    `-.__.-'    _.-'_.-'|                                  \r\n |    `-._`-._        _.-'_.-'    |                                  \r\n  `-._    `-._`-.__.-'_.-'    _.-'                                   \r\n      `-._    `-.__.-'    _.-'                                       \r\n          `-._\u001b[1;42r\u001b[H\u001b[31;15H"
+    ],
+    [
+      0.000715,
+      "\u001b[1;41r\u001b[H\u001b[31;15H        _.-'                                           \r\n              `-.__.-'                                               \u001b[34;1H[16] 28 Apr 13:45:29.873 # Server started, Redis version 2.8.23\r\n[16] 28 Apr 13:45:29.873 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.\r\n[16] 28 Apr 13:45:29.873 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.\r\n[16] 28 Apr 13:45:29.873 * DB loaded from disk: 0.000 seconds\r\n[16] 28 Apr 13:45:29.873 * The server is now ready to accept connections on port 6379\r\n\u001b[1;42r\u001b[H\u001b[41d"
+    ],
+    [
+      0.244443,
+      "\u001b]0;3:1:redis-server - \"quahog\"\u0007\u001b[?25l\r\n\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                 \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m redis-server \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                   \u001b[32m4.80GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.38\u001b[38;5;136m \u001b[32m0.50\u001b[38;5;136m \u001b[32m0.61\u001b(B\u001b[m\u001b[41;1H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      3.164622,
+      "\u001b[38;5;240m\u001b[20A───────────────────────────────────────────────────────────────────\u001b[38;5;166m──────────────────────────────────────────────────────────────────\u001b[?25l\u001b[1;1H\u001b(B\u001b[m  `-._    `-._  `-./  _.-'    _.-'                                   \u001b[K\r\n |`-._`-._    `-.__.-'    _.-'_.-'|                                  \u001b[K\r\n |    `-._`-._        _.-'_.-'    |           http://redis.io        \u001b[K\r\n  `-._    `-._`-.__.-'_.-'    _.-'                                   \u001b[K\r\n |`-._`-._    `-.__.-'    _.-'_.-'|                                  \u001b[K\r\n |    `-._`-._        _.-'_.-'    |                                  \u001b[K\r\n  `-._    `-._`-.__.-'_.-'    _.-'                                   \u001b[K\r\n      `-._    `-.__.-'    _.-'                                       \u001b[K\r\n          `-._        _.-'                                           \u001b[K\r\n              `-.__.-'                                               \u001b[K\r\n\u001b[K\r\n[16] 28 Apr 13:45:29.873 # Server started, Redis version 2.8.23\u001b[K\r\n[16] 28 Apr 13:45:29.873 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.\u001b[K\r\n[16] 28 Apr 13:45:29.873 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.\u001b[K\r\n[16] 28 Apr 13:45:29.873 * DB loaded from disk: 0.000 seconds\u001b[K\r\n[16] 28 Apr 13:45:29.873 * The server is now ready to accept connections on port 6379\u001b[K\r\n\u001b[K\u001b[2B\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[K\r\n\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                 \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m redis-server \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                   \u001b[32m4.80GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.38\u001b[38;5;136m \u001b[32m0.50\u001b[38;5;136m \u001b[32m0.61\u001b(B\u001b[m\u001b[22;1H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.106484,
+      "\u001b[22;41r\u001b[H\u001b[22d\u001b[1m\u001b[3m%\u001b(B\u001b[m                                                                                                                                    \u001b[22;1H \u001b[1;42r\u001b[H\u001b[22d"
+    ],
+    [
+      0.055959,
+      "\u001b[22;41r\u001b[H\u001b[22d\u001b[K\r\n\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[22d\u001b[36mttomecek \u001b[37mat \u001b[32mquahog\u001b[39m \u001b[34m/\u001b[39m \u001b[K\u001b[109C  \u0007\u001b[1;42r\u001b[H\u001b[22;22H"
+    ],
+    [
+      0.000025,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      0.178409,
+      "\u001b]0;3:1:zsh - \"quahog\"\u0007\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.80GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.38\u001b[38;5;136m \u001b[32m0.50\u001b[38;5;136m \u001b[32m0.61\u001b(B\u001b[m\u001b[22;22H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      3.236477,
+      "\u001b[22;41r\u001b[H\u001b[22;22Hn\u001b[1;42r\u001b[H\u001b[22;23H"
+    ],
+    [
+      0.103945,
+      "\u001b[22;41r\u001b[H\u001b[22;22Hnc\u001b[1;42r\u001b[H\u001b[22;24H"
+    ],
+    [
+      0.079963,
+      "\u001b[22;41r\u001b[H\u001b[22;24Ha\u001b[1;42r\u001b[H\u001b[22;25H"
+    ],
+    [
+      0.224555,
+      "\u001b[22;41r\u001b[H\u001b[22;25Ht\u001b[1m \u001b[1;42r\u001b[H\u001b[22;27H\u001b(B\u001b[m"
+    ],
+    [
+      0.997540,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.81GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.38\u001b[38;5;136m \u001b[32m0.50\u001b[38;5;136m \u001b[32m0.61\u001b(B\u001b[m\u001b[22;27H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.001400,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.81GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.30\u001b[38;5;136m \u001b[32m0.47\u001b[38;5;136m \u001b[32m0.60\u001b(B\u001b[m\u001b[22;27H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      1.176823,
+      "\u001b[22;41r\u001b[H\u001b[22;26H l\u001b[1;42r\u001b[H\u001b[22;28H"
+    ],
+    [
+      0.167752,
+      "\u001b[22;41r\u001b[H\u001b[22;28Ho\u001b[1;42r\u001b[H\u001b[22;29H"
+    ],
+    [
+      0.104051,
+      "\u001b[22;41r\u001b[H\u001b[22;29Hc\u001b[1;42r\u001b[H\u001b[22;30H"
+    ],
+    [
+      0.039899,
+      "\u001b[22;41r\u001b[H\u001b[22;30Ha\u001b[1;42r\u001b[H\u001b[22;31H"
+    ],
+    [
+      0.040140,
+      "\u001b[22;41r\u001b[H\u001b[22;31Hl\u001b[1;42r\u001b[H\u001b[22;32H"
+    ],
+    [
+      0.280203,
+      "\u001b[22;41r\u001b[H\u001b[22;32Hh\u001b[1;42r\u001b[H\u001b[22;33H"
+    ],
+    [
+      0.007820,
+      "\u001b[22;41r\u001b[H\u001b[22;33Hj\u001b[1;42r\u001b[H\u001b[22;34H"
+    ],
+    [
+      0.032084,
+      "\u001b[22;41r\u001b[H\u001b[22;34Ho\u001b[1;42r\u001b[H\u001b[22;35H"
+    ],
+    [
+      0.152393,
+      "\u001b[22;41r\u001b[H\u001b[22;35Hs\u001b[1;42r\u001b[H\u001b[22;36H"
+    ],
+    [
+      0.231891,
+      "\u001b[22;41r\u001b[H\u001b[22;35H \u001b[1;42r\u001b[H\u001b[22;35H"
+    ],
+    [
+      0.127655,
+      "\u001b[22;41r\u001b[H\u001b[22;34H \u001b[1;42r\u001b[H\u001b[22;34H"
+    ],
+    [
+      0.127993,
+      "\u001b[22;41r\u001b[H\u001b[22;33H \u001b[1;42r\u001b[H\u001b[22;33H"
+    ],
+    [
+      0.104610,
+      "\u001b[22;41r\u001b[H\u001b[22;32H \u001b[1;42r\u001b[H\u001b[22;32H"
+    ],
+    [
+      0.903266,
+      "\u001b[22;41r\u001b[H\u001b[22;32Hh\u001b[1;42r\u001b[H\u001b[22;33H"
+    ],
+    [
+      0.079976,
+      "\u001b[22;41r\u001b[H\u001b[22;33Ho\u001b[1;42r\u001b[H\u001b[22;34H"
+    ],
+    [
+      0.040041,
+      "\u001b[22;41r\u001b[H\u001b[22;34Hs\u001b[1;42r\u001b[H\u001b[22;35H"
+    ],
+    [
+      0.055856,
+      "\u001b[22;41r\u001b[H\u001b[22;35Ht\u001b[1;42r\u001b[H\u001b[22;36H"
+    ],
+    [
+      0.208174,
+      "\u001b[22;41r\u001b[H\u001b[22;36H \u001b[1;42r\u001b[H\u001b[22;37H"
+    ],
+    [
+      0.751854,
+      "\u001b[22;41r\u001b[H\u001b[22;37H6\u001b[1;42r\u001b[H\u001b[22;38H"
+    ],
+    [
+      0.184185,
+      "\u001b[22;41r\u001b[H\u001b[22;38H3\u001b[1;42r\u001b[H\u001b[22;39H"
+    ],
+    [
+      0.312339,
+      "\u001b[22;41r\u001b[H\u001b[22;39H7\u001b[1;42r\u001b[H\u001b[22;40H"
+    ],
+    [
+      0.064372,
+      "\u001b[22;41r\u001b[H\u001b[22;40H9\u001b[1;42r\u001b[H\u001b[22;41H"
+    ],
+    [
+      0.808572,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.81GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.27\u001b[38;5;136m \u001b[32m0.47\u001b[38;5;136m \u001b[32m0.60\u001b(B\u001b[m\u001b[22;41H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      2.758591,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000088,
+      "\r\n"
+    ],
+    [
+      0.118736,
+      "\u001b]0;3:1:ncat - \"quahog\"\u0007\u001b[?25l\u001b[42d\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m ncat \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.81GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.27\u001b[38;5;136m \u001b[32m0.47\u001b[38;5;136m \u001b[32m0.60\u001b(B\u001b[m\u001b[23;1H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      5.127865,
+      "\u001b[?25l\u001b[42d\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m ncat \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.85GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.27\u001b[38;5;136m \u001b[32m0.47\u001b[38;5;136m \u001b[32m0.60\u001b(B\u001b[m\u001b[23;1H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.000857,
+      "\u001b[?25l\u001b[42d\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m ncat \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.85GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.30\u001b[38;5;136m \u001b[32m0.47\u001b[38;5;136m \u001b[32m0.60\u001b(B\u001b[m\u001b[23;1H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      4.145272,
+      "\u001b[22;41r\u001b[H\u001b[23ds\u001b[1;42r\u001b[H\u001b[23;2H"
+    ],
+    [
+      0.247237,
+      "\u001b[22;41r\u001b[H\u001b[23;2He\u001b[1;42r\u001b[H\u001b[23;3H"
+    ],
+    [
+      0.095837,
+      "\u001b[22;41r\u001b[H\u001b[23;3Ht\u001b[1;42r\u001b[H\u001b[23;4H"
+    ],
+    [
+      0.841123,
+      "\u001b[22;41r\u001b[H\u001b[23;4H \u001b[1;42r\u001b[H\u001b[23;5H"
+    ],
+    [
+      0.142818,
+      "\u001b[22;41r\u001b[H\u001b[23;5Hw\u001b[1;42r\u001b[H\u001b[23;6H"
+    ],
+    [
+      0.079960,
+      "\u001b[22;41r\u001b[H\u001b[23;6He\u001b[1;42r\u001b[H\u001b[23;7H"
+    ],
+    [
+      0.071929,
+      "\u001b[22;41r\u001b[H\u001b[23;7Hl\u001b[1;42r\u001b[H\u001b[23;8H"
+    ],
+    [
+      0.144182,
+      "\u001b[22;41r\u001b[H\u001b[23;8Hc\u001b[1;42r\u001b[H\u001b[23;9H"
+    ],
+    [
+      0.079884,
+      "\u001b[22;41r\u001b[H\u001b[23;9Ho\u001b[1;42r\u001b[H\u001b[23;10H"
+    ],
+    [
+      0.072277,
+      "\u001b[22;41r\u001b[H\u001b[23;10Hm\u001b[1;42r\u001b[H\u001b[23;11H"
+    ],
+    [
+      0.081222,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m ncat \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.85GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.28\u001b[38;5;136m \u001b[32m0.46\u001b[38;5;136m \u001b[32m0.60\u001b(B\u001b[m\u001b[23;11H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.046873,
+      "\u001b[22;41r\u001b[H\u001b[23;11He\u001b[1;42r\u001b[H\u001b[23;12H"
+    ],
+    [
+      0.439802,
+      "\u001b[22;41r\u001b[H\u001b[23;12H \u001b[1;42r\u001b[H\u001b[23;13H"
+    ],
+    [
+      0.120001,
+      "\u001b[22;41r\u001b[H\u001b[23;13Ht\u001b[1;42r\u001b[H\u001b[23;14H"
+    ],
+    [
+      0.096107,
+      "\u001b[22;41r\u001b[H\u001b[23;14Ho\u001b[1;42r\u001b[H\u001b[23;15H"
+    ],
+    [
+      0.320115,
+      "\u001b[22;41r\u001b[H\u001b[23;15H-\u001b[1;42r\u001b[H\u001b[23;16H"
+    ],
+    [
+      0.111927,
+      "\u001b[22;41r\u001b[H\u001b[23;16Hd\u001b[1;42r\u001b[H\u001b[23;17H"
+    ],
+    [
+      0.152250,
+      "\u001b[22;41r\u001b[H\u001b[23;17Ho\u001b[1;42r\u001b[H\u001b[23;18H"
+    ],
+    [
+      0.095791,
+      "\u001b[22;41r\u001b[H\u001b[23;18Hu\u001b[1;42r\u001b[H\u001b[23;19H"
+    ],
+    [
+      0.199844,
+      "\u001b[22;41r\u001b[H\u001b[23;19Hc\u001b[1;42r\u001b[H\u001b[23;20H"
+    ],
+    [
+      0.328072,
+      "\u001b[22;41r\u001b[H\u001b[23;19H \u001b[1;42r\u001b[H\u001b[23;19H"
+    ],
+    [
+      0.128214,
+      "\u001b[22;41r\u001b[H\u001b[23;18H \u001b[1;42r\u001b[H\u001b[23;18H"
+    ],
+    [
+      0.120252,
+      "\u001b[22;41r\u001b[H\u001b[23;17H \u001b[1;42r\u001b[H\u001b[23;17H"
+    ],
+    [
+      0.255780,
+      "\u001b[22;41r\u001b[H\u001b[23;16H \u001b[1;42r\u001b[H\u001b[23;16H"
+    ],
+    [
+      0.383611,
+      "\u001b[22;41r\u001b[H\u001b[23;16Hc\u001b[1;42r\u001b[H\u001b[23;17H"
+    ],
+    [
+      0.168577,
+      "\u001b[22;41r\u001b[H\u001b[23;17Ho\u001b[1;42r\u001b[H\u001b[23;18H"
+    ],
+    [
+      0.159701,
+      "\u001b[22;41r\u001b[H\u001b[23;18Hn\u001b[1;42r\u001b[H\u001b[23;19H"
+    ],
+    [
+      0.072155,
+      "\u001b[22;41r\u001b[H\u001b[23;19Ht\u001b[1;42r\u001b[H\u001b[23;20H"
+    ],
+    [
+      0.071876,
+      "\u001b[22;41r\u001b[H\u001b[23;20Ha\u001b[1;42r\u001b[H\u001b[23;21H"
+    ],
+    [
+      0.080007,
+      "\u001b[22;41r\u001b[H\u001b[23;21Hi\u001b[1;42r\u001b[H\u001b[23;22H"
+    ],
+    [
+      0.136162,
+      "\u001b[22;41r\u001b[H\u001b[23;22Hn\u001b[1;42r\u001b[H\u001b[23;23H"
+    ],
+    [
+      0.079512,
+      "\u001b[22;41r\u001b[H\u001b[23;23He\u001b[1;42r\u001b[H\u001b[23;24H"
+    ],
+    [
+      0.080008,
+      "\u001b[22;41r\u001b[H\u001b[23;24Hr\u001b[1;42r\u001b[H\u001b[23;25H"
+    ],
+    [
+      0.184192,
+      "\u001b[22;41r\u001b[H\u001b[23;25Hs\u001b[1;42r\u001b[H\u001b[23;26H"
+    ],
+    [
+      0.152275,
+      "\u001b[22;41r\u001b[H\u001b[23;26H-\u001b[1;42r\u001b[H\u001b[23;27H"
+    ],
+    [
+      0.447813,
+      "\u001b[22;41r\u001b[H\u001b[23;27Hc\u001b[1;42r\u001b[H\u001b[23;28H"
+    ],
+    [
+      0.111982,
+      "\u001b[22;41r\u001b[H\u001b[23;28Ho\u001b[1;42r\u001b[H\u001b[23;29H"
+    ],
+    [
+      0.095806,
+      "\u001b[22;41r\u001b[H\u001b[23;29Hu\u001b[1;42r\u001b[H\u001b[23;30H"
+    ],
+    [
+      0.152222,
+      "\u001b[22;41r\u001b[H\u001b[23;30Hr\u001b[1;42r\u001b[H\u001b[23;31H"
+    ],
+    [
+      0.775884,
+      "\u001b[22;41r\u001b[H\u001b[23;31Hs\u001b[1;42r\u001b[H\u001b[23;32H"
+    ],
+    [
+      0.055827,
+      "\u001b[22;41r\u001b[H\u001b[23;32He\u001b[1;42r\u001b[H\u001b[23;33H"
+    ],
+    [
+      0.304261,
+      "\u001b[22;41r\u001b[H\u001b[23;33H!\u001b[1;42r\u001b[H\u001b[23;34H"
+    ],
+    [
+      0.077715,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m ncat \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.86GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.28\u001b[38;5;136m \u001b[32m0.46\u001b[38;5;136m \u001b[32m0.60\u001b(B\u001b[m\u001b[23;34H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.001946,
+      "\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m ncat \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.86GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.26\u001b[38;5;136m \u001b[32m0.45\u001b[38;5;136m \u001b[32m0.59\u001b(B\u001b[m\u001b[23;34H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      1.408212,
+      "\r\n"
+    ],
+    [
+      0.000286,
+      "\u001b[22;41r\u001b[H\u001b[24d+OK\u001b[1;42r\u001b[H\u001b[25d"
+    ],
+    [
+      0.759761,
+      "\u001b[22;41r\u001b[H\u001b[25dg\u001b[1;42r\u001b[H\u001b[25;2H"
+    ],
+    [
+      0.152776,
+      "\u001b[22;41r\u001b[H\u001b[25;2He\u001b[1;42r\u001b[H\u001b[25;3H"
+    ],
+    [
+      0.111021,
+      "\u001b[22;41r\u001b[H\u001b[25;3Ht\u001b[1;42r\u001b[H\u001b[25;4H"
+    ],
+    [
+      0.304137,
+      "\u001b[22;41r\u001b[H\u001b[25;4H \u001b[1;42r\u001b[H\u001b[25;5H"
+    ],
+    [
+      0.296902,
+      "\u001b[22;41r\u001b[H\u001b[25;5Hw\u001b[1;42r\u001b[H\u001b[25;6H"
+    ],
+    [
+      0.079374,
+      "\u001b[22;41r\u001b[H\u001b[25;6He\u001b[1;42r\u001b[H\u001b[25;7H"
+    ],
+    [
+      0.088036,
+      "\u001b[22;41r\u001b[H\u001b[25;7Hl\u001b[1;42r\u001b[H\u001b[25;8H"
+    ],
+    [
+      0.127984,
+      "\u001b[22;41r\u001b[H\u001b[25;8Hc\u001b[1;42r\u001b[H\u001b[25;9H"
+    ],
+    [
+      0.095729,
+      "\u001b[22;41r\u001b[H\u001b[25;9Ho\u001b[1;42r\u001b[H\u001b[25;10H"
+    ],
+    [
+      0.079848,
+      "\u001b[22;41r\u001b[H\u001b[25;10Hm\u001b[1;42r\u001b[H\u001b[25;11H"
+    ],
+    [
+      0.088004,
+      "\u001b[22;41r\u001b[H\u001b[25;11He\u001b[1;42r\u001b[H\u001b[25;12H"
+    ],
+    [
+      0.544814,
+      "\r\n"
+    ],
+    [
+      0.000493,
+      "\u001b[22;41r\u001b[H\u001b[26d$21\r\nto-containers-course!\u001b[1;42r\u001b[H\u001b[28d"
+    ],
+    [
+      1.865453,
+      "\u001b[?25l\u001b[42d\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m ncat \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.82GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.26\u001b[38;5;136m \u001b[32m0.45\u001b[38;5;136m \u001b[32m0.59\u001b(B\u001b[m\u001b[28;1H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      0.000686,
+      "\u001b[?25l\u001b[42d\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                     \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m ncat \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.82GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.32\u001b[38;5;136m \u001b[32m0.46\u001b[38;5;136m \u001b[32m0.59\u001b(B\u001b[m\u001b[28;1H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      5.069459,
+      "\u001b[22;41r\u001b[H\u001b[28d^C\u001b[1;42r\u001b[H\u001b[28;3H"
+    ],
+    [
+      0.001017,
+      "\r\n"
+    ],
+    [
+      0.000554,
+      "\u001b[22;41r\u001b[H\u001b[29d\u001b[1m\u001b[3m%\u001b(B\u001b[m                                                                                                                                    \u001b[29;1H \u001b[1;42r\u001b[H\u001b[29d"
+    ],
+    [
+      0.084238,
+      "\u001b[22;41r\u001b[H\u001b[29d\u001b[K\r\n\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[1B\u001b[K\u001b[29d\u001b[36mttomecek \u001b[37mat \u001b[32mquahog\u001b[39m \u001b[34m/\u001b[39m \u001b[K\u001b[104C \u001b[31m130 ↵\u001b[39m \u0007\u001b[1;42r\u001b[H\u001b[29;22H"
+    ],
+    [
+      0.000034,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      0.254365,
+      "\u001b]0;3:1:zsh - \"quahog\"\u0007\u001b[?25l\u001b[42;1H\u001b[37m\u001b[100mE\u001b[38;5;136m \u001b[34m10.34.4.111/23\u001b[38;5;136m                                      \u001b[38;5;166m\u001b[40m\u001b[1m\u001b[2m 1* \u001b[100m zsh \u001b(B\u001b[m\u001b[38;5;136m\u001b[100m                                       \u001b[32m4.82GB\u001b[37m/\u001b[96m7.68GB\u001b[38;5;136m \u001b[37m:: \u001b[32m0.32\u001b[38;5;136m \u001b[32m0.46\u001b[38;5;136m \u001b[32m0.59\u001b(B\u001b[m\u001b[29;22H\u001b[?12l\u001b[?25h"
+    ],
+    [
+      2.076043,
+      "\u001b[1;42r\u001b(B\u001b[m\u001b[?1l\u001b\u003e\u001b[H\u001b[2J\u001b]112\u0007\u001b[?12l\u001b[?25h\u001b[?1000l\u001b[?1006l\u001b[?1005l\u001b[?1049l"
+    ],
+    [
+      0.000242,
+      "[detached (from session 3)]\r\n"
+    ],
+    [
+      0.000914,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                                                                    \r \r"
+    ],
+    [
+      0.082152,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u0007\u001b[36mttomecek \u001b[37mat \u001b[32mquahog\u001b[00m \u001b[34m~/t/redis-container\u001b[00m "
+    ],
+    [
+      0.000094,
+      "\u001b[K\u001b[91C  \u001b[93D\u001b[?1h\u001b="
+    ],
+    [
+      2.061593,
+      "\r\r\n"
+    ]
+  ]
+}
