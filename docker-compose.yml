@@ -1,0 +1,23 @@
+version: "2"
+services:
+  db:
+    image: mariadb
+    container_name: my-mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+    volumes:
+      - "mariadb-data:/var/lib/mysql"
+  web:
+    image: wordpress
+    container_name: my-wordpress
+    ports:
+     - "80:80"
+    links:
+     - "db:mysql"
+    environment:
+      MYSQL_PORT_3306_TCP: "3306"
+      WORDPRESS_DB_HOST: "my-mariadb"
+      WORDPRESS_DB_PASSWORD: "my-secret-pw"
+volumes:
+  "mariadb-data":
+    driver: local
