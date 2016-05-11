@@ -876,6 +876,168 @@ $ docker run -d -v mysql-data:/var/lib/mysql \
 				</section>
 
 				<section>
+					<h2>atomic command</h2>
+					<ul>
+						<li>install with
+							<pre><code>$ dnf install atomic</code></pre>
+						</li>
+						<li>CLI interface</li>
+						<li>uses image labels to manage containers</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>atomic run</h2>
+					<ul>
+						<li>start a container without specifying all the options</li>
+						<li>we have custom nginx image with this run label:
+							<pre><code>LABEL RUN="/usr/bin/docker run -d -p 80:80 \
+  -v \$PWD:/usr/share/nginx/html:ro \
+  --name NAME IMAGE"</code></pre>
+						</li>
+						<li>it is built from slides repo</li>
+						<li>
+							<pre><code data-trim data-noescape>$ sudo atomic run my-nginx
+/usr/bin/docker run -d -p 80:80 \
+  -v /home/me/docker101:/usr/share/nginx/html:ro \
+  --name my-nginx my-nginx
+1aca67b2ec94325495374ba65aafe23f311883564e9c037736a1cb5bba430943
+                            </code></pre>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>atomic run (2)</h2>
+					<ul>
+						<li>Let's try it out!</li>
+					</ul>
+                    <pre><code data-trim>
+$ curl -s localhost | grep "Linux Containers"
+<title>Linux Containers</title>
+                    </code></pre>
+				</section>
+
+				<section>
+					<h2>atomic stop</h2>
+					<ul>
+						<li>stops running container</li>
+					</ul>
+                    <pre><code data-trim>
+$ sudo atomic stop my-nginx
+$
+                    </code></pre>
+				</section>
+
+				<section>
+					<h2>atomic install</h2>
+					<ul>
+						<li>configures host system: e.g. installs a unit file</li>
+						<li>specified via INSTALL label</li>
+					</ul>
+                    <pre><code data-trim>
+[Unit]
+Description=The Apache HTTP Server for NAME
+After=Docker.service
+ 
+[Service]
+ExecStart=/usr/bin/docker start NAME
+ExecStop=/usr/bin/docker stop NAME
+ExecReload=/usr/bin/docker exec -t NAME /usr/sbin/httpd $OPTIONS -k graceful
+ 
+[Install]
+WantedBy=multi-user.target
+                    </code></pre>
+				</section>
+				<section>
+					<h2>atomic uninstall</h2>
+					<ul>
+						<li>removes changes on host</li>
+						<li>specified via UNINSTALL label</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>docker-compose</h2>
+					<ul>
+						<li>install with
+							<pre><code>$ dnf install docker-compose</code></pre>
+						</li>
+						<li>CLI interface</li>
+						<li>concept of services</li>
+						<li>service definittions stored in <em>docker-compose.yml</em></li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>the same wordpress example</h2>
+					<pre><code data-trim data-noescape>
+version: "2"
+services:
+  db:
+    image: mariadb
+    container_name: my-mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+    volumes:
+      - "mariadb-data:/var/lib/mysql"
+  web:
+    image: wordpress
+    container_name: my-wordpress
+    ports:
+     - "80:80"
+    environment:
+      MYSQL_PORT_3306_TCP: "3306"
+      WORDPRESS_DB_HOST: "my-mariadb"
+      WORDPRESS_DB_PASSWORD: "my-secret-pw"
+volumes:
+  "mariadb-data":
+    driver: local
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>usage</h2>
+					<ul><li>Start services:
+						<pre><code data-trim data-noescape>
+$ docker-compose up -d
+Creating my-mariadb
+Creating my-wordpress
+						</code></pre></li>
+						<li>Checking containers:
+						<pre><code data-trim data-noescape>
+$ docker-compose ps
+    Name                  Command               State         Ports
+--------------------------------------------------------------------------
+my-mariadb     /docker-entrypoint.sh mysqld     Up      3306/tcp
+my-wordpress   /entrypoint.sh apache2-for ...   Up      0.0.0.0:80->80/tcp
+					</code></pre></li></ul>
+				</section>
+
+				<section>
+					<h2>cockpit</h2>
+					<ul>
+						<li>install with
+							<pre><code>$ dnf install cockpit\*</code></pre>
+						</li>
+						<li>run with
+							<pre><code>$ systemctl start cockpit</code></pre>
+						</li>
+						<li>open in browser <em>http://localhost:9090/</em></li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>cockpit</h2>
+					<a href"img/cockpit.png"><img src="img/cockpit.png"></a>
+				</section>
+
+				<section>
+					<h2>cockpit</h2>
+					<a href"img/cockpit-wordpress.png"><img src="img/cockpit-wordpress.png"></a>
+				</section>
+
+				<section>
 					<h2>Thank you!</h2>
 					<a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a><br>
 					<a href="https://schiffer.typeform.com/to/lNHegp">schiffer.typeform.com/to/lNHegp</a>
