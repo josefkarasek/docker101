@@ -878,11 +878,11 @@ $ docker run -d -v mysql-data:/var/lib/mysql \
 				<section>
 					<h2>atomic command</h2>
 					<ul>
-						<li>install with
-							<pre><code>$ dnf install atomic</code></pre>
-						</li>
 						<li>CLI interface</li>
-						<li>uses image labels to manage containers</li>
+						<li>Uses image labels to manage containers</li>
+						<li>Install with:
+							<pre><code># dnf install atomic</code></pre>
+						</li>
 					</ul>
 				</section>
 
@@ -938,12 +938,12 @@ $
 [Unit]
 Description=The Apache HTTP Server for NAME
 After=Docker.service
- 
+
 [Service]
 ExecStart=/usr/bin/docker start NAME
 ExecStop=/usr/bin/docker stop NAME
 ExecReload=/usr/bin/docker exec -t NAME /usr/sbin/httpd $OPTIONS -k graceful
- 
+
 [Install]
 WantedBy=multi-user.target
                     </code></pre>
