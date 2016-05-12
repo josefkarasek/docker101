@@ -889,14 +889,13 @@ $ docker run -d -v mysql-data:/var/lib/mysql \
 				<section>
 					<h2>atomic run</h2>
 					<ul>
-						<li>start a container without specifying all the options</li>
-						<li>we have custom nginx image with this run label:
+						<li>run a container without specifying all the options</li>
+						<li class="fragment" data-fragment-index="2">options are specified on a <em>RUN</em> label:
 							<pre><code>LABEL RUN="/usr/bin/docker run -d -p 80:80 \
   -v \$PWD:/usr/share/nginx/html:ro \
   --name NAME IMAGE"</code></pre>
 						</li>
-						<li>it is built from slides repo</li>
-						<li>
+						<li class="fragment" data-fragment-index="2">
 							<pre><code data-trim data-noescape>$ sudo atomic run my-nginx
 /usr/bin/docker run -d -p 80:80 \
   -v /home/me/docker101:/usr/share/nginx/html:ro \
@@ -933,7 +932,7 @@ $
 					<h2>atomic install</h2>
 					<ul>
 						<li>configures host system: e.g. installs a unit file</li>
-						<li>specified via INSTALL label</li>
+						<li>specified via <em>INSTALL</em> label</li>
 					</ul>
                     <pre><code data-trim>
 [Unit]
@@ -952,7 +951,7 @@ WantedBy=multi-user.target
 				<section>
 					<h2>atomic uninstall</h2>
 					<ul>
-						<li>removes changes on host</li>
+						<li>removes changes on the host</li>
 						<li>specified via UNINSTALL label</li>
 					</ul>
 				</section>
@@ -965,7 +964,7 @@ WantedBy=multi-user.target
 						</li>
 						<li>CLI interface</li>
 						<li>concept of services</li>
-						<li>service definittions stored in <em>docker-compose.yml</em></li>
+						<li>service definitions are stored in <em>docker-compose.yml</em></li>
 					</ul>
 				</section>
 
