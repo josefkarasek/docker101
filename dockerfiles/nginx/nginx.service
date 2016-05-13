@@ -1,0 +1,13 @@
+[Unit]
+Description=The nginx HTTP and reverse proxy server with docker101 slides
+After=docker.service
+
+[Service]
+ExecStart=/usr/bin/atomic run --name=NAME IMAGE
+ExecStop=/usr/bin/atomic stop --name=NAME IMAGE
+ExecReload=/usr/bin/docker exec -t NAME /bin/kill -s HUP $(cat /var/run/nginx.pid)
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
