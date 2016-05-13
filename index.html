@@ -880,59 +880,46 @@ $ docker run -d -v mysql-data:/var/lib/mysql \
 					<ul>
 						<li>CLI interface</li>
 						<li>Uses image labels to manage containers</li>
-						<li>Install with:
-							<pre><code># dnf install atomic</code></pre>
-						</li>
 					</ul>
+					<pre><code data-trim data-noescape>
+						# dnf install atomic
+					</code></pre>
 				</section>
 
 				<section>
 					<h2>atomic run</h2>
 					<ul>
-						<li>run a container without specifying all the options</li>
-						<li class="fragment" data-fragment-index="2">options are specified on a <em>RUN</em> label:
-							<pre><code>LABEL RUN="/usr/bin/docker run -d -p 80:80 \
-  -v \$PWD:/usr/share/nginx/html:ro \
-  --name NAME IMAGE"</code></pre>
-						</li>
-						<li class="fragment" data-fragment-index="2">
-							<pre><code data-trim data-noescape>$ sudo atomic run my-nginx
-/usr/bin/docker run -d -p 80:80 \
-  -v /home/me/docker101:/usr/share/nginx/html:ro \
-  --name my-nginx my-nginx
-1aca67b2ec94325495374ba65aafe23f311883564e9c037736a1cb5bba430943
-                            </code></pre>
-						</li>
+						<li>Run a container without specifying all the options</li>
+						<li class="fragment" data-fragment-index="1">Options are specified in a <code>RUN</code> label</li>
 					</ul>
-				</section>
-
-				<section>
-					<h2>atomic run (2)</h2>
-					<ul>
-						<li>Let's try it out!</li>
-					</ul>
-                    <pre><code data-trim>
-$ curl -s localhost | grep "Linux Containers"
-<title>Linux Containers</title>
-                    </code></pre>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+						LABEL RUN="docker run -d -p 80:80 --restart always --name NAME IMAGE"
+					</code></pre>
+					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
+# atomic run pschiffe/docker101-nginx
+<span class="fragment" data-fragment-index="3">docker run -d -p 80:80 --restart always --name docker101-nginx \
+pschiffe/docker101-nginx
+6f4a1e55ea73b70a388dad5fae541d623ac6eec228f6ee22d6029039e5351335</span>
+					</code></pre>
+					<pre class="fragment" data-fragment-index="4"><code data-trim data-noescape>
+$ curl -s localhost | grep '&lt;title&gt;' | head -n 1
+&lt;title&gt;Linux Containers&lt;/title&gt;
+					</code></pre>
 				</section>
 
 				<section>
 					<h2>atomic stop</h2>
-					<ul>
-						<li>stops running container</li>
-					</ul>
-                    <pre><code data-trim>
-$ sudo atomic stop my-nginx
-$
-                    </code></pre>
+					<p>Stops running container</p>
+					<pre><code data-trim data-noescape>
+						# atomic stop pschiffe/docker101-nginx
+					</code></pre>
 				</section>
 
 				<section>
 					<h2>atomic install</h2>
 					<ul>
-						<li>configures host system: e.g. installs a unit file</li>
-						<li>specified via <em>INSTALL</em> label</li>
+						<li>Configures a host system, e.g. installs a unit file</li>
+						<li>Specified via <code>INSTALL</code> label</li>
 					</ul>
                     <pre><code data-trim>
 [Unit]
@@ -948,6 +935,7 @@ ExecReload=/usr/bin/docker exec -t NAME /usr/sbin/httpd $OPTIONS -k graceful
 WantedBy=multi-user.target
                     </code></pre>
 				</section>
+
 				<section>
 					<h2>atomic uninstall</h2>
 					<ul>
