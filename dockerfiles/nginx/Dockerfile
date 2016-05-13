@@ -1,11 +1,11 @@
 FROM nginx:stable-alpine
 MAINTAINER "Peter Schiffer" <pschiffe@redhat.com>
 
-LABEL Vendor="docker101" \
-      Name="docker101-nginx" \
-      Version="1.10" \
-      Release="1" \
-      Architecture="x86_64" \
+LABEL Vendor="docker101"
+LABEL Name="docker101-nginx"
+LABEL Version="1.10"
+LABEL Release="1"
+LABEL Architecture="x86_64"
 
 LABEL INSTALL="docker run --rm --privileged -v /:/host -e HOST=/host -e NAME=${NAME} -e IMAGE=${IMAGE} IMAGE /bin/install.sh"
 LABEL UNINSTALL="docker run --rm --privileged -v /:/host -e HOST=/host -e NAME=${NAME} -e IMAGE=${IMAGE} IMAGE /bin/uninstall.sh"
