@@ -7,8 +7,8 @@ LABEL Version="1.10"
 LABEL Release="1"
 LABEL Architecture="x86_64"
 
-LABEL INSTALL="docker run --rm --privileged -v /:/host -e HOST=/host -e NAME=${NAME} -e IMAGE=${IMAGE} IMAGE /bin/install.sh"
-LABEL UNINSTALL="docker run --rm --privileged -v /:/host -e HOST=/host -e NAME=${NAME} -e IMAGE=${IMAGE} IMAGE /bin/uninstall.sh"
+LABEL INSTALL="docker run --rm --privileged -v /:/host -e HOST=/host -e NAME=NAME -e IMAGE=IMAGE IMAGE /bin/install.sh"
+LABEL UNINSTALL="docker run --rm --privileged -v /:/host -e HOST=/host -e NAME=NAME -e IMAGE=IMAGE IMAGE /bin/uninstall.sh"
 LABEL RUN="docker run -d -p 80:80 --restart always --name NAME IMAGE"
 
 COPY nginx.service /etc/nginx.service.template
