@@ -29,6 +29,31 @@
 	</head>
 	<body>
 		<div class="reveal">
+			<ul id="toc-aside">
+				<li>
+					<a href="#/session-1">Introduction, history, underlying technologies</a>
+					<ul>
+						<li><a href="#/intro">Intro</a></li>
+						<li><a href="#/history">History</a></li>
+						<li><a href="#/kernel-features">Underlying Kernel features</a></li>
+						<li><a href="#/why-containers">Why containers</a></li>
+						<li><a href="#/containers-wo-docker">Containers without Docker</a></li>
+						<li><a href="#/docker-basics">Docker basics</a></li>
+						<li><a href="#/docker-hub">Docker hub</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#/session-2">Running containers, atomic, docker compose, ansible</a>
+					<ul>
+						<li><a href="#/docker-cli">Docker cli</a></li>
+						<li><a href="#/atomic-command">Atomic command</a></li>
+						<li><a href="#/cockpit">Cockpit</a></li>
+						<li><a href="#/docker-compose">Docker compose</a></li>
+						<li><a href="#/ansible">Ansible</a></li>
+					</ul>
+				</li>
+			</ul>
+
 			<div class="slides">
 				<section>
 					<h1>Linux Containers</h1>
@@ -411,8 +436,8 @@ $ getcap /usr/bin/ping
 				<section>
 					<h2>Thank you!</h2>
 					<a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a><br>
-					<a href="https://schiffer.typeform.com/to/lNHegp">schiffer.typeform.com/to/lNHegp</a>
-					<img src="img/qrcode.png" alt="qrcode"><br>
+					<a href="https://schiffer.typeform.com/to/lNHegp">schiffer.typeform.com/to/lNHegp</a><br>
+					<img src="img/qrcode1.png" alt="qrcode"><br>
 					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
@@ -1074,10 +1099,10 @@ Creating compose_my-wordpress_1
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
 $ docker-compose ps
-Name                     Command              State   Ports
-------------------------------------------------------------------------
-compose_my-mariadb_1     /docker-entr ...     Up      3306/tcp
-compose_my-wordpress_1   /entrypoint.sh ...   Up      0.0.0.0:80->80/tcp
+Name                    Command             State  Ports
+---------------------------------------------------------------------
+compose_my-mariadb_1    /docker-entr ...    Up     3306/tcp
+compose_my-wordpress_1  /entrypoint.sh ...  Up     0.0.0.0:80->80/tcp
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
 $ docker-compose down [-v]
@@ -1141,27 +1166,27 @@ $ cat docker.yml
 					<pre><code data-trim data-noescape>
 $ ansible-playbook -i hosts docker.yml
 
-PLAY [localhost] *******************************************************
+PLAY [localhost] *****************************************************
 
-TASK [setup] ***********************************************************
+TASK [setup] *********************************************************
 ok: [localhost]
 
-TASK [mariadb container] ***********************************************
+TASK [mariadb container] *********************************************
 changed: [localhost]
 
-TASK [wordpress container] *********************************************
+TASK [wordpress container] *******************************************
 changed: [localhost]
 
-PLAY RECAP *************************************************************
-localhost               : ok=3    changed=2    unreachable=0    failed=0
+PLAY RECAP ***********************************************************
+localhost             : ok=3    changed=2    unreachable=0    failed=0
 					</code></pre>
 				</section>
 
 				<section>
 					<h2>Thank you!</h2>
 					<a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a><br>
-					<a href="https://schiffer.typeform.com/to/lNHegp">schiffer.typeform.com/to/lNHegp</a>
-					<img src="img/qrcode.png" alt="qrcode"><br>
+					<a href="https://schiffer.typeform.com/to/IjtF0j">schiffer.typeform.com/to/IjtF0j</a><br>
+					<img src="img/qrcode2.png" alt="qrcode"><br>
 					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
