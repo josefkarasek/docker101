@@ -29,6 +29,31 @@
 	</head>
 	<body>
 		<div class="reveal">
+			<ul id="toc-aside">
+				<li>
+					<a href="#/session-1">Introduction, history, underlying technologies</a>
+					<ul>
+						<li><a href="#/intro">Intro</a></li>
+						<li><a href="#/history">History</a></li>
+						<li><a href="#/kernel-features">Underlying Kernel features</a></li>
+						<li><a href="#/why-containers">Why containers</a></li>
+						<li><a href="#/containers-wo-docker">Containers without Docker</a></li>
+						<li><a href="#/docker-basics">Docker basics</a></li>
+						<li><a href="#/docker-hub">Docker hub</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#/session-2">Running containers, atomic, docker compose, ansible</a>
+					<ul>
+						<li><a href="#/docker-cli">Docker cli</a></li>
+						<li><a href="#/atomic-command">Atomic command</a></li>
+						<li><a href="#/cockpit">Cockpit</a></li>
+						<li><a href="#/docker-compose">Docker compose</a></li>
+						<li><a href="#/ansible">Ansible</a></li>
+					</ul>
+				</li>
+			</ul>
+
 			<div class="slides">
 				<section>
 					<h1>Linux Containers</h1>
@@ -411,8 +436,8 @@ $ getcap /usr/bin/ping
 				<section>
 					<h2>Thank you!</h2>
 					<a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a><br>
-					<a href="https://schiffer.typeform.com/to/lNHegp">schiffer.typeform.com/to/lNHegp</a>
-					<img src="img/qrcode.png" alt="qrcode"><br>
+					<a href="https://schiffer.typeform.com/to/lNHegp">schiffer.typeform.com/to/lNHegp</a><br>
+					<img src="img/qrcode1.png" alt="qrcode"><br>
 					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
@@ -864,16 +889,70 @@ MYSQL_PORT_3306_TCP_PROTO=tcp</span>
 				</section>
 
 				<section>
-					<h2>Other options and tips</h2>
-					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+					<h2>Restart policy</h2>
+					<pre><code data-trim data-noescape>
 $ docker run -d -v mysql-data:/var/lib/mysql \
 -e MYSQL_ROOT_PASSWORD=my-secret --name my-mariadb \
-<span class="fragment" data-fragment-index="2">--restart always</span> mariadb
+<span class="fragment" data-fragment-index="1">--restart always</span> mariadb
 					</code></pre>
 					<dl>
-						<dt class="fragment" data-fragment-index="2">--restart</dt>
-							<dd class="fragment" data-fragment-index="2">Restart policy</dd>
+						<dt class="fragment" data-fragment-index="1">--restart</dt>
+							<dd class="fragment" data-fragment-index="1">Restart policy - no, on-failure, always, unless-stopped</dd>
 					</dl>
+				</section>
+
+				<section>
+					<h2>Docker logs</h2>
+					<pre><code data-trim data-noescape>
+$ docker logs <span class="fragment" data-fragment-index="2">-f</span> my-wordpress
+<span class="fragment" data-fragment-index="1">WordPress not found in /var/www/html - copying now...
+Complete! WordPress has been successfully copied to /var/www/html
+...</span>
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="2">-f</dt>
+							<dd class="fragment" data-fragment-index="2">Follow log output</dd>
+						<dt class="fragment" data-fragment-index="3">--tail X</dt>
+							<dd class="fragment" data-fragment-index="3">Output the specified number of lines at the end of logs</dd>
+					</dl>
+				</section>
+
+				<section>
+					<h2>Docker pause</h2>
+					<pre><code data-trim data-noescape>
+$ docker pause my-wordpress
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+$ docker unpause my-wordpress
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Docker rename</h2>
+					<pre><code data-trim data-noescape>
+$ docker rename berserk_pasteur my-nginx
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Docker top</h2>
+					<pre><code data-trim data-noescape>
+$ docker top my-wordpress axf
+PID   TTY  STAT  TIME  COMMAND
+4353  ?    Ss    0:00  | \_ apache2 -DFOREGROUND
+4531  ?    S     0:00  | | \_ apache2 -DFOREGROUND
+4532  ?    S     0:00  | | \_ apache2 -DFOREGROUND
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Docker stats</h2>
+					<pre><code data-trim data-noescape>
+$ docker stats --no-stream my-mariadb my-wordpress
+CONTAINER     CPU %  MEM USAGE / LIMIT    MEM %  NET I/O              BLOCK I/O
+my-mariadb    0.12%  244.3 MB / 12.28 GB  1.99%  2.722 kB / 1.326 kB  19.19 MB / 124.8 MB
+my-wordpress  0.01%  102.6 MB / 12.28 GB  0.84%  1.974 kB / 1.426 kB  278.5 kB / 53.25 kB
+					</code></pre>
 				</section>
 
 				<section id="atomic-command">
@@ -1020,10 +1099,10 @@ Creating compose_my-wordpress_1
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
 $ docker-compose ps
-Name                     Command              State   Ports
-------------------------------------------------------------------------
-compose_my-mariadb_1     /docker-entr ...     Up      3306/tcp
-compose_my-wordpress_1   /entrypoint.sh ...   Up      0.0.0.0:80->80/tcp
+Name                    Command             State  Ports
+---------------------------------------------------------------------
+compose_my-mariadb_1    /docker-entr ...    Up     3306/tcp
+compose_my-wordpress_1  /entrypoint.sh ...  Up     0.0.0.0:80->80/tcp
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
 $ docker-compose down [-v]
@@ -1034,11 +1113,80 @@ Removing compose_my-mariadb_1 ... done
 					</code></pre>
 				</section>
 
+				<section id="ansible">
+					<h2>Ansible</h2>
+					<ul>
+						<li>Similar to docker-compose</li>
+						<li>More powerful</li>
+					</ul>
+					<pre class="fragment"><code data-trim data-noescape>
+$ cat hosts
+localhost              ansible_connection=local
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+$ cat docker.yml
+---
+- hosts: localhost
+  tasks:
+
+  - name: mariadb container
+    docker:
+      name: my-mariadb
+      image: mariadb
+      state: reloaded
+      pull: always
+      restart_policy: always
+      net: bridge
+      volumes: mariadb-data:/var/lib/mysql
+      env:
+        MYSQL_ROOT_PASSWORD: my-secret-pw
+
+  - name: wordpress container
+    docker:
+      name: my-wordpress
+      image: wordpress
+      state: reloaded
+      pull: always
+      restart_policy: always
+      net: bridge
+      links: my-mariadb:mysql
+      ports: "80:80"
+					</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li>pull: missing</li>
+							<li>state: absent</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Ansible</h2>
+					<pre><code data-trim data-noescape>
+$ ansible-playbook -i hosts docker.yml
+
+PLAY [localhost] *****************************************************
+
+TASK [setup] *********************************************************
+ok: [localhost]
+
+TASK [mariadb container] *********************************************
+changed: [localhost]
+
+TASK [wordpress container] *******************************************
+changed: [localhost]
+
+PLAY RECAP ***********************************************************
+localhost             : ok=3    changed=2    unreachable=0    failed=0
+					</code></pre>
+				</section>
+
 				<section>
 					<h2>Thank you!</h2>
 					<a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a><br>
-					<a href="https://schiffer.typeform.com/to/lNHegp">schiffer.typeform.com/to/lNHegp</a>
-					<img src="img/qrcode.png" alt="qrcode"><br>
+					<a href="https://schiffer.typeform.com/to/IjtF0j">schiffer.typeform.com/to/IjtF0j</a><br>
+					<img src="img/qrcode2.png" alt="qrcode"><br>
 					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
