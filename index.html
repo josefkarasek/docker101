@@ -420,9 +420,10 @@ $ getcap /usr/bin/ping
 					<h2>Session 2</h2>
 					<ul>
 						<li><a href="#/docker-cli">Docker cli</a></li>
-						<li><a href="#/docker-cli">Atomic command</a></li>
-						<li><a href="#/docker-cli">Docker compose</a></li>
-						<li><a href="#/docker-cli">Ansible</a></li>
+						<li><a href="#/atomic-command">Atomic command</a></li>
+						<li><a href="#/cockpit">Cockpit</a></li>
+						<li><a href="#/docker-compose">Docker compose</a></li>
+						<li><a href="#/ansible">Ansible</a></li>
 					</ul>
 				</section>
 
@@ -875,165 +876,162 @@ $ docker run -d -v mysql-data:/var/lib/mysql \
 					</dl>
 				</section>
 
-				<section>
+				<section id="atomic-command">
 					<h2>atomic command</h2>
 					<ul>
-						<li>install with
-							<pre><code>$ dnf install atomic</code></pre>
-						</li>
 						<li>CLI interface</li>
-						<li>uses image labels to manage containers</li>
+						<li>Uses image labels to manage containers</li>
 					</ul>
+					<pre><code data-trim data-noescape>
+						# dnf install atomic
+					</code></pre>
 				</section>
 
 				<section>
 					<h2>atomic run</h2>
 					<ul>
-						<li>run a container without specifying all the options</li>
-						<li class="fragment" data-fragment-index="2">options are specified on a <em>RUN</em> label:
-							<pre><code>LABEL RUN="/usr/bin/docker run -d -p 80:80 \
-  -v \$PWD:/usr/share/nginx/html:ro \
-  --name NAME IMAGE"</code></pre>
-						</li>
-						<li class="fragment" data-fragment-index="2">
-							<pre><code data-trim data-noescape>$ sudo atomic run my-nginx
-/usr/bin/docker run -d -p 80:80 \
-  -v /home/me/docker101:/usr/share/nginx/html:ro \
-  --name my-nginx my-nginx
-1aca67b2ec94325495374ba65aafe23f311883564e9c037736a1cb5bba430943
-                            </code></pre>
-						</li>
+						<li>Run a container without specifying all the options</li>
+						<li class="fragment" data-fragment-index="1">Options are specified in a <code>RUN</code> label</li>
 					</ul>
-				</section>
-
-				<section>
-					<h2>atomic run (2)</h2>
-					<ul>
-						<li>Let's try it out!</li>
-					</ul>
-                    <pre><code data-trim>
-$ curl -s localhost | grep "Linux Containers"
-<title>Linux Containers</title>
-                    </code></pre>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+LABEL RUN="docker run -d -p 80:80 --restart always --name NAME IMAGE"
+					</code></pre>
+					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
+# atomic run pschiffe/docker101-nginx
+<span class="fragment" data-fragment-index="3">docker run -d -p 80:80 --restart always --name docker101-nginx \
+pschiffe/docker101-nginx
+6f4a1e55ea73b70a388dad5fae541d623ac6eec228f6ee22d6029039e5351335</span>
+					</code></pre>
+					<pre class="fragment" data-fragment-index="4"><code data-trim data-noescape>
+$ curl -s localhost | grep '&lt;title&gt;' | head -n 1
+&lt;title&gt;Linux Containers&lt;/title&gt;
+					</code></pre>
 				</section>
 
 				<section>
 					<h2>atomic stop</h2>
-					<ul>
-						<li>stops running container</li>
-					</ul>
-                    <pre><code data-trim>
-$ sudo atomic stop my-nginx
-$
-                    </code></pre>
+					<p>Stops running container</p>
+					<pre><code data-trim data-noescape>
+						# atomic stop pschiffe/docker101-nginx
+					</code></pre>
 				</section>
 
 				<section>
 					<h2>atomic install</h2>
 					<ul>
-						<li>configures host system: e.g. installs a unit file</li>
-						<li>specified via <em>INSTALL</em> label</li>
+						<li>Configures a host system, e.g. installs a unit file</li>
+						<li class="fragment" data-fragment-index="1">Specified via <code>INSTALL</code> label</li>
 					</ul>
-                    <pre><code data-trim>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+LABEL INSTALL="docker run --rm --privileged -v /:/host \
+-e HOST=/host -e NAME=NAME -e IMAGE=IMAGE IMAGE /bin/install.sh"
+					</code></pre>
+					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
+#!/bin/sh
+sed "s%IMAGE%${IMAGE}%g; s%NAME%${NAME}%g;" /etc/nginx.service.template\
+> ${HOST}/etc/systemd/system/${NAME}.service
+chroot $HOST systemctl daemon-reload
+echo "Service ${NAME}.service configured to run nginx container."
+					</code></pre>
+                    <pre class="fragment" data-fragment-index="2"><code data-trim>
 [Unit]
-Description=The Apache HTTP Server for NAME
-After=Docker.service
- 
+Description=The nginx HTTP and reverse proxy server with docker101 slides
+After=docker.service
 [Service]
-ExecStart=/usr/bin/docker start NAME
-ExecStop=/usr/bin/docker stop NAME
-ExecReload=/usr/bin/docker exec -t NAME /usr/sbin/httpd $OPTIONS -k graceful
- 
+ExecStart=/usr/bin/atomic run --name=NAME IMAGE
+ExecStop=/usr/bin/atomic stop --name=NAME IMAGE
+ExecReload=/usr/bin/docker exec -t NAME /bin/kill -s HUP $(cat /var/run/nginx.pid)
+Type=oneshot
+RemainAfterExit=yes
 [Install]
 WantedBy=multi-user.target
                     </code></pre>
 				</section>
+
 				<section>
 					<h2>atomic uninstall</h2>
 					<ul>
-						<li>removes changes on the host</li>
-						<li>specified via UNINSTALL label</li>
+						<li>Removes changes from the host</li>
+						<li>Specified via <code>UNINSTALL</code> label</li>
 					</ul>
 				</section>
 
+				<section id="cockpit">
+					<h2>cockpit</h2>
+					<ul>
+						<li>Web UI for managing servers</li>
+						<li>Supports docker, kubernetes...</li>
+					</ul>
+					<pre class="fragment"><code data-trim data-noescape>
+# dnf install cockpit
+# systemctl start cockpit.socket
+					</code></pre>
+					<a href="http://localhost:9090/" class="fragment">localhost:9090</a>
+				</section>
+
 				<section>
+					<h2>cockpit</h2>
+					<a href="img/cockpit.png"><img src="img/cockpit.png" alt="cockpit screenshot"></a>
+				</section>
+
+				<section>
+					<h2>cockpit</h2>
+					<img src="img/cokcpit-create.png" alt="cockpit screenshot">
+				</section>
+
+				<section id="docker-compose">
 					<h2>docker-compose</h2>
 					<ul>
-						<li>install with
-							<pre><code>$ dnf install docker-compose</code></pre>
-						</li>
 						<li>CLI interface</li>
-						<li>concept of services</li>
-						<li>service definitions are stored in <em>docker-compose.yml</em></li>
+						<li>Concept of services</li>
+						<li>Service definitions are stored in the <code>docker-compose.yml</code></li>
 					</ul>
-				</section>
-
-				<section>
-					<h2>the same wordpress example</h2>
 					<pre><code data-trim data-noescape>
-version: "2"
-services:
-  db:
-    image: mariadb
-    container_name: my-mariadb
-    environment:
-      MYSQL_ROOT_PASSWORD: my-secret-pw
-    volumes:
-      - "mariadb-data:/var/lib/mysql"
-  web:
-    image: wordpress
-    container_name: my-wordpress
-    ports:
-     - "80:80"
-    environment:
-      MYSQL_PORT_3306_TCP: "3306"
-      WORDPRESS_DB_HOST: "my-mariadb"
-      WORDPRESS_DB_PASSWORD: "my-secret-pw"
-volumes:
-  "mariadb-data":
-    driver: local
+						# dnf install docker-compose
 					</code></pre>
 				</section>
 
 				<section>
-					<h2>usage</h2>
-					<ul><li>Start services:
-						<pre><code data-trim data-noescape>
+					<h2>The wordpress example</h2>
+					<pre><code data-trim data-noescape>
+my-mariadb:
+  image: mariadb
+  restart: always
+  environment:
+    MYSQL_ROOT_PASSWORD: my-secret-pw
+  volumes:
+    - mariadb-data:/var/lib/mysql
+my-wordpress:
+  image: wordpress
+  restart: always
+  ports:
+    - "80:80"
+  links:
+    - my-mariadb:mysql
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Usage</h2>
+					<pre><code data-trim data-noescape>
 $ docker-compose up -d
-Creating my-mariadb
-Creating my-wordpress
-						</code></pre></li>
-						<li>Checking containers:
-						<pre><code data-trim data-noescape>
+Creating compose_my-mariadb_1
+Creating compose_my-wordpress_1
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
 $ docker-compose ps
-    Name                  Command               State         Ports
---------------------------------------------------------------------------
-my-mariadb     /docker-entrypoint.sh mysqld     Up      3306/tcp
-my-wordpress   /entrypoint.sh apache2-for ...   Up      0.0.0.0:80->80/tcp
-					</code></pre></li></ul>
-				</section>
-
-				<section>
-					<h2>cockpit</h2>
-					<ul>
-						<li>install with
-							<pre><code>$ dnf install cockpit\*</code></pre>
-						</li>
-						<li>run with
-							<pre><code>$ systemctl start cockpit</code></pre>
-						</li>
-						<li>open in browser <em>http://localhost:9090/</em></li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>cockpit</h2>
-					<a href"img/cockpit.png"><img src="img/cockpit.png"></a>
-				</section>
-
-				<section>
-					<h2>cockpit</h2>
-					<a href"img/cockpit-wordpress.png"><img src="img/cockpit-wordpress.png"></a>
+Name                     Command              State   Ports
+------------------------------------------------------------------------
+compose_my-mariadb_1     /docker-entr ...     Up      3306/tcp
+compose_my-wordpress_1   /entrypoint.sh ...   Up      0.0.0.0:80->80/tcp
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+$ docker-compose down [-v]
+Stopping compose_my-wordpress_1 ... done
+Stopping compose_my-mariadb_1 ... done
+Removing compose_my-wordpress_1 ... done
+Removing compose_my-mariadb_1 ... done
+					</code></pre>
 				</section>
 
 				<section>
@@ -1045,6 +1043,43 @@ my-wordpress   /entrypoint.sh apache2-for ...   Up      0.0.0.0:80->80/tcp
 				</section>
 
 <!--
+<section>
+	<h2>The wordpress example</h2>
+	<pre><code data-trim data-noescape>
+version: "2"
+services:
+db:
+image: mariadb
+container_name: my-mariadb
+environment:
+MYSQL_ROOT_PASSWORD: my-secret-pw
+volumes:
+- mariadb-data:/var/lib/mysql
+networks:
+- back-tier
+web:
+image: wordpress
+container_name: my-wordpress
+ports:
+- "80:80"
+environment:
+MYSQL_PORT_3306_TCP: 3306
+WORDPRESS_DB_HOST: my-mariadb
+WORDPRESS_DB_PASSWORD: my-secret-pw
+networks:
+- front-tier
+- back-tier
+volumes:
+mariadb-data:
+driver: local
+networks:
+front-tier:
+driver: bridge
+back-tier:
+driver: bridge
+	</code></pre>
+</section>
+
 
 				<section>
 					<section>
