@@ -1,0 +1,16 @@
+sudo: required
+
+services:
+- docker
+
+script:
+- docker run --rm --user `id -u`:`id -g` -v `pwd`:/pwd astefanutti/decktape --size 1600x900 https://pschiffe.github.io/docker101 /pwd/slides.pdf
+
+deploy:
+  provider: releases
+  api_key:
+    secure: ilFy8N3DRqZebIySIkHyhzi9S81/rAo2pI/lKegR1o6cdnn/c1xnBEiSdjjtsuChmFZji6sawfB7lU4LOCMrVXvI1/aiO94CgSRhV0qbRKyZ0gIgghS+uj0wmqJWltt+4EFexuwMqjDA7701eIZ1OZU+rvkChc2iF9gOGFASU58/vx1mHt0vimFhJxkIo9+sFYLssGlrwtbI5J9Tix8Ue7eegnSQMlKKVs2S5NRPsS1hrrnPdbLQ6BMj7b9b1Q1zf0qgjRgyi9UARXnrtAMgwxivCnOOUtvLj+stHF2wBacpcCREfl4Ni4HkvDVqlhe4x/m42GjWnxnh/DbSbhLAyhdW+hdJ/KFumIOpqsc6cm2b76WuWIEUYjPhupmYOiMX716FH0a2qx8CPeXrv86JXu0Oj/vWhIgHGmGWPkfvLUxzdqQ3d/7zTLNx33Tyu76cuRoOQVEgiIYNmmTUkGvOqwKtVEtH3l5K5yG/u/9ZPM7IHBdlwckw+m1B3jF0ceF7lVEsoAoBpTccdwoWkXI/X7Bfllrectj4zEfKBr98oAppaUNJzjIvELqDAvONpWQv6njgY9RKqti9o30RKJcnyjGCH9bhXYSBlSAQ9bFPu8J3N1joqD8bp1Za+hkBiy4yPBTLhJB2nk1zVoCfMBGTJN0OZCvj4OgV7NdssD2IGRQ=
+  file: slides.pdf
+  skip_cleanup: true
+  on:
+    tags: true
