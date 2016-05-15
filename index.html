@@ -802,7 +802,8 @@ hi</span>
 					</code></pre>
 					<pre class="fragment" data-fragment-index="10"><code data-trim data-noescape>
 $ docker run -d -p 80:80 -v /var/tmp/nginx:/usr/share/nginx/html:ro \
---security-opt label:disable --name my-nginx nginx
+--security-opt label:disable <span class="fragment" data-fragment-index="11">--user `id -u`:`id -g`</span> \
+--name my-nginx nginx
 					</code></pre>
 
 					<aside class="notes">

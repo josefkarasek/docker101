@@ -4,7 +4,7 @@ services:
 - docker
 
 script:
-- docker run --rm -v `pwd`:/pwd astefanutti/decktape --size 1600x900 https://pschiffe.github.io/docker101 /pwd/slides.pdf
+- docker run --rm --user `id -u`:`id -g` -v `pwd`:/pwd astefanutti/decktape --size 1600x900 https://pschiffe.github.io/docker101 /pwd/slides.pdf
 
 deploy:
   provider: releases
