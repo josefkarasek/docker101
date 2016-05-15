@@ -1,4 +1,7 @@
 # Linux Containers Course
+
+[![Build Status](https://travis-ci.org/pschiffe/docker101.svg)](https://travis-ci.org/pschiffe/docker101)
+
 Slides are available here - [josefkarasek.github.io/docker101](https://josefkarasek.github.io/docker101/) (source files can be found in the gh-pages branch)
 
 Feedback form for the second session - [schiffer.typeform.com/to/IjtF0j](https://schiffer.typeform.com/to/IjtF0j)
