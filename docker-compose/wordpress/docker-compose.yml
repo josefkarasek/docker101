@@ -1,0 +1,14 @@
+my-mariadb:
+  image: mariadb
+  restart: always
+  environment:
+    MYSQL_ROOT_PASSWORD: my-secret-pw
+  volumes:
+    - mariadb-data:/var/lib/mysql
+my-wordpress:
+  image: wordpress
+  restart: always
+  ports:
+    - "80:80"
+  links:
+    - my-mariadb:mysql
