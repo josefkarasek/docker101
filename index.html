@@ -543,6 +543,10 @@ $ docker start<span class="fragment" data-fragment-index="5"> -a</span><span cla
 						<dt class="fragment" data-fragment-index="3">my-fedora</dt>
 							<dd class="fragment" data-fragment-index="3">Name of the container</dd>
 					</dl>
+					<aside>
+						docker run -i fedora bash doesn't show prompt, readline is not in place, just a stupid REPL
+						docker start -a container-with-interactive-bash doesn't do anything since commands are not being read from stdin
+					</aside>
 				</section>
 
 				<section>
