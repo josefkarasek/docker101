@@ -480,6 +480,8 @@ dock../docker101-fedora  latest  68f574f4  10 hours ago  217.9 MB
 
 					<aside class="notes">
 						fedora image is official image - thus no author
+						rmi -f fails on an image which has running container
+						rmi -f succeeds on an image which has stopped containers — containers are still available and can be started; image layers are not available
 					</aside>
 				</section>
 
@@ -541,6 +543,10 @@ $ docker start<span class="fragment" data-fragment-index="5"> -a</span><span cla
 						<dt class="fragment" data-fragment-index="3">my-fedora</dt>
 							<dd class="fragment" data-fragment-index="3">Name of the container</dd>
 					</dl>
+					<aside>
+						docker run -i fedora bash doesn't show prompt, readline is not in place, just a stupid REPL
+						docker start -a container-with-interactive-bash doesn't do anything since commands are not being read from stdin
+					</aside>
 				</section>
 
 				<section>
@@ -554,6 +560,8 @@ $ docker rm<span class="fragment" data-fragment-index="4"> -f</span><span class=
 							<dd class="fragment" data-fragment-index="4">Removes container even if it's running</dd>
 						<dt class="fragment" data-fragment-index="3">my-fedora</dt>
 							<dd class="fragment" data-fragment-index="3">Name of the container</dd>
+						<dt class="fragment" data-fragment-index="5">-v</dt>
+							<dd class="fragment" data-fragment-index="5">Remove volumes associated with this container</dd>
 					</dl>
 				</section>
 
@@ -783,21 +791,43 @@ f7b1be4c1c9c  nginx  "ngi.."  6 minutes ago  Up 6 minutes  0.0.0.0:80->80/tcp, 4
 					<h2>Volumes</h2>
 					<pre><code data-trim data-noescape>
 $ docker run -d -p 80:80 \
-<span class="fragment" data-fragment-index="2">-v /var/tmp/nginx:/usr/share/nginx/html:ro,Z</span> --name my-nginx nginx
+<span class="fragment" data-fragment-index="1">-v /var/tmp/nginx:/usr/share/nginx/html:ro,Z</span> --name my-nginx nginx
 					</code></pre>
 					<dl>
-						<dt class="fragment" data-fragment-index="2">-v</dt>
-							<dd class="fragment" data-fragment-index="2">Create a bind mount</dd>
+						<dt class="fragment" data-fragment-index="1">-v</dt>
 					</dl>
-					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
+				</section>
+
+				<section>
+					<h2>Volumes II</h2>
+					<h3>SELinux labels</h3>
+					<p class="fragment" data-fragment-index="1">
+						<em>/path:/path:Z</em>
+						<pre class="fragment" data-fragment-index="1"><code>system_u:object_r:svirt_sandbox_file_t:s0:c435,c722</code></pre>
+					</p>
+					<p class="fragment" data-fragment-index="2">
+						<em>/path:/path:z</em>
+						<pre class="fragment" data-fragment-index="2"><code>system_u:object_r:svirt_sandbox_file_t:s0</code></pre>
+					</p>
+					<p class="fragment" data-fragment-index="3">
+						<em>/path:/path</em>
+						has default label, e.g.
+						<pre class="fragment" data-fragment-index="3"><code>system_u:object_r:user_home_t:s0</code></pre>
+					</p>
+				</section>
+
+				<section>
+					<h2>Volumes III</h2>
+					<h3>Create a bind mount</h3>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
 $ docker run -d -p 80:80 -v /var/tmp/nginx:/usr/share/nginx/html:ro \
 --privileged --name my-nginx nginx
-<span class="fragment" data-fragment-index="4">$ docker exec -it my-nginx bash</span>
-<span class="fragment" data-fragment-index="5">root@b4f844a75727:/#</span><span class="fragment" data-fragment-index="6"> echo hi > /usr/share/nginx/html/test
+<span class="fragment" data-fragment-index="2">$ docker exec -it my-nginx bash</span>
+<span class="fragment" data-fragment-index="3">root@b4f844a75727:/#</span><span class="fragment" data-fragment-index="3"> echo hi > /usr/share/nginx/html/test
 bash: /usr/share/nginx/html/test: Read-only file system</span>
-<span class="fragment" data-fragment-index="7">root@b4f844a75727:/# mount /dev/dm-1 /mnt/</span>
-<span class="fragment" data-fragment-index="8">root@b4f844a75727:/# echo hi > /mnt/var/tmp/nginx/test</span>
-<span class="fragment" data-fragment-index="9">root@b4f844a75727:/# cat /usr/share/nginx/html/test
+<span class="fragment" data-fragment-index="4">root@b4f844a75727:/# mount /dev/dm-1 /mnt/</span>
+<span class="fragment" data-fragment-index="5">root@b4f844a75727:/# echo hi > /mnt/var/tmp/nginx/test</span>
+<span class="fragment" data-fragment-index="6">root@b4f844a75727:/# cat /usr/share/nginx/html/test
 hi</span>
 					</code></pre>
 					<pre class="fragment" data-fragment-index="10"><code data-trim data-noescape>
@@ -817,7 +847,7 @@ $ docker run -d -p 80:80 -v /var/tmp/nginx:/usr/share/nginx/html:ro \
 				</section>
 
 				<section>
-					<h2>Volumes II</h2>
+					<h2>Volumes IV</h2>
 					<pre><code data-trim data-noescape>
 $ docker run -d -p 80:80 <span class="fragment">-v nginx-data:/usr/share/nginx/html:ro</span> \
 --name my-nginx nginx
