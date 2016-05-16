@@ -480,6 +480,8 @@ dock../docker101-fedora  latest  68f574f4  10 hours ago  217.9 MB
 
 					<aside class="notes">
 						fedora image is official image - thus no author
+						rmi -f fails on an image which has running container
+						rmi -f succeeds on an image which has stopped containers — containers are still available and can be started; image layers are not available
 					</aside>
 				</section>
 
