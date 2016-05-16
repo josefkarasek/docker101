@@ -1,9 +1,14 @@
+.reveal pre code {
+    max-height: 500px;
+}
+
 pre.asciinema-terminal {
     margin: 0;
 }
 
 #toc-aside {
-    font-size: 70%;
+    font-size: 0.6em;
+    line-height: 1.2em;
     margin: 25px;
     opacity: 0;
     position: absolute;

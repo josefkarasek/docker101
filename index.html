@@ -60,6 +60,9 @@
 					<p>
 						<small>Tomáš Tomeček (Developer Experience)<br>Peter Schiffer (AtomicOpenshift)<br>Josef Karásek (xPaaS)</small>
 					</p>
+					<p>
+						<small><a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a></small>
+					</p>
 				</section>
 
 				<section>
@@ -479,8 +482,8 @@ dock../docker101-fedora  latest  68f574f4  10 hours ago  217.9 MB
 					</div>
 
 					<aside class="notes">
-						fedora image is official image - thus no author
-						rmi -f fails on an image which has running container
+						fedora image is official image - thus no author<br>
+						rmi -f fails on an image which has running container<br>
 						rmi -f succeeds on an image which has stopped containers — containers are still available and can be started; image layers are not available
 					</aside>
 				</section>
@@ -543,8 +546,8 @@ $ docker start<span class="fragment" data-fragment-index="5"> -a</span><span cla
 						<dt class="fragment" data-fragment-index="3">my-fedora</dt>
 							<dd class="fragment" data-fragment-index="3">Name of the container</dd>
 					</dl>
-					<aside>
-						docker run -i fedora bash doesn't show prompt, readline is not in place, just a stupid REPL
+					<aside class="notes">
+						docker run -i fedora bash doesn't show prompt, readline is not in place, just a stupid REPL<br>
 						docker start -a container-with-interactive-bash doesn't do anything since commands are not being read from stdin
 					</aside>
 				</section>
@@ -560,8 +563,6 @@ $ docker rm<span class="fragment" data-fragment-index="4"> -f</span><span class=
 							<dd class="fragment" data-fragment-index="4">Removes container even if it's running</dd>
 						<dt class="fragment" data-fragment-index="3">my-fedora</dt>
 							<dd class="fragment" data-fragment-index="3">Name of the container</dd>
-						<dt class="fragment" data-fragment-index="5">-v</dt>
-							<dd class="fragment" data-fragment-index="5">Remove volumes associated with this container</dd>
 					</dl>
 				</section>
 
@@ -733,8 +734,11 @@ $ docker run<span class="fragment" data-fragment-index="4"> -d</span><span class
 					</dl>
 					<pre class="fragment" data-fragment-index="6"><code data-trim data-noescape>
 $ docker ps
-CONTAINER ID  IMAGE  COMMAND                 CREATED        STATUS        PORTS            NAMES
-226b6402c0ac  nginx  "nginx -g 'daemon off"  6 minutes ago  Up 6 minutes  80/tcp, 443/tcp  my-nginx
+CONTAINER ID  IMAGE  COMMAND                 CREATED       \
+226b6402c0ac  nginx  "nginx -g 'daemon off"  6 minutes ago \
+STATUS        PORTS            NAMES
+Up 6 minutes  80/tcp, 443/tcp  my-nginx
+
 <span class="fragment" data-fragment-index="7">$ docker inspect --format '{{ .NetworkSettings.IPAddress }}' my-nginx</span>
 <span class="fragment" data-fragment-index="8">172.17.0.2</span>
 <span class="fragment" data-fragment-index="9">$ curl 172.17.0.2</span>
@@ -761,8 +765,10 @@ $ docker port my-nginx
 80/tcp -> 0.0.0.0:32769</span>
 
 <span class="fragment" data-fragment-index="5">$ docker ps
-CONTAINER ID  IMAGE  COMMAND  CREATED        STATUS        PORTS                                          NAMES
-dd0802ce4333  nginx  "ngi.."  6 minutes ago  Up 6 minutes  0.0.0.0:32769->80/tcp, 0.0.0.0:32768->443/tcp  my-nginx</span>
+CONTAINER ID  IMAGE  COMMAND  CREATED        STATUS       \
+dd0802ce4333  nginx  "ngi.."  6 minutes ago  Up 6 minutes \
+PORTS                                          NAMES
+0.0.0.0:32769->80/tcp, 0.0.0.0:32768->443/tcp  my-nginx</span>
 					</code></pre>
 				</section>
 
@@ -780,8 +786,11 @@ $ docker port my-nginx
 <span class="fragment" data-fragment-index="4">80/tcp -> 0.0.0.0:80</span>
 
 <span class="fragment" data-fragment-index="5">$ docker ps
-CONTAINER ID  IMAGE  COMMAND  CREATED        STATUS        PORTS                        NAMES
-f7b1be4c1c9c  nginx  "ngi.."  6 minutes ago  Up 6 minutes  0.0.0.0:80->80/tcp, 443/tcp  my-nginx</span>
+CONTAINER ID  IMAGE  COMMAND  CREATED        STATUS       \
+f7b1be4c1c9c  nginx  "ngi.."  6 minutes ago  Up 6 minutes \
+PORTS                        NAMES
+0.0.0.0:80->80/tcp, 443/tcp  my-nginx</span>
+
 <span class="fragment" data-fragment-index="6">$ curl localhost</span>
 <span class="fragment" data-fragment-index="7">...&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;...</span>
 					</code></pre>
@@ -793,32 +802,35 @@ f7b1be4c1c9c  nginx  "ngi.."  6 minutes ago  Up 6 minutes  0.0.0.0:80->80/tcp, 4
 $ docker run -d -p 80:80 \
 <span class="fragment" data-fragment-index="1">-v /var/tmp/nginx:/usr/share/nginx/html:ro,Z</span> --name my-nginx nginx
 					</code></pre>
-					<dl>
-						<dt class="fragment" data-fragment-index="1">-v</dt>
-					</dl>
+					<strong class="fragment" data-fragment-index="1">-v, --volume</strong>
 				</section>
 
 				<section>
 					<h2>Volumes II</h2>
-					<h3>SELinux labels</h3>
-					<p class="fragment" data-fragment-index="1">
+					<p>SELinux labels</p>
+					<div class="fragment">
 						<em>/path:/path:Z</em>
-						<pre class="fragment" data-fragment-index="1"><code>system_u:object_r:svirt_sandbox_file_t:s0:c435,c722</code></pre>
-					</p>
-					<p class="fragment" data-fragment-index="2">
+						<pre><code data-trim data-noescape>
+							system_u:object_r:svirt_sandbox_file_t:s0:c435,c722
+						</code></pre>
+					</div>
+					<div class="fragment">
 						<em>/path:/path:z</em>
-						<pre class="fragment" data-fragment-index="2"><code>system_u:object_r:svirt_sandbox_file_t:s0</code></pre>
-					</p>
-					<p class="fragment" data-fragment-index="3">
-						<em>/path:/path</em>
-						has default label, e.g.
-						<pre class="fragment" data-fragment-index="3"><code>system_u:object_r:user_home_t:s0</code></pre>
-					</p>
+						<pre><code data-trim data-noescape>
+							system_u:object_r:svirt_sandbox_file_t:s0
+						</code></pre>
+					</div>
+					<div class="fragment">
+						<em>/path:/path</em> has default label, e.g.
+						<pre><code data-trim data-noescape>
+							system_u:object_r:user_home_t:s0
+						</code></pre>
+					</div>
 				</section>
 
 				<section>
 					<h2>Volumes III</h2>
-					<h3>Create a bind mount</h3>
+					<p>Create a bind mount</p>
 					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
 $ docker run -d -p 80:80 -v /var/tmp/nginx:/usr/share/nginx/html:ro \
 --privileged --name my-nginx nginx
@@ -980,9 +992,12 @@ PID   TTY  STAT  TIME  COMMAND
 					<h2>Docker stats</h2>
 					<pre><code data-trim data-noescape>
 $ docker stats --no-stream my-mariadb my-wordpress
-CONTAINER     CPU %  MEM USAGE / LIMIT    MEM %  NET I/O              BLOCK I/O
-my-mariadb    0.12%  244.3 MB / 12.28 GB  1.99%  2.722 kB / 1.326 kB  19.19 MB / 124.8 MB
-my-wordpress  0.01%  102.6 MB / 12.28 GB  0.84%  1.974 kB / 1.426 kB  278.5 kB / 53.25 kB
+CONTAINER     CPU %  MEM USAGE / LIMIT    MEM %  NET I/O             \
+my-mariadb    0.12%  244.3 MB / 12.28 GB  1.99%  2.722 kB / 1.326 kB \
+my-wordpress  0.01%  102.6 MB / 12.28 GB  0.84%  1.974 kB / 1.426 kB \
+BLOCK I/O
+19.19 MB / 124.8 MB
+278.5 kB / 53.25 kB
 					</code></pre>
 				</section>
 
@@ -1038,19 +1053,22 @@ LABEL INSTALL="docker run --rm --privileged -v /:/host \
 					</code></pre>
 					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
 #!/bin/sh
-sed "s%IMAGE%${IMAGE}%g; s%NAME%${NAME}%g;" /etc/nginx.service.template\
+sed "s%IMAGE%${IMAGE}%g; s%NAME%${NAME}%g;" \
+/etc/nginx.service.template \
 > ${HOST}/etc/systemd/system/${NAME}.service
+
 chroot $HOST systemctl daemon-reload
 echo "Service ${NAME}.service configured to run nginx container."
 					</code></pre>
                     <pre class="fragment" data-fragment-index="2"><code data-trim>
 [Unit]
-Description=The nginx HTTP and reverse proxy server with docker101 slides
+Description=The nginx HTTP server with docker101 slides
 After=docker.service
 [Service]
 ExecStart=/usr/bin/atomic run --name=NAME IMAGE
 ExecStop=/usr/bin/atomic stop --name=NAME IMAGE
-ExecReload=/usr/bin/docker exec -t NAME /bin/kill -s HUP $(cat /var/run/nginx.pid)
+ExecReload=/usr/bin/docker exec -t NAME /bin/kill \
+    -s HUP $(cat /var/run/nginx.pid)
 Type=oneshot
 RemainAfterExit=yes
 [Install]
@@ -1158,30 +1176,20 @@ localhost              ansible_connection=local
 $ cat docker.yml
 ---
 - hosts: localhost
+  vars:
+    c_state: reloaded
   tasks:
-
   - name: mariadb container
     docker:
       name: my-mariadb
       image: mariadb
-      state: reloaded
+      state: "{{ c_state }}"
       pull: always
       restart_policy: always
       net: bridge
       volumes: mariadb-data:/var/lib/mysql
       env:
         MYSQL_ROOT_PASSWORD: my-secret-pw
-
-  - name: wordpress container
-    docker:
-      name: my-wordpress
-      image: wordpress
-      state: reloaded
-      pull: always
-      restart_policy: always
-      net: bridge
-      links: my-mariadb:mysql
-      ports: "80:80"
 					</code></pre>
 
 					<aside class="notes">
@@ -1193,9 +1201,25 @@ $ cat docker.yml
 				</section>
 
 				<section>
-					<h2>Ansible</h2>
+					<h2>Ansible II</h2>
 					<pre><code data-trim data-noescape>
-$ ansible-playbook -i hosts docker.yml
+  - name: wordpress container
+    docker:
+      name: my-wordpress
+      image: wordpress
+      state: "{{ c_state }}"
+      pull: always
+      restart_policy: always
+      net: bridge
+      links: my-mariadb:mysql
+      ports: "80:80"
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Ansible III</h2>
+					<pre><code data-trim data-noescape>
+$ ansible-playbook -i hosts <span class="fragment">-e c_state=absent</span> docker.yml
 
 PLAY [localhost] *****************************************************
 
