@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  vars:
+    c_state: reloaded
+  tasks:
+  - name: mariadb container
+    docker:
+      name: my-mariadb
+      image: mariadb
+      state: "{{ c_state }}"
+      pull: always
+      restart_policy: always
+      net: bridge
+      volumes: mariadb-data:/var/lib/mysql
+      env:
+        MYSQL_ROOT_PASSWORD: my-secret-pw
+  - name: wordpress container
+    docker:
+      name: my-wordpress
+      image: wordpress
+      state: "{{ c_state }}"
+      pull: always
+      restart_policy: always
+      net: bridge
+      links: my-mariadb:mysql
+      ports: "80:80"
