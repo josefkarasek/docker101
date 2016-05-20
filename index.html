@@ -1584,6 +1584,34 @@ LABEL cache.hate.I=1
 					</ul>
 				</section>
 
+				<section>
+					<h2>Registry</h2>
+					<p><strong>Image sharing and distribution</strong></p>
+					<ul>
+						<li>registry packaged simply as Docker image</li>
+						<li>TLS certificate for production + DNS + network</li>
+						<li>non-production purposes - add hostname to daemon settings' options</li>
+						<pre><code>
+$ sudo vim /etc/sysconfig/docker
+OPTIONS='--insecure-registry localhost/5000'
+$ sudo systemctl restart docker
+						</code></pre>
+
+						<pre><code>
+$ docker run -d -p 5000:5000 registry:2
+$ docker tag pschiffe/docker101-fedora localhost:5000/pschiffe/docker101-fedora
+$ docker push localhost:5000/pschiffe/docker101-fedora
+						</code></pre>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>registry v1 deprecated, now DISTRIBUTION</li>
+							<li>for production associate a hostname, add CNAME, iptables, firewalld</li>
+						</ul>
+					</aside>
+				</section>
+
 <!--
 <section>
 	<h2>The wordpress example</h2>
