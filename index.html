@@ -1245,6 +1245,45 @@ localhost             : ok=3    changed=2    unreachable=0    failed=0
 					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
+				<section>
+					<h2>Building Images</h2>
+				</section>
+
+				<section>
+					<h2>Docker commit</h2>
+					<p>Manually create an image from existing container</p>
+					<pre><code data-trim data-noescape>
+						$ docker commit <span class="fragment" data-fragment-index="3">-c="ENV AWESOME true"</span> <span class="fragment" data-fragment-index="1">my-fedora</span> <span class="fragment" data-fragment-index="2">fedora-plus:23</span>
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="3">-c, --change</dt>
+							<dd class="fragment" data-fragment-index="3">Apply some of the Dockerfile instructions</dd>
+						<dt class="fragment" data-fragment-index="1">my-fedora</dt>
+							<dd class="fragment" data-fragment-index="1">Container, from which the image will be created</dd>
+						<dt class="fragment" data-fragment-index="2">fedora-plus:23</dt>
+							<dd class="fragment" data-fragment-index="2">Name of the newly created image</dd>
+					</dl>
+				</section>
+
+				<section>
+					<h2>Dockerfile</h2>
+					<p>File with instructions how to build Docker image</p>
+					<pre><code data-trim data-noescape>
+FROM fedora:23
+MAINTAINER "Peter Schiffer" &lt;pschiffe@redhat.com&gt;
+
+RUN dnf -y --setopt=tsflags=nodocs install \
+        nginx \
+    &amp;&amp; dnf -y clean all
+
+EXPOSE 80
+
+VOLUME [ "/usr/share/nginx/html" ]
+
+CMD [ "nginx", "-g", "daemon off;" ]
+					</code></pre>
+				</section>
+
 <!--
 <section>
 	<h2>The wordpress example</h2>
