@@ -94,6 +94,7 @@
 					<ul>
 						<li><a href="#/session-1">Introduction, history, underlying technologies</a></li>
 						<li><a href="#/session-2">Running containers, atomic, docker compose, ansible</a></li>
+						<li><a href="#/session-3">Docker images, layers, creating images, distribution of images and registry</a></li>
 					</ul>
 				</section>
 
@@ -1245,11 +1246,17 @@ localhost             : ok=3    changed=2    unreachable=0    failed=0
 					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
-				<section>
-					<h2>Building Images</h2>
+				<section id="session-3">
+					<h2>Session 3</h2>
+					<ul>
+						<li><a href="#/layers">Layers</a></li>
+						<li><a href="#/building-images">Building images</a></li>
+						<li><a href="#/building-tips">Building: tips &amp; tricks</a></li>
+						<li><a href="#/building-tips">Docker registry</a></li>
+					</ul>
 				</section>
 
-				<section>
+				<section id="layers">
 					<h2>Layers</h2>
 					<img src="img/container-layers.jpg" alt="container layers">
 				</section>
@@ -1275,7 +1282,7 @@ f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/layer.tar
 				</section>
 
 				<section>
-					<h2>Layers on filesystem</h2>
+					<h2>Layers on filesystem II</h2>
 					<pre><code data-trim data-noescape>
 $ cat repositories
 {
@@ -1287,7 +1294,7 @@ $ cat repositories
 				</section>
 
 				<section>
-					<h2>Layers on filesystem</h2>
+					<h2>Layers on filesystem III</h2>
 					<pre><code data-trim data-noescape>
 $ cat f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/json
 {
@@ -1319,7 +1326,7 @@ $ cat f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/json
 				</section>
 
 				<section>
-					<h2>Layers on filesystem</h2>
+					<h2>Layers on filesystem IV</h2>
 					<pre><code data-trim data-noescape>
 $ tree
 ├── etc
@@ -1371,6 +1378,10 @@ a9c95da98190: Download complete
 					</code></pre>
 				</section>
 
+				<section id="building-images">
+					<h2>Building Images</h2>
+				</section>
+
 				<section>
 					<h2>Docker commit</h2>
 					<p>Manually create an image from existing container</p>
@@ -1404,7 +1415,7 @@ VOLUME [ "/usr/share/nginx/html" ]
 
 CMD [ "nginx", "-g", "daemon off;" ]
 					</code></pre>
-					<p>Every instruction creates <strong>new layer</strong></p>
+					<p>Every instruction creates <strong>a new layer</strong></p>
 				</section>
 
 				<section>
@@ -1529,79 +1540,106 @@ CMD [ "--help" ]
 				</section>
 
 				<section>
-					<h3>RUN, CMD, ENTRYPOINT II</h3>
+					<h2>RUN, CMD, ENTRYPOINT II</h2>
 					<p><code>RUN</code>, <code>CMD</code> and <code>ENTRYPOINT</code> can be in two formats:</p>
-					<ul>
-						<li>exec form: <code>CMD [ "executable", "param1" ]</code></li>
-						<li>shell form: <code>CMD command param1</code></li>
-					</ul>
-					<p>In the shell form, command is passed to <code>/bin/sh -c</code>, so all the shell env vars are accessible, but the process is not running as PID 1 and won't receive the signals. For <code>CMD</code> and <code>ENTRYPOINT</code>, exec form is preferred, for <code>RUN</code>, you can safely use shell form.</p>
+					<pre><code data-trim data-noescape>
+# exec form
+CMD [ "executable", "param1" ]
+					</code></pre>
+					<pre><code data-trim data-noescape>
+# shell form
+CMD command param1
+					</code></pre>
+					<p>In the shell form, command is passed to <code>/bin/sh -c</code>, so all the shell env vars are accessible, but the process is not running as PID 1 and won't receive the signals. For <code>CMD</code> and <code>ENTRYPOINT</code>, exec form is preferred; for <code>RUN</code>, you can safely use the shell form.</p>
 				</section>
 
 				<section>
+					<h3>ARG</h3>
+					<p>Modify parameters during build time</p>
+					<pre><code data-trim data-noescape>
+ARG user
+USER ${user:-nobody}
+					</code></pre>
+					<pre><code data-trim data-noescape>
+$ docker build --build-arg user=apache .
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Docker build</h2>
+					<pre><code data-trim data-noescape>
+$ docker build <span class="fragment" data-fragment-index="2">-t docker.io/pschiffe/best-image:42</span> <span class="fragment" data-fragment-index="1">.</span>
+					</code></pre>
+					<dl>
+						<dt class="fragment" data-fragment-index="2">-t, --tag</dt>
+							<dd class="fragment" data-fragment-index="2">Repository, name and tag to be applied to the image</dd>
+						<dt class="fragment" data-fragment-index="1">context</dt>
+							<dd class="fragment" data-fragment-index="1">Usually <code>pwd</code>, where the <code>Dockerfile</code> is</dd>
+					</dl>
+				</section>
+
+				<section id="building-tips">
 					<h2>Building: tips &amp; tricks</h2>
-					<ul>
+					<ul style="width:100%;">
 						<li>Keep images small</li>
-						<li><em>ADD</em>ed and <em>COPY</em>-ed files will stay in image forever</li>
-						<li>remove unneeded metadata (<em>dnf clean all</em>)</li>
-						<li>chain <em>RUN</em> instructions
-							<pre><code class="diff" data-trim data-noescape>
+						<li><code>ADD</code>ed and <code>COPY</code>-ed files will stay in the image forever</li>
+						<li>Remove unneeded metadata (<code>dnf clean all</code>)</li>
+						<li>Chain <code>RUN</code> instructions</li>
+					</ul>
+					<pre><code class="diff" data-trim data-noescape>
 -RUN git clone http://git.example.com/repo
 -RUN cd repo &amp;&amp; make
 +RUN git clone http://git.example.com/repo &amp;&amp; cd repo &amp;&amp; make
-							</code></pre>
-						</li>
-						<li>actually, chain all instructions
-							<pre><code class="diff" data-trim data-noescape>
+					</code></pre>
+					<ul style="width:100%;">
+						<li>Actually, chain all instructions</li>
+					</ul>
+					<pre><code class="diff" data-trim data-noescape>
 -ENV PYTHONDONTWRITEBYTECODE=true
 -ENV DEBUG=true
 +ENV PYTHONDONTWRITEBYTECODE=true DEBUG=true
-							</code></pre>
-						</li>
-					</ul>
+					</code></pre>
 				</section>
 
 				<section>
 					<h2>Building: tips &amp; tricks II</h2>
 					<ul>
-						<li>pin to specific base image
+						<li>Pin to specific base image
 							<pre><code class="diff" data-trim data-noescape>
 -FROM fedora
 +FROM fedora:23
 							</code></pre>
 						</li>
-						<li>do(n't) update base image</li>
-						<li>set yourself as <em>MAINTAINER</em></li>
-						<li><em>exec</em> in wrapper scripts</li>
+						<li>Do(n't) update base image</li>
+						<li>Set yourself as <code>MAINTAINER</code></li>
+						<li><code>exec</code> in wrapper scripts</li>
 					</ul>
 				</section>
 
 				<section>
 					<h2>Secrets</h2>
-					<ul>
-						<li>the issue:
-							<pre><code data-trim data-noescape>
+					<pre><code data-trim data-noescape>
 $ git clone ssh://repository
 Please make sure you have the correct access rights
-							</code></pre>
-						</li>
-						<li>no easy solution</li>
-						<li>build and install in 2 steps</li>
-						<li>store secrets on remote server and fetch them during one RUN "session"</li>
+					</code></pre>
+					<ul>
+						<li>No easy solution</li>
+						<li>Build and install in 2 steps</li>
+						<li>Store secrets on a remote server and fetch them during one RUN "session"</li>
 					</ul>
 				</section>
 
 				<section>
 					<h2>Build cache</h2>
 					<ul>
-						<li>result of these commands depends on time and space:
+						<li>Result of these commands depends on time and space:
 							<pre><code data-trim data-noescape>
 $ git clone https://repository
 $ dnf update -y
 							</code></pre>
 						</li>
-						<li>do production builds with <em>--no-cache</em></li>
-						<li>workaround is to insert no-op instruction in dockerfile
+						<li>Do production builds with <code>--no-cache</code></li>
+						<li>Workaround is to insert no-op instruction in dockerfile
 							<pre><code data-trim data-noescape>
 RUN dnf update -y || :
 LABEL cache.hate.I=1
@@ -1621,25 +1659,24 @@ LABEL cache.hate.I=1
 					</ul>
 				</section>
 
-				<section>
+				<section id="registry">
 					<h2>Registry</h2>
 					<p><strong>Image sharing and distribution</strong></p>
 					<ul>
-						<li>registry packaged simply as Docker image</li>
+						<li>Registry packaged simply as Docker image</li>
 						<li>TLS certificate for production + DNS + network</li>
-						<li>non-production purposes - add hostname to daemon settings' options</li>
-						<pre><code>
+						<li>Non-production purposes - add hostname to daemon settings' options</li>
+					</ul>
+					<pre><code data-trim data-noescape>
 $ sudo vim /etc/sysconfig/docker
 OPTIONS='--insecure-registry localhost/5000'
 $ sudo systemctl restart docker
-						</code></pre>
-
-						<pre><code>
+					</code></pre>
+					<pre><code data-trim data-noescape>
 $ docker run -d -p 5000:5000 registry:2
 $ docker tag pschiffe/docker101-fedora localhost:5000/pschiffe/docker101-fedora
 $ docker push localhost:5000/pschiffe/docker101-fedora
-						</code></pre>
-					</ul>
+					</code></pre>
 
 					<aside class="notes">
 						<ul>
@@ -1751,6 +1788,14 @@ bb827162ac24  8 days ago    /bin/sh -c echo "daemon off;" >> /etc/nginx/n   2.33
       "v1Compatibility": "{\"id\":\"e45a5af57b00862e5ef5782a9925979a02ba2b12dff832fd0991335f4a11e5c5\"..."
    },
 					</code></pre>
+				</section>
+
+				<section>
+					<h2>Thank you!</h2>
+					<a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a><br>
+					<a href="https://schiffer.typeform.com/to/IjtF0j">schiffer.typeform.com/to/IjtF0j</a><br>
+					<img src="img/qrcode2.png" alt="qrcode"><br>
+					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
 <!--
