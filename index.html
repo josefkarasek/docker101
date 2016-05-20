@@ -1246,6 +1246,128 @@ localhost             : ok=3    changed=2    unreachable=0    failed=0
 				</section>
 
 				<section>
+					<h2>Layers</h2>
+					<img src="img/container-layers.jpg" alt="container layers">
+				</section>
+
+				<section>
+					<h2>Layers on filesystem</h2>
+					<pre><code data-trim data-noescape>
+repositories
+bb827162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/
+bb827162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/VERSION
+bb827162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/json
+bb827162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/layer.tar
+f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/
+f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/VERSION
+f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/json
+f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/layer.tar
+2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/
+2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/VERSION
+2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/json
+2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/layer.tar
+...
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Layers on filesystem</h2>
+					<pre><code data-trim data-noescape>
+$ cat repositories
+{
+  "my-nginx": {
+    "latest": "2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016"
+  }
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Layers on filesystem</h2>
+					<pre><code data-trim data-noescape>
+$ cat f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/json
+{
+    "architecture": "amd64",
+    "config": {
+        "Cmd": [
+            "/usr/sbin/nginx"
+        ],
+        "Env": [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        ],
+        "ExposedPorts": {
+            "80/tcp": {}
+        },
+        "Hostname": "f3ad5e182911",
+        "Image": "b8978d2cc2b7d2e3f0a3425cf8a63b5de50e2c41c822a7b454931731ad438ce6",
+        ...
+    },
+    "container": "29da3f58dd148f195bbbffa73ef42058d3a0a22fb829fb4de5540d9d74c9f448",
+    "container_config": {
+        ...
+    },
+    "created": "2016-05-11T13:27:00.874663811Z",
+    "docker_version": "1.9.1",
+    "id": "f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63",
+    "parent": "b8978d2cc2b7d2e3f0a3425cf8a63b5de50e2c41c822a7b454931731ad438ce6"
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Layers on filesystem</h2>
+					<pre><code data-trim data-noescape>
+$ tree
+├── etc
+│   └── nginx
+├── usr
+│   ├── bin
+│   ├── lib
+│   ├── lib64
+│   ├── sbin
+│   ├── share
+│   ├── sbin
+│   │   └── nginx
+│   └── share
+│       └── nginx
+└── var
+    ├── lib
+    │   └── nginx
+    └── log
+        ├── dnf.librepo.log
+        ├── dnf.log
+        ├── dnf.rpm.log
+        ├── hawkey.log
+        ├── lastlog
+        └── nginx
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Layers — pull</h2>
+					<pre><code data-trim data-noescape>
+$ docker pull redis
+Using default tag: latest
+
+1bc55a3ae3bf: Pull complete
+f17e869358e1: Extracting [=================>    ] 13.241 MB/16.62 MB
+2d52a2ee7736: Download complete
+0836ba20239a: Download complete
+24364816751d: Download complete
+d1e235ab1d2f: Download complete
+fa69104d9591: Download complete
+dc9524752708: Download complete
+c9f8cb97ea28: Download complete
+5a585bb2574c: Download complete
+629b00c37643: Download complete
+5081a40e31d6: Download complete
+a9c95da98190: Download complete
+0cd7b762e12a: Download complete
+84dbf5edc313: Download complete
+					</code></pre>
+				</section>
+
+				<section>
 					<h2>Building Images</h2>
 				</section>
 
@@ -1391,129 +1513,33 @@ RUN mkdir -p /opt/kibana \
 				</section>
 
 				<section>
-					<h2>Layers</h2>
-					<img src="img/container-layers.jpg" alt="container layers">
-				</section>
-
-				<section>
-					<h2>Layers on filesystem</h2>
+					<h3>CMD</h3>
+					<p>Default program to run</p>
 					<pre><code data-trim data-noescape>
-repositories
-bb827162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/
-bb827162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/VERSION
-bb827162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/json
-bb827162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/layer.tar
-f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/
-f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/VERSION
-f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/json
-f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/layer.tar
-2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/
-2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/VERSION
-2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/json
-2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/layer.tar
-...
+						CMD [ "nginx", "-g", "daemon off;" ]
 					</code></pre>
+					<div class="fragment">
+						<h3>ENTRYPOINT</h3>
+						<p>Can make a container act like a binary, <code>CMD</code> or command in the <code>docker run</code> will be treated as arguments</p>
+						<pre><code data-trim data-noescape>
+ENTRYPOINT [ "s3cmd" ]
+CMD [ "--help" ]
+						</code></pre>
+					</div>
 				</section>
 
 				<section>
-					<h2>Layers on filesystem</h2>
-					<pre><code data-trim data-noescape>
-$ cat repositories
-{
-  "my-nginx": {
-    "latest": "2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016"
-  }
-}
-					</code></pre>
+					<h3>RUN, CMD, ENTRYPOINT II</h3>
+					<p><code>RUN</code>, <code>CMD</code> and <code>ENTRYPOINT</code> can be in two formats:</p>
+					<ul>
+						<li>exec form: <code>CMD [ "executable", "param1" ]</code></li>
+						<li>shell form: <code>CMD command param1</code></li>
+					</ul>
+					<p>In the shell form, command is passed to <code>/bin/sh -c</code>, so all the shell env vars are accessible, but the process is not running as PID 1 and won't receive the signals. For <code>CMD</code> and <code>ENTRYPOINT</code>, exec form is preferred, for <code>RUN</code>, you can safely use shell form.</p>
 				</section>
 
 				<section>
-					<h2>Layers on filesystem</h2>
-					<pre><code data-trim data-noescape>
-$ cat f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/json
-{
-    "architecture": "amd64",
-    "config": {
-        "Cmd": [
-            "/usr/sbin/nginx"
-        ],
-        "Env": [
-            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-        ],
-        "ExposedPorts": {
-            "80/tcp": {}
-        },
-        "Hostname": "f3ad5e182911",
-        "Image": "b8978d2cc2b7d2e3f0a3425cf8a63b5de50e2c41c822a7b454931731ad438ce6",
-        ...
-    },
-    "container": "29da3f58dd148f195bbbffa73ef42058d3a0a22fb829fb4de5540d9d74c9f448",
-    "container_config": {
-        ...
-    },
-    "created": "2016-05-11T13:27:00.874663811Z",
-    "docker_version": "1.9.1",
-    "id": "f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63",
-    "parent": "b8978d2cc2b7d2e3f0a3425cf8a63b5de50e2c41c822a7b454931731ad438ce6"
-}
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Layers on filesystem</h2>
-					<pre><code data-trim data-noescape>
-$ tree
-├── etc
-│   └── nginx
-├── usr
-│   ├── bin
-│   ├── lib
-│   ├── lib64
-│   ├── sbin
-│   ├── share
-│   ├── sbin
-│   │   └── nginx
-│   └── share
-│       └── nginx
-└── var
-    ├── lib
-    │   └── nginx
-    └── log
-        ├── dnf.librepo.log
-        ├── dnf.log
-        ├── dnf.rpm.log
-        ├── hawkey.log
-        ├── lastlog
-        └── nginx
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Layers — pull</h2>
-					<pre><code data-trim data-noescape>
-$ docker pull redis
-Using default tag: latest
-
-1bc55a3ae3bf: Pull complete
-f17e869358e1: Extracting [=================>    ] 13.241 MB/16.62 MB
-2d52a2ee7736: Download complete
-0836ba20239a: Download complete
-24364816751d: Download complete
-d1e235ab1d2f: Download complete
-fa69104d9591: Download complete
-dc9524752708: Download complete
-c9f8cb97ea28: Download complete
-5a585bb2574c: Download complete
-629b00c37643: Download complete
-5081a40e31d6: Download complete
-a9c95da98190: Download complete
-0cd7b762e12a: Download complete
-84dbf5edc313: Download complete
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Building: tips & tricks</h2>
+					<h2>Building: tips &amp; tricks</h2>
 					<ul>
 						<li>Keep images small</li>
 						<li><em>ADD</em>ed and <em>COPY</em>-ed files will stay in image forever</li>
@@ -1521,8 +1547,8 @@ a9c95da98190: Download complete
 						<li>chain <em>RUN</em> instructions
 							<pre><code class="diff" data-trim data-noescape>
 -RUN git clone http://git.example.com/repo
--RUN cd repo && make
-+RUN git clone http://git.example.com/repo && cd repo && make
+-RUN cd repo &amp;&amp; make
++RUN git clone http://git.example.com/repo &amp;&amp; cd repo &amp;&amp; make
 							</code></pre>
 						</li>
 						<li>actually, chain all instructions
@@ -1536,7 +1562,7 @@ a9c95da98190: Download complete
 				</section>
 
 				<section>
-					<h2>Building: tips & tricks II</h2>
+					<h2>Building: tips &amp; tricks II</h2>
 					<ul>
 						<li>pin to specific base image
 							<pre><code class="diff" data-trim data-noescape>
