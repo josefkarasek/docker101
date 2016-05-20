@@ -1246,6 +1246,10 @@ localhost             : ok=3    changed=2    unreachable=0    failed=0
 				</section>
 
 				<section>
+					<h2>Building Images</h2>
+				</section>
+
+				<section>
 					<h2>Layers</h2>
 					<img src="img/container-layers.jpg" alt="container layers">
 				</section>
@@ -1365,10 +1369,6 @@ a9c95da98190: Download complete
 0cd7b762e12a: Download complete
 84dbf5edc313: Download complete
 					</code></pre>
-				</section>
-
-				<section>
-					<h2>Building Images</h2>
 				</section>
 
 				<section>
@@ -1611,6 +1611,17 @@ LABEL cache.hate.I=1
 				</section>
 
 				<section>
+					<h2>Standard labels</h2>
+					<ul>
+						<li><a href="https://github.com/projectatomic/ContainerApplicationGenericLabels">projectatomic/ContainerApplicationGenericLabels</a></li>
+						<li>you've already heard of <em>run</em>, <em>install</em>, <em>uninstall</em></li>
+						<li>labels which describe how to use the image</li>
+						<li>labels to describe the image</li>
+						<li>e.g. name, version, release, description, vcs-*, ...</li>
+					</ul>
+				</section>
+
+				<section>
 					<h2>Registry</h2>
 					<p><strong>Image sharing and distribution</strong></p>
 					<ul>
@@ -1636,6 +1647,110 @@ $ docker push localhost:5000/pschiffe/docker101-fedora
 							<li>for production associate a hostname, add CNAME, iptables, firewalld</li>
 						</ul>
 					</aside>
+				</section>
+
+				<section>
+					<h2>docker history</h2>
+					<pre><code data-trim data-noescape>
+IMAGE         CREATED       CREATED BY                                      SIZE
+2a614a888491  8 days ago    /bin/sh -c #(nop) LABEL RUN=/usr/bin/docker r   0 B
+f44ac04ea1e1  8 days ago    /bin/sh -c #(nop) CMD ["/usr/sbin/nginx"]       0 B
+b8978d2cc2b7  8 days ago    /bin/sh -c #(nop) EXPOSE 80/tcp                 0 B
+55d65c99d719  8 days ago    /bin/sh -c echo "nginx on Fedora" > /usr/shar   16 B
+bb827162ac24  8 days ago    /bin/sh -c echo "daemon off;" >> /etc/nginx/n   2.332 kB
+45a73658b488  8 days ago    /bin/sh -c dnf -y install nginx                 216.8 MB
+9bdb5101e5fc  10 weeks ago  /bin/sh -c #(nop) ADD file:bcb5e5cddd4c4d1cac   204.7 MB
+6888fc827a3f  10 weeks ago  /bin/sh -c #(nop) MAINTAINER Patrick Uiterwij   0 B
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>docker inspect fedora</h2>
+					<pre><code data-trim data-noescape>
+"Id": "9bdb5101e5fce92817d6a10364081ef1ca8e42c1c6b4fc5b509d52475bd9e2dc",
+"RepoTags": [
+    "docker.io/fedora:23",
+    "docker.io/fedora:latest"
+],
+"RepoDigests": [],
+"Parent": "6888fc827a3f086ff6cd336432071b4f5090c63e89f5fc7873e7b46476c8cbe2",
+"Comment": "",
+"Created": "2016-03-04T18:40:02.92155334Z",
+"Container": "826a02680430fc53de84e4bfec94d16a01f2acdd6149b536501563f26670646f",
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>docker inspect fedora</h2>
+					<pre><code data-trim data-noescape>
+"Config": {
+    "Hostname": "f3ad5e182911",
+    "Domainname": "",
+    "User": "",
+    "AttachStdin": false,
+    "AttachStdout": false,
+    "AttachStderr": false,
+    "Tty": false,
+    "OpenStdin": false,
+    "StdinOnce": false,
+    "Env": null,
+    "Cmd": null,
+    "Image": "e25d8296e7b584b19dfae097c20c57deae84d65b3055c1e27394d37fb0c8c368",
+    "Volumes": null,
+    "WorkingDir": "",
+    "Entrypoint": null,
+    "OnBuild": null,
+    "Labels": {}
+},
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>docker inspect fedora</h2>
+					<pre><code data-trim data-noescape>
+"ContainerConfig": {...}
+"DockerVersion": "1.9.1",
+"Author": "Patrick Uiterwijk \u003cpuiterwijk@gmail.com\u003e",
+"Architecture": "amd64",
+"Os": "linux",
+"Size": 204692029,
+"VirtualSize": 204692029,
+"GraphDriver": {
+    "Name": "devicemapper",
+    "Data": {
+        "DeviceId": "91",
+        "DeviceName": "docker-0:38-3943028-9bdb5101e5fce92817d6a10364081ef1ca8e42c1c6b4fc5b509d52475bd9e2dc",
+        "DeviceSize": "107374182400"
+    }
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>image format evolution</h2>
+					<ul>
+						<li>registry API changed</li>
+						<li>content addressable storage</li>
+						<li>manifest is tied to registry API</li>
+						<li>digest</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>image format evolution - manifest</h2>
+					<pre><code data-trim data-noescape>
+"name": "hello-world",
+"tag": "latest",
+"architecture": "amd64",
+"fsLayers": [
+   { "blobSum": "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef" },
+   { "blobSum": "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef" },
+   { "blobSum": "sha256:cc8567d70002e957612902a8e985ea129d831ebe04057d88fb644857caa45d11" }
+"history": [
+   {
+      "v1Compatibility": "{\"id\":\"e45a5af57b00862e5ef5782a9925979a02ba2b12dff832fd0991335f4a11e5c5\"..."
+   },
+					</code></pre>
 				</section>
 
 <!--
