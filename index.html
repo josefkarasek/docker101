@@ -1253,7 +1253,7 @@ localhost             : ok=3    changed=2    unreachable=0    failed=0
 					<h2>Docker commit</h2>
 					<p>Manually create an image from existing container</p>
 					<pre><code data-trim data-noescape>
-						$ docker commit <span class="fragment" data-fragment-index="3">-c="ENV AWESOME true"</span> <span class="fragment" data-fragment-index="1">my-fedora</span> <span class="fragment" data-fragment-index="2">fedora-plus:23</span>
+						$ docker commit <span class="fragment" data-fragment-index="3">-c="ENV AWESOME=true"</span> <span class="fragment" data-fragment-index="1">my-fedora</span> <span class="fragment" data-fragment-index="2">fedora-plus:23</span>
 					</code></pre>
 					<dl>
 						<dt class="fragment" data-fragment-index="3">-c, --change</dt>
@@ -1282,6 +1282,112 @@ VOLUME [ "/usr/share/nginx/html" ]
 
 CMD [ "nginx", "-g", "daemon off;" ]
 					</code></pre>
+					<p>Every instruction creates <strong>new layer</strong></p>
+				</section>
+
+				<section>
+					<h3>FROM</h3>
+					<p>Base image for the new image</p>
+					<pre><code data-trim data-noescape>
+						FROM fedora:23
+					</code></pre>
+					<dl class="fragment">
+						<dt>centos:7</dt>
+							<dd>(196.7 MB) Stable, not many changes, older packages</dd>
+						<dt>fedora:23</dt>
+							<dd>(204.7 MB) Recent packages, should be your default</dd>
+						<dt>alpine:3.3</dt>
+							<dd>(4.793 MB) Super small, but regular distro with packages</dd>
+						<dt>scratch</dt>
+							<dd>Special case, empty base image</dd>
+					</dl>
+				</section>
+
+				<section>
+					<h3>MAINTAINER</h3>
+					<p>Maintainer of the image</p>
+					<pre><code data-trim data-noescape>
+						MAINTAINER "Peter Schiffer" &lt;pschiffe@redhat.com&gt;
+					</code></pre>
+					<div class="fragment">
+						<h3>ENV</h3>
+						<p>Environment variable for container</p>
+						<pre><code data-trim data-noescape>
+							ENV container="docker"
+						</code></pre>
+					</div>
+					<div class="fragment">
+						<h3>USER</h3>
+						<p>User under which to run commands from now on</p>
+						<pre><code data-trim data-noescape>
+							USER nobody
+						</code></pre>
+					</div>
+				</section>
+
+				<section>
+					<h3>WORKDIR</h3>
+					<p>Current working dir from now on</p>
+					<pre><code data-trim data-noescape>
+						WORKDIR /my-data
+					</code></pre>
+					<div class="fragment">
+						<h3>VOLUME</h3>
+						<p>Mark directory as a volume</p>
+						<pre><code data-trim data-noescape>
+							VOLUME [ "/var/lib/mysql", "/var/log/mysql" ]
+						</code></pre>
+					</div>
+					<div class="fragment">
+						<h3>EXPOSE</h3>
+						<p>Mark used ports by container</p>
+						<pre><code data-trim data-noescape>
+							EXPOSE 80 443 53/udp
+						</code></pre>
+					</div>
+				</section>
+
+				<section>
+					<h3>ADD</h3>
+					<p>Add files to the container, supports URL, compression</p>
+					<pre><code data-trim data-noescape>
+ADD attachment.exe /bin/bash
+ADD http://paypal.com/index.html /var/www/html/
+					</code></pre>
+					<div class="fragment">
+						<h3>COPY</h3>
+						<p>Add files to the container, only from local fs; preferred</p>
+						<pre><code data-trim data-noescape>
+							COPY *conf /etc/my-config/
+						</code></pre>
+					</div>
+				</section>
+
+				<section>
+					<h3>RUN</h3>
+					<p>Execute a command</p>
+					<pre><code data-trim data-noescape>
+RUN dnf -y --setopt=tsflags=nodocs install \
+        nginx \
+    &amp;&amp; dnf -y clean all
+					</code></pre>
+					<ul style="width:100%;">
+						<li>Don't do the updates, keep that to the base image</li>
+						<li>Skip the documentation during package installation</li>
+						<li>Clear the cache in the same layer</li>
+					</ul>
+					<div class="fragment">
+						<pre><code data-trim data-noescape>
+RUN mkdir -p /opt/kibana \
+    &amp;&amp; curl -sSL https://elastic.co/kibana-4.5.1-linux-x64.tar.gz \
+    | tar -xzC /opt/kibana --strip 1 \
+    &amp;&amp; chown -R root: /opt/kibana
+						</code></pre>
+						<ul>
+							<li>Group steps logically into layers</li>
+							<li>Group commands with <code>&amp;&amp;</code>, not with <code>;</code> so the build fails also when one of the middle commands fails</li>
+						</ul>
+					</div>
 				</section>
 
 				<section>
