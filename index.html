@@ -94,7 +94,7 @@
 					<ul>
 						<li><a href="#/session-1">Introduction, history, underlying technologies</a></li>
 						<li><a href="#/session-2">Running containers, atomic, docker compose, ansible</a></li>
-						<li><a href="#/session-3">Docker images, layers, creating images, distribution of images and registry</a></li>
+						<li><a href="#/session-3">Docker images, layers, creating images, registry</a></li>
 					</ul>
 				</section>
 
@@ -1253,6 +1253,7 @@ localhost             : ok=3    changed=2    unreachable=0    failed=0
 						<li><a href="#/building-images">Building images</a></li>
 						<li><a href="#/building-tips">Building: tips &amp; tricks</a></li>
 						<li><a href="#/building-tips">Docker registry</a></li>
+						<li><a href="#/image-metadata">Docker image metadata</a></li>
 					</ul>
 				</section>
 
@@ -1652,10 +1653,10 @@ LABEL cache.hate.I=1
 					<h2>Standard labels</h2>
 					<ul>
 						<li><a href="https://github.com/projectatomic/ContainerApplicationGenericLabels">projectatomic/ContainerApplicationGenericLabels</a></li>
-						<li>you've already heard of <em>run</em>, <em>install</em>, <em>uninstall</em></li>
-						<li>labels which describe how to use the image</li>
-						<li>labels to describe the image</li>
-						<li>e.g. name, version, release, description, vcs-*, ...</li>
+						<li>You've already heard of <em>run</em>, <em>install</em>, <em>uninstall</em></li>
+						<li>Labels which describe how to use the image</li>
+						<li>Labels to describe the image</li>
+						<li>E.g. name, version, release, description, vcs-*, ...</li>
 					</ul>
 				</section>
 
@@ -1687,7 +1688,7 @@ $ docker push localhost:5000/pschiffe/docker101-fedora
 				</section>
 
 				<section>
-					<h2>docker history</h2>
+					<h2>Docker history</h2>
 					<pre><code data-trim data-noescape>
 IMAGE         CREATED       CREATED BY                                      SIZE
 2a614a888491  8 days ago    /bin/sh -c #(nop) LABEL RUN=/usr/bin/docker r   0 B
@@ -1701,8 +1702,8 @@ bb827162ac24  8 days ago    /bin/sh -c echo "daemon off;" >> /etc/nginx/n   2.33
 					</code></pre>
 				</section>
 
-				<section>
-					<h2>docker inspect fedora</h2>
+				<section id="image-metadata">
+					<h2>Docker inspect fedora</h2>
 					<pre><code data-trim data-noescape>
 "Id": "9bdb5101e5fce92817d6a10364081ef1ca8e42c1c6b4fc5b509d52475bd9e2dc",
 "RepoTags": [
@@ -1718,7 +1719,7 @@ bb827162ac24  8 days ago    /bin/sh -c echo "daemon off;" >> /etc/nginx/n   2.33
 				</section>
 
 				<section>
-					<h2>docker inspect fedora</h2>
+					<h2>Docker inspect fedora II</h2>
 					<pre><code data-trim data-noescape>
 "Config": {
     "Hostname": "f3ad5e182911",
@@ -1743,7 +1744,7 @@ bb827162ac24  8 days ago    /bin/sh -c echo "daemon off;" >> /etc/nginx/n   2.33
 				</section>
 
 				<section>
-					<h2>docker inspect fedora</h2>
+					<h2>Docker inspect fedora III</h2>
 					<pre><code data-trim data-noescape>
 "ContainerConfig": {...}
 "DockerVersion": "1.9.1",
@@ -1764,17 +1765,17 @@ bb827162ac24  8 days ago    /bin/sh -c echo "daemon off;" >> /etc/nginx/n   2.33
 				</section>
 
 				<section>
-					<h2>image format evolution</h2>
+					<h2>Image format evolution</h2>
 					<ul>
-						<li>registry API changed</li>
-						<li>content addressable storage</li>
-						<li>manifest is tied to registry API</li>
-						<li>digest</li>
+						<li>Registry API changed</li>
+						<li>Content addressable storage</li>
+						<li>Manifest is tied to registry API</li>
+						<li>Digest</li>
 					</ul>
 				</section>
 
 				<section>
-					<h2>image format evolution - manifest</h2>
+					<h2>Image format evolution - manifest</h2>
 					<pre><code data-trim data-noescape>
 "name": "hello-world",
 "tag": "latest",
