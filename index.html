@@ -1392,8 +1392,7 @@ a9c95da98190: Download complete
 FROM fedora:23
 MAINTAINER "Peter Schiffer" &lt;pschiffe@redhat.com&gt;
 
-RUN dnf -y --setopt=tsflags=nodocs install \
-        nginx \
+RUN dnf -y --setopt=tsflags=nodocs install nginx \
     &amp;&amp; dnf -y clean all
 
 EXPOSE 80
@@ -1538,6 +1537,10 @@ CMD [ "executable", "param1" ]
 CMD command param1
 					</code></pre>
 					<p>In the shell form, command is passed to <code>/bin/sh -c</code>, so all the shell env vars are accessible, but the process is not running as PID 1 and won't receive signals. For <code>CMD</code> and <code>ENTRYPOINT</code>, exec form is preferred; for <code>RUN</code>, you can safely use the shell form.</p>
+					<p>shell form gets expanded to</p>
+					<pre><code data-trim data-noescape>
+CMD ["/bin/sh" "-c" "sleep 99999"]
+					</code></pre>
 				</section>
 
 				<section>
@@ -1546,6 +1549,10 @@ CMD command param1
 					<pre><code data-trim data-noescape>
 ARG user
 USER ${user:-nobody}
+					</code></pre>
+					<pre><code data-trim data-noescape>
+ARG user=nobody
+USER ${user}
 					</code></pre>
 					<pre><code data-trim data-noescape>
 $ sudo docker build --build-arg user=apache .
@@ -1576,11 +1583,33 @@ $ sudo docker build <span class="fragment" data-fragment-index="3">--pull</span>
 							<dd class="fragment" data-fragment-index="2">Name of the Dockerfile</dd>
 						<dt class="fragment" data-fragment-index="3">--force-rm</dt>
 							<dd class="fragment" data-fragment-index="3">Always remove intermediate containers</dd>
-						<dt class="fragment" data-fragment-index="4">--no-cache</dt>
-							<dd class="fragment" data-fragment-index="4">Do not use cache when building the image</dd>
-						<dt class="fragment" data-fragment-index="5">--rm=true</dt>
-							<dd class="fragment" data-fragment-index="5">Remove intermediate containers after a successful build</dd>
+						<dt class="fragment" data-fragment-index="4">--rm=true</dt>
+							<dd class="fragment" data-fragment-index="4">Remove intermediate containers after a successful build</dd>
+						<dt class="fragment" data-fragment-index="5">--no-cache</dt>
+							<dd class="fragment" data-fragment-index="5">Do not use cache when building the image</dd>
 					</dl>
+				</section>
+
+				<section>
+					<h2>Docker build II</h2>
+					<pre><code class="diff" data-trim data-noescape>
+$ sudo docker build --tag=nginx .
+Sending build context to Docker daemon 18.56 MB
+Step 1 : FROM fedora:23
+ ---&gt; ddd5c9c1d0f2
+Step 2 : MAINTAINER "Peter Schiffer" &lt;pschiffe@redhat.com&gt;
+ ---&gt; Running in e27677a80171
+ ---&gt; 54ae8e526ea6
+Removing intermediate container e27677a80171
+Step 3 : RUN dnf -y --setopt=tsflags=nodocs install         nginx     &amp;&amp; dnf -y clean all
+ ---&gt; Running in f629f2275169
+Last metadata expiration check performed 0:00:20 ago on Mon May 23 13:14:41 2016.
+Dependencies resolved.
+================================================================================
+ Package                    Arch      Version                  Repository  Size
+================================================================================
+Installing:
+					</code></pre>
 				</section>
 
 				<section id="building-tips">
@@ -1627,8 +1656,13 @@ Please make sure you have the correct access rights
 					</code></pre>
 					<ul>
 						<li>No easy solution</li>
-						<li>Build and install in 2 steps</li>
-						<li>Store secrets on a remote server and fetch them during one RUN "session"</li>
+						<li>Build and install with 2 docker images
+							<ul>
+								<li>Fetch (and build) the project with one dockerfile</li>
+								<li>Install with another — this image can be shared</li>
+							</ul>
+						</li>
+						<li>Store secrets on a remote server and fetch them during one RUN instruction</li>
 					</ul>
 				</section>
 
@@ -1638,14 +1672,14 @@ Please make sure you have the correct access rights
 						<li>Result of these commands depends on time and space:
 							<pre><code data-trim data-noescape>
 git clone https://repository
-dnf update -y
+dnf install -y nginx
 							</code></pre>
 						</li>
 						<li>Do production builds with <code>--no-cache</code></li>
-						<li>Workaround is to insert no-op instruction in dockerfile
+						<li>Workaround when developing a Dockerfile:
 							<pre><code data-trim data-noescape>
 RUN dnf update -y || :
-LABEL cache.hate.I=1
+LABEL cache.invalidator=1
 							</code></pre>
 						</li>
 					</ul>
@@ -1655,8 +1689,8 @@ LABEL cache.hate.I=1
 					<h2>Standard labels</h2>
 					<ul>
 						<li><a href="https://github.com/projectatomic/ContainerApplicationGenericLabels">projectatomic/ContainerApplicationGenericLabels</a></li>
-						<li>You've already heard of <em>run</em>, <em>install</em>, <em>uninstall</em></li>
 						<li>Labels which describe how to use the image</li>
+						<li>You've already heard of <em>run</em>, <em>install</em>, <em>uninstall</em></li>
 						<li>Labels to describe the image</li>
 						<li>E.g. name, version, release, description, vcs-*, ...</li>
 					</ul>
@@ -1818,6 +1852,7 @@ $ sudo docker push &lt;user&gt;/my-image  # defaults to registry-1.docker.io
 				<section>
 					<h2>Docker history</h2>
 					<pre><code data-trim data-noescape>
+$ sudo docker history nginx
 IMAGE         CREATED       CREATED BY                                      SIZE
 2a614a888491  8 days ago    /bin/sh -c #(nop) LABEL RUN=/usr/bin/docker r   0 B
 f44ac04ea1e1  8 days ago    /bin/sh -c #(nop) CMD ["/usr/sbin/nginx"]       0 B
@@ -1831,63 +1866,50 @@ bb827162ac24  8 days ago    /bin/sh -c echo "daemon off;" >> /etc/nginx/n   2.33
 				</section>
 
 				<section id="image-metadata">
-					<h2>Docker inspect fedora</h2>
+					<h2>Image metadata</h2>
 					<pre><code data-trim data-noescape>
-"Id": "9bdb5101e5fce92817d6a10364081ef1ca8e42c1c6b4fc5b509d52475bd9e2dc",
-"RepoTags": [
-    "docker.io/fedora:23",
-    "docker.io/fedora:latest"
-],
-"RepoDigests": [],
-"Parent": "6888fc827a3f086ff6cd336432071b4f5090c63e89f5fc7873e7b46476c8cbe2",
-"Comment": "",
-"Created": "2016-03-04T18:40:02.92155334Z",
-"Container": "826a02680430fc53de84e4bfec94d16a01f2acdd6149b536501563f26670646f",
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Docker inspect fedora II</h2>
-					<pre><code data-trim data-noescape>
+$ sudo docker inspect nginx
 "Config": {
-    "Hostname": "f3ad5e182911",
-    "Domainname": "",
-    "User": "",
-    "AttachStdin": false,
-    "AttachStdout": false,
-    "AttachStderr": false,
-    "Tty": false,
-    "OpenStdin": false,
-    "StdinOnce": false,
-    "Env": null,
-    "Cmd": null,
-    "Image": "e25d8296e7b584b19dfae097c20c57deae84d65b3055c1e27394d37fb0c8c368",
-    "Volumes": null,
-    "WorkingDir": "",
-    "Entrypoint": null,
-    "OnBuild": null,
-    "Labels": {}
+	"Hostname": "f3ad5e182911",
+	"ExposedPorts": {
+		"80/tcp": {}
+	},
+	"Env": [
+		"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+	],
+	"Cmd": [
+		"nginx",
+		"-g",
+		"daemon off;"
+	],
+	"Image": "c8d37d6da3f1acdca851140cfbe0a64931feb1a1cafd52884b6842d48d44b98a",
+	"Volumes": {
+		"/usr/share/nginx/html": {}
+	},
 },
 					</code></pre>
 				</section>
 
 				<section>
-					<h2>Docker inspect fedora III</h2>
+					<h2>Image metadata II</h2>
 					<pre><code data-trim data-noescape>
-"ContainerConfig": {...}
+"Id": "ed1f00d464d22572f5eb4f34100cd6bc54aa9079258c512a1f9833673c6c96d3",
+"RepoTags": [ "nginx:latest" ],
+"Parent": "c8d37d6da3f1acdca851140cfbe0a64931feb1a1cafd52884b6842d48d44b98a",
+"Created": "2016-05-23T14:43:06.365718103Z",
+"Container": "83357957589cb672fd2688842f0f3377a5d8344bd5997a412f75f8b4d377ee74",
+"ContainerConfig": {...},
 "DockerVersion": "1.9.1",
-"Author": "Patrick Uiterwijk \u003cpuiterwijk@gmail.com\u003e",
-"Architecture": "amd64",
-"Os": "linux",
-"Size": 204692029,
-"VirtualSize": 204692029,
+"Author": "\"Peter Schiffer\" \u003cpschiffe@redhat.com\u003e",
+"Size": 0,
+"VirtualSize": 267194218,
 "GraphDriver": {
-    "Name": "devicemapper",
-    "Data": {
-        "DeviceId": "91",
-        "DeviceName": "docker-0:38-3943028-9bdb5101e5fce92817d6a10364081ef1ca8e42c1c6b4fc5b509d52475bd9e2dc",
-        "DeviceSize": "107374182400"
-    }
+	"Name": "devicemapper",
+	"Data": {
+		"DeviceId": "783",
+		"DeviceName": "docker-0:38-3943028-ed1...6d3",
+		"DeviceSize": "107374182400"
+	}
 }
 					</code></pre>
 				</section>
@@ -1917,6 +1939,14 @@ bb827162ac24  8 days ago    /bin/sh -c echo "daemon off;" >> /etc/nginx/n   2.33
       "v1Compatibility": "{\"id\":\"e45a5af57b00862e5ef5782a9925979a02ba2b12dff832fd0991335f4a11e5c5\"..."
    },
 					</code></pre>
+				</section>
+
+				<section id="links">
+					<h2>Links</h2>
+					<ul>
+						<li><a href="http://blog.tomecek.net/post/build-docker-image-in-two-steps/">Build and install in 2 steps</a></li>
+						<li><a href="https://github.com/projectatomic/ContainerApplicationGenericLabels">projectatomic/ContainerApplicationGenericLabels</a></li>
+					</ul>
 				</section>
 
 				<section>
