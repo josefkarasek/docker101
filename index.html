@@ -1651,11 +1651,11 @@ LABEL cache.hate.I=1
 
 				<section id="distributing_images">
 					<h2>Distributing images</h2>
-					<ol>
+					<ul>
 						<li>Exporting container's file system</li>
-						<li>Sending whole repository</li>
+						<li>Sending complete image with it's metadata</li>
 						<li>Centralized distribution with Registry</li>
-					</ol>
+					</ul>
 
 					<aside class="notes">
 						<ul>
@@ -1670,7 +1670,7 @@ LABEL cache.hate.I=1
 					<h2>Export &amp; Import</h2>
 					<ul>
 						<li>Operates on containers</li>
-						<li>Whole file system exported as a tar archive</li>
+						<li>Only container file system exported as a tar archive</li>
 					</ul>
 
 					<pre><code data-trim data-noescape>
@@ -1684,7 +1684,8 @@ drwxr-xr-x.  4 jkarasek jkarasek      4096 May 22 18:21 dev
 drwxr-xr-x. 47 jkarasek jkarasek      4096 May 22 18:21 etc
 -rw-r--r--.  1 jkarasek jkarasek         0 May 22 18:21 file.txt
 ...
-$ sudo docker import export.tar &amp;&amp; sudo docker images
+$ sudo docker import export.tar
+$ sudo docker images
 REPOSITORY  TAG     IMAGE ID      CREATED         VIRTUAL SIZE
 &lt;none&gt;      &lt;none&gt;  fa37c0baeaaa  54 minutes ago  204.5 MB
 					</code></pre>
@@ -1703,7 +1704,7 @@ REPOSITORY  TAG     IMAGE ID      CREATED         VIRTUAL SIZE
 
 					<ul>
 						<li>Operates on images</li>
-						<li>Whole repository exported as a tar archive</li>
+						<li>Complete image exported as a tar archive</li>
 						<ul>
 							<li>File system + metadata</li>
 							<li>Contains all related metadata, sorted in layers</li>
@@ -1719,14 +1720,8 @@ drwxr-xr-x. 2 jkarasek jkarasek      4096 Jul 21  2015 369aca82a5
 drwxr-xr-x. 2 jkarasek jkarasek      4096 Jan  4 22:26 3fc68076e1
 -rw-r--r--. 1 jkarasek jkarasek       171 Jan  1  1970 repositories
 -rw-rw-r--. 1 jkarasek jkarasek 426315776 May 22 18:26 save.tar
-$ cat repositories | python -m json.tool
-{
-    "docker.io/fedora": {
-        "23": "3fc68076e1",
-        "latest": "2d8ad197aa"
-    }
-}
-$ sudo docker load -i save.tar &amp;&amp; sudo docker images
+$ sudo docker load -i save.tar
+$ sudo docker images
 REPOSITORY        TAG     IMAGE ID      CREATED       VIRTUAL SIZE
 docker.io/fedora  latest  2d8ad197aafc  1 minute ago  204.5 MB
 					</code></pre>
@@ -1745,7 +1740,7 @@ docker.io/fedora  latest  2d8ad197aafc  1 minute ago  204.5 MB
 					<p><strong>Image sharing and distribution</strong></p>
 					<ul>
 						<li>Registry packaged simply as Docker image</li>
-						<li>TLS certificate for production + DNS + firewall</li>
+						<li>By default Docker daemon expects registry secured by TLS</li>
 						<li>Non-production purposes - add hostname to daemon's settings options</li>
 					</ul>
 					<pre><code data-trim data-noescape>
@@ -1753,6 +1748,9 @@ sudo vim /etc/sysconfig/docker
 OPTIONS='--insecure-registry localhost/5000'
 sudo systemctl restart docker
 					</code></pre>
+					<ul>
+						<li>Fully qualified image names specify where the registry is hosted</li>
+					</ul>
 					<pre><code data-trim data-noescape>
 sudo docker run -d -p 5000:5000 registry:2
 sudo docker tag fedora:23 localhost:5000/fedora:23
@@ -1792,9 +1790,9 @@ sudo docker push localhost:5000/fedora:23
 					<h2>Docker hub - manual use </h2>
 					<p>Create account at hub.docker.com and get credentials</p>
 					<pre><code data-trim data-noescape>
-$ docker login -u &lt;user&gt; -p &lt;password&gt; -e &lt;email&gt;
-$ docker build -t user/my-image /source/dir
-$ docker push user/my-image  # defaults to registry-1.docker.io
+$ sudo docker login -u &lt;user&gt; -p &lt;password&gt; -e &lt;email&gt;
+$ sudo docker build -t &lt;user&gt;/my-image /source/dir
+$ sudo docker push &lt;user&gt;/my-image  # defaults to registry-1.docker.io
 					</code></pre>
 					<p>When using automatic build manual pushs are disabled</p>
 					<aside class="notes">
@@ -2126,7 +2124,7 @@ Sum of entered numbers = 3
 
 				transition: 'none', // none/fade/slide/convex/concave/zoom
 
-				width: 1024,
+				width: 1366,
 				height: 768,
 				maxScale: 1,
 
