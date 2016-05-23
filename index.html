@@ -1265,19 +1265,20 @@ localhost             : ok=3    changed=2    unreachable=0    failed=0
 				<section>
 					<h2>Layers on filesystem</h2>
 					<pre><code data-trim data-noescape>
+$ sudo docker save my-nginx | tar -t
 repositories
-bb827162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/
-bb827162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/VERSION
-bb827162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/json
-bb827162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/layer.tar
-f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/
-f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/VERSION
-f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/json
-f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/layer.tar
-2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/
-2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/VERSION
-2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/json
-2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/layer.tar
+7162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/
+7162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/VERSION
+7162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/json
+7162ac248be01ed4e15b84e71959add25363f0da21d5fc58366b9b6612c2/layer.tar
+c04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/
+c04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/VERSION
+c04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/json
+c04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/layer.tar
+4a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/
+4a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/VERSION
+4a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/json
+4a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016/layer.tar
 ...
 					</code></pre>
 				</section>
@@ -1285,10 +1286,10 @@ f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/layer.tar
 				<section>
 					<h2>Layers on filesystem II</h2>
 					<pre><code data-trim data-noescape>
-cat repositories
+$ cat repositories
 {
   "my-nginx": {
-    "latest": "2a614a888491e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016"
+    "latest": "91e477336ce4215bd596d25ae8c4cc4787af3d3d3dd6e59ff30016"
   }
 }
 					</code></pre>
@@ -1297,47 +1298,38 @@ cat repositories
 				<section>
 					<h2>Layers on filesystem III</h2>
 					<pre><code data-trim data-noescape>
-cat f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/json
-{
-    "architecture": "amd64",
+$ cat e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/json
     "config": {
-        "Cmd": [
-            "/usr/sbin/nginx"
-        ],
+        "Cmd": [ "/usr/sbin/nginx" ],
         "Env": [
-            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            "PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
         ],
         "ExposedPorts": {
             "80/tcp": {}
         },
-        "Hostname": "f3ad5e182911",
-        "Image": "b8978d2cc2b7d2e3f0a3425cf8a63b5de50e2c41c822a7b454931731ad438ce6",
         ...
     },
-    "container": "29da3f58dd148f195bbbffa73ef42058d3a0a22fb829fb4de5540d9d74c9f448",
+    "container": "195bbbffa73ef42058d3a0a22fb829fb4de5540d9d74c9f448",
     "container_config": {
         ...
     },
     "created": "2016-05-11T13:27:00.874663811Z",
     "docker_version": "1.9.1",
-    "id": "f44ac04ea1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63",
-    "parent": "b8978d2cc2b7d2e3f0a3425cf8a63b5de50e2c41c822a7b454931731ad438ce6"
-}
+    "id": "1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63",
+    "parent": "2b7d2e3f0a3425cf8a63b5de50e2c41c822a7b454931731ad438ce6"
 					</code></pre>
 				</section>
 
 				<section>
 					<h2>Layers on filesystem IV</h2>
 					<pre><code data-trim data-noescape>
-tree
+$ tree
 ├── etc
 │   └── nginx
 ├── usr
 │   ├── bin
 │   ├── lib
 │   ├── lib64
-│   ├── sbin
-│   ├── share
 │   ├── sbin
 │   │   └── nginx
 │   └── share
@@ -1350,7 +1342,6 @@ tree
         ├── dnf.log
         ├── dnf.rpm.log
         ├── hawkey.log
-        ├── lastlog
         └── nginx
 					</code></pre>
 				</section>
@@ -1358,7 +1349,7 @@ tree
 				<section>
 					<h2>Layers — pull</h2>
 					<pre><code data-trim data-noescape>
-sudo docker pull redis
+$ sudo docker pull redis
 Using default tag: latest
 
 1bc55a3ae3bf: Pull complete
@@ -1584,7 +1575,6 @@ sudo docker build <span class="fragment" data-fragment-index="2">-t docker.io/ps
 					<ul style="width:100%;">
 						<li>Keep images small</li>
 						<li><code>ADD</code>ed and <code>COPY</code>-ed files will stay in the image forever</li>
-						<li>Remove unneeded metadata (<code>dnf clean all</code>)</li>
 						<li>Chain <code>RUN</code> instructions</li>
 					</ul>
 					<pre><code class="diff" data-trim data-noescape>
@@ -1611,7 +1601,6 @@ sudo docker build <span class="fragment" data-fragment-index="2">-t docker.io/ps
 +FROM fedora:23
 							</code></pre>
 						</li>
-						<li>Do(n't) update base image</li>
 						<li>Set yourself as <code>MAINTAINER</code></li>
 						<li><code>exec</code> in wrapper scripts</li>
 					</ul>
@@ -1678,7 +1667,7 @@ LABEL cache.hate.I=1
 				</section>
 
 				<section id="export">
-					<h2>Export & Import</h2>
+					<h2>Export &amp; Import</h2>
 					<ul>
 						<li>Operates on containers</li>
 						<li>Whole file system exported as a tar archive</li>
@@ -1687,7 +1676,7 @@ LABEL cache.hate.I=1
 					<pre><code data-trim data-noescape>
 $ docker run --name my-fedora fedora touch file.txt
 $ docker export -o export.tar my-fedora
-$ tar -xf export.tar && ll
+$ tar -xf export.tar &amp;&amp; ll
 total 207356
 lrwxrwxrwx.  1 jkarasek jkarasek         7 Sep 10  2015 bin -> usr/bin
 dr-xr-xr-x.  2 jkarasek jkarasek      4096 Sep 10  2015 boot
@@ -1695,9 +1684,9 @@ drwxr-xr-x.  4 jkarasek jkarasek      4096 May 22 18:21 dev
 drwxr-xr-x. 47 jkarasek jkarasek      4096 May 22 18:21 etc
 -rw-r--r--.  1 jkarasek jkarasek         0 May 22 18:21 file.txt
 ...
-$ docker import export.tar && docker images
+$ docker import export.tar &amp;&amp; docker images
 REPOSITORY  TAG     IMAGE ID      CREATED         VIRTUAL SIZE
-&#60;none&#62;      &#60;none&#62;  fa37c0baeaaa  54 minutes ago  204.5 MB
+&lt;none&gt;      &lt;none&gt;  fa37c0baeaaa  54 minutes ago  204.5 MB
 
 					</code></pre>
 
