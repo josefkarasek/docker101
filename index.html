@@ -263,7 +263,7 @@
 						<li>For more info check man page: <code>man capabilities</code></li>
 					</ul>
 						<pre><code data-trim data-noescape>
-getcap /usr/bin/ping
+$ getcap /usr/bin/ping
 /usr/bin/ping = cap_net_admin,cap_net_raw+ep
 						</code></pre>
 				</section>
@@ -734,15 +734,15 @@ sudo docker run<span class="fragment" data-fragment-index="4"> -d</span><span cl
 							<dd class="fragment" data-fragment-index="2">Image to be instantiated</dd>
 					</dl>
 					<pre class="fragment" data-fragment-index="6"><code data-trim data-noescape>
-sudo docker ps
+$ sudo docker ps
 CONTAINER ID  IMAGE  COMMAND                 CREATED       \
 226b6402c0ac  nginx  "nginx -g 'daemon off"  6 minutes ago \
 STATUS        PORTS            NAMES
 Up 6 minutes  80/tcp, 443/tcp  my-nginx
 
-<span class="fragment" data-fragment-index="7">sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' my-nginx</span>
+<span class="fragment" data-fragment-index="7">$ sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' my-nginx</span>
 <span class="fragment" data-fragment-index="8">172.17.0.2</span>
-<span class="fragment" data-fragment-index="9">curl 172.17.0.2</span>
+<span class="fragment" data-fragment-index="9">$ curl 172.17.0.2</span>
 <span class="fragment" data-fragment-index="10">...&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;...</span>
 					</code></pre>
 
@@ -761,11 +761,11 @@ Up 6 minutes  80/tcp, 443/tcp  my-nginx
 							<dd class="fragment" data-fragment-index="2">Publish all exposed ports to random ports on the host</dd>
 					</dl>
 					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
-sudo docker port my-nginx
+$ sudo docker port my-nginx
 <span class="fragment" data-fragment-index="4">443/tcp -> 0.0.0.0:32768
 80/tcp -> 0.0.0.0:32769</span>
 
-<span class="fragment" data-fragment-index="5">sudo docker ps
+<span class="fragment" data-fragment-index="5">$ sudo docker ps
 CONTAINER ID  IMAGE  COMMAND  CREATED        STATUS       \
 dd0802ce4333  nginx  "ngi.."  6 minutes ago  Up 6 minutes \
 PORTS                                          NAMES
@@ -783,16 +783,16 @@ PORTS                                          NAMES
 							<dd class="fragment" data-fragment-index="2">Publish a container's port to the host; host:container</dd>
 					</dl>
 					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
-sudo docker port my-nginx
+$ sudo docker port my-nginx
 <span class="fragment" data-fragment-index="4">80/tcp -> 0.0.0.0:80</span>
 
-<span class="fragment" data-fragment-index="5">sudo docker ps
+<span class="fragment" data-fragment-index="5">$ sudo docker ps
 CONTAINER ID  IMAGE  COMMAND  CREATED        STATUS       \
 f7b1be4c1c9c  nginx  "ngi.."  6 minutes ago  Up 6 minutes \
 PORTS                        NAMES
 0.0.0.0:80->80/tcp, 443/tcp  my-nginx</span>
 
-<span class="fragment" data-fragment-index="6">curl localhost</span>
+<span class="fragment" data-fragment-index="6">$ curl localhost</span>
 <span class="fragment" data-fragment-index="7">...&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;...</span>
 					</code></pre>
 				</section>
@@ -835,7 +835,7 @@ sudo docker run -d -p 80:80 \
 					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
 sudo docker run -d -p 80:80 -v /var/tmp/nginx:/usr/share/nginx/html:ro \
 --privileged --name my-nginx nginx
-<span class="fragment" data-fragment-index="2">sudo docker exec -it my-nginx bash</span>
+<span class="fragment" data-fragment-index="2">$ sudo docker exec -it my-nginx bash</span>
 <span class="fragment" data-fragment-index="3">root@b4f844a75727:/#</span><span class="fragment" data-fragment-index="3"> echo hi > /usr/share/nginx/html/test
 bash: /usr/share/nginx/html/test: Read-only file system</span>
 <span class="fragment" data-fragment-index="4">root@b4f844a75727:/# mount /dev/dm-1 /mnt/</span>
@@ -1220,7 +1220,7 @@ cat docker.yml
 				<section>
 					<h2>Ansible III</h2>
 					<pre><code data-trim data-noescape>
-ansible-playbook -i hosts <span class="fragment">-e c_state=absent</span> docker.yml
+$ ansible-playbook -i hosts <span class="fragment">-e c_state=absent</span> docker.yml
 
 PLAY [localhost] *****************************************************
 
@@ -1804,7 +1804,7 @@ sudo docker push localhost:5000/fedora:23
 					<h2>Docker hub - manual use </h2>
 					<p>Create account at hub.docker.com and get credentials</p>
 					<pre><code data-trim data-noescape>
-$ docker login -u &#60;user&#62; -p &#60;password&#62; -e &#60;email&#62; 
+$ docker login -u &#60;user&#62; -p &#60;password&#62; -e &#60;email&#62;
 $ docker build -t user/my-image /source/dir
 $ docker push user/my-image  # defaults to registry-1.docker.io
 					</code></pre>
