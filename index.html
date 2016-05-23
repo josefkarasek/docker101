@@ -1674,8 +1674,8 @@ LABEL cache.hate.I=1
 					</ul>
 
 					<pre><code data-trim data-noescape>
-$ docker run --name my-fedora fedora touch file.txt
-$ docker export -o export.tar my-fedora
+$ sudo docker run --name my-fedora fedora touch file.txt
+$ sudo docker export -o export.tar my-fedora
 $ tar -xf export.tar &amp;&amp; ll
 total 207356
 lrwxrwxrwx.  1 jkarasek jkarasek         7 Sep 10  2015 bin -> usr/bin
@@ -1684,7 +1684,7 @@ drwxr-xr-x.  4 jkarasek jkarasek      4096 May 22 18:21 dev
 drwxr-xr-x. 47 jkarasek jkarasek      4096 May 22 18:21 etc
 -rw-r--r--.  1 jkarasek jkarasek         0 May 22 18:21 file.txt
 ...
-$ docker import export.tar &amp;&amp; docker images
+$ sudo docker import export.tar &amp;&amp; sudo docker images
 REPOSITORY  TAG     IMAGE ID      CREATED         VIRTUAL SIZE
 &lt;none&gt;      &lt;none&gt;  fa37c0baeaaa  54 minutes ago  204.5 MB
 					</code></pre>
@@ -1699,7 +1699,7 @@ REPOSITORY  TAG     IMAGE ID      CREATED         VIRTUAL SIZE
 				</section>
 
 				<section id="save">
-					<h2>Save & Load</h2>
+					<h2>Save &amp; Load</h2>
 
 					<ul>
 						<li>Operates on images</li>
@@ -1712,7 +1712,7 @@ REPOSITORY  TAG     IMAGE ID      CREATED         VIRTUAL SIZE
 
 					<pre><code data-trim data-noescape>
 $ sudo docker save -o save.tar fedora
-$ tar -xf save.tar && ll
+$ tar -xf save.tar &amp;&amp; ll
 total 416344
 drwxr-xr-x. 2 jkarasek jkarasek      4096 Feb 18 17:47 2d8ad197aa
 drwxr-xr-x. 2 jkarasek jkarasek      4096 Jul 21  2015 369aca82a5
@@ -1726,7 +1726,7 @@ $ cat repositories | python -m json.tool
         "latest": "2d8ad197aa"
     }
 }
-$ sudo docker load -i save.tar && docker images
+$ sudo docker load -i save.tar &amp;&amp; sudo docker images
 REPOSITORY        TAG     IMAGE ID      CREATED       VIRTUAL SIZE
 docker.io/fedora  latest  2d8ad197aafc  1 minute ago  204.5 MB
 					</code></pre>
@@ -1792,7 +1792,7 @@ sudo docker push localhost:5000/fedora:23
 					<h2>Docker hub - manual use </h2>
 					<p>Create account at hub.docker.com and get credentials</p>
 					<pre><code data-trim data-noescape>
-$ docker login -u &#60;user&#62; -p &#60;password&#62; -e &#60;email&#62;
+$ docker login -u &lt;user&gt; -p &lt;password&gt; -e &lt;email&gt;
 $ docker build -t user/my-image /source/dir
 $ docker push user/my-image  # defaults to registry-1.docker.io
 					</code></pre>
