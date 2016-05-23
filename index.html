@@ -460,15 +460,15 @@ $ getcap /usr/bin/ping
 					<h2>docker pull</h2>
 					<p>Downloads and updates Docker images</p>
 					<pre><code data-trim data-noescape>
-sudo docker pull <span class="fragment">docker.io/</span>fedora<span class="fragment">:latest</span>
-<span class="fragment">sudo docker pull registry.access.redhat.com/rhel</span>
-<span class="fragment">sudo docker pull <span class="fragment">docker.io/</span>pschiffe/docker101-fedora</span>
+$ sudo docker pull <span class="fragment">docker.io/</span>fedora<span class="fragment">:latest</span>
+<span class="fragment">$ sudo docker pull registry.access.redhat.com/rhel</span>
+<span class="fragment">$ sudo docker pull <span class="fragment">docker.io/</span>pschiffe/docker101-fedora</span>
 					</code></pre>
 					<div class="fragment">
 						<h2>docker images</h2>
 						<p>Lists all Docker images on the host</p>
 						<pre><code data-trim data-noescape>
-sudo docker images
+$ sudo docker images
 REPOSITORY               TAG     IMAGE ID  CREATED       VIRTUAL SIZE
 docker.io/fedora         latest  9bdb5101  9 weeks ago   204.7 MB
 dock../docker101-fedora  latest  68f574f4  10 hours ago  217.9 MB
@@ -478,7 +478,7 @@ dock../docker101-fedora  latest  68f574f4  10 hours ago  217.9 MB
 						<h2>docker rmi</h2>
 						<p>Remove Docker image from the host</p>
 						<pre><code data-trim data-noescape>
-							sudo docker rmi <span class="fragment">-f</span> fedora
+							$ sudo docker rmi <span class="fragment">-f</span> fedora
 						</code></pre>
 					</div>
 
@@ -493,7 +493,7 @@ dock../docker101-fedora  latest  68f574f4  10 hours ago  217.9 MB
 					<h2>docker create</h2>
 					<p>Creates <strong>stopped</strong> container from the image</p>
 					<pre><code data-trim data-noescape>
-sudo docker create<span class="fragment" data-fragment-index="6"> -i</span><span class="fragment" data-fragment-index="7"> -t</span><span class="fragment" data-fragment-index="5"> --name my-fedora</span><span class="fragment" data-fragment-index="3"> fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
+$ sudo docker create<span class="fragment" data-fragment-index="6"> -i</span><span class="fragment" data-fragment-index="7"> -t</span><span class="fragment" data-fragment-index="5"> --name my-fedora</span><span class="fragment" data-fragment-index="3"> fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
 <span class="fragment" data-fragment-index="8">3c314776542af5507fce81f3ee0a4318e06e617e58a250e4ddcf9b88736624a5</span>
 					</code></pre>
 					<dl>
@@ -518,11 +518,11 @@ sudo docker create<span class="fragment" data-fragment-index="6"> -i</span><span
 					<h2>docker ps</h2>
 					<p>Display containers</p>
 					<pre><code data-trim data-noescape>
-sudo docker ps
+$ sudo docker ps
 <span class="fragment" data-fragment-index="3">CONTAINER ID  IMAGE  COMMAND  CREATED  STATUS  PORTS  NAMES</span>
 					</code></pre>
 					<pre class="fragment" data-fragment-index="4"><code data-trim data-noescape>
-sudo docker ps<span class="fragment" data-fragment-index="5"> -a</span>
+$ sudo docker ps<span class="fragment" data-fragment-index="5"> -a</span>
 <span class="fragment" data-fragment-index="6">CONTAINER ID  IMAGE   COMMAND  CREATED         STATUS   NAMES
 3c314776542a  fedora  "bash"   11 minutes ago  Created  my-fedora</span>
 					</code></pre>
@@ -536,7 +536,7 @@ sudo docker ps<span class="fragment" data-fragment-index="5"> -a</span>
 					<h2>docker start</h2>
 					<p>Starts created container</p>
 					<pre><code data-trim data-noescape>
-sudo docker start<span class="fragment" data-fragment-index="5"> -a</span><span class="fragment" data-fragment-index="4"> -i</span><span class="fragment" data-fragment-index="3"> my-fedora</span>
+$ sudo docker start<span class="fragment" data-fragment-index="5"> -a</span><span class="fragment" data-fragment-index="4"> -i</span><span class="fragment" data-fragment-index="3"> my-fedora</span>
 <span class="fragment" data-fragment-index="6">[root@3c314776542a /]#</span>
 					</code></pre>
 					<dl>
@@ -557,7 +557,7 @@ sudo docker start<span class="fragment" data-fragment-index="5"> -a</span><span 
 					<h2>docker rm</h2>
 					<p>Removes container</p>
 					<pre><code data-trim data-noescape>
-sudo docker rm<span class="fragment" data-fragment-index="4"> -f</span><span class="fragment" data-fragment-index="3"> my-fedora</span>
+$ sudo docker rm<span class="fragment" data-fragment-index="4"> -f</span><span class="fragment" data-fragment-index="3"> my-fedora</span>
 					</code></pre>
 					<dl>
 						<dt class="fragment" data-fragment-index="4">-f, --force</dt>
@@ -571,7 +571,7 @@ sudo docker rm<span class="fragment" data-fragment-index="4"> -f</span><span cla
 					<h2>docker run</h2>
 					<p>docker pull + docker create + docker start</p>
 					<pre><code data-trim data-noescape>
-sudo docker run<span class="fragment" data-fragment-index="6"> -it</span><span class="fragment" data-fragment-index="7"> --rm</span><span class="fragment" data-fragment-index="5"> --name my-fedora</span><span class="fragment" data-fragment-index="3"> pschiffe/docker101-fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
+$ sudo docker run<span class="fragment" data-fragment-index="6"> -it</span><span class="fragment" data-fragment-index="7"> --rm</span><span class="fragment" data-fragment-index="5"> --name my-fedora</span><span class="fragment" data-fragment-index="3"> pschiffe/docker101-fedora</span><span class="fragment" data-fragment-index="4"> bash</span>
 <span class="fragment" data-fragment-index="8">[root@35e75c60305c /]#</span>
 					</code></pre>
 					<dl>
@@ -671,7 +671,7 @@ $ hostname
 				<section>
 					<h2>Let's look around IV</h2>
 					<pre><code data-trim data-noescape>
-sudo docker run -it --rm --name my-fedora --memory 256m \
+$ sudo docker run -it --rm --name my-fedora --memory 256m \
 pschiffe/docker101-fedora bash
 					</code></pre>
 					<p>In container:</p>
@@ -696,7 +696,7 @@ stress: FAIL: [39] (451) failed run completed in 4s</span>
 				<section>
 					<h2>Let's look around V</h2>
 					<pre><code data-trim data-noescape>
-sudo docker run -it --rm --cpu-period=50000 --cpu-quota=25000 \
+$ sudo docker run -it --rm --cpu-period=50000 --cpu-quota=25000 \
 pschiffe/docker101-fedora bash
 					</code></pre>
 					<p>In container:</p>
@@ -722,7 +722,7 @@ pschiffe/docker101-fedora bash
 				<section>
 					<h2>Containers in the background</h2>
 					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-sudo docker run<span class="fragment" data-fragment-index="4"> -d</span><span class="fragment" data-fragment-index="3"> --name my-nginx</span><span class="fragment" data-fragment-index="2"> nginx</span>
+$ sudo docker run<span class="fragment" data-fragment-index="4"> -d</span><span class="fragment" data-fragment-index="3"> --name my-nginx</span><span class="fragment" data-fragment-index="2"> nginx</span>
 <span class="fragment" data-fragment-index="5">226b6402c0ac9a2a3a49e2a6d52c9c5deac68bbf3fa0517e52c690556d1e556f</span>
 					</code></pre>
 					<dl>
@@ -754,7 +754,7 @@ Up 6 minutes  80/tcp, 443/tcp  my-nginx
 				<section>
 					<h2>Exposing ports</h2>
 					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-						sudo docker run -d<span class="fragment" data-fragment-index="2"> -P</span> --name my-nginx nginx
+						$ sudo docker run -d<span class="fragment" data-fragment-index="2"> -P</span> --name my-nginx nginx
 					</code></pre>
 					<dl>
 						<dt class="fragment" data-fragment-index="2">-P, --publish-all</dt>
@@ -776,7 +776,7 @@ PORTS                                          NAMES
 				<section>
 					<h2>Exposing ports II</h2>
 					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-						sudo docker run -d<span class="fragment" data-fragment-index="2"> -p 80:80</span> --name my-nginx nginx
+						$ sudo docker run -d<span class="fragment" data-fragment-index="2"> -p 80:80</span> --name my-nginx nginx
 					</code></pre>
 					<dl>
 						<dt class="fragment" data-fragment-index="2">-p, --publish</dt>
@@ -799,8 +799,9 @@ PORTS                        NAMES
 
 				<section>
 					<h2>Volumes</h2>
+					<p>Bind mount files from host</p>
 					<pre><code data-trim data-noescape>
-sudo docker run -d -p 80:80 \
+$ sudo docker run -d -p 80:80 \
 <span class="fragment" data-fragment-index="1">-v /var/tmp/nginx:/usr/share/nginx/html:ro,Z</span> --name my-nginx nginx
 					</code></pre>
 					<strong class="fragment" data-fragment-index="1">-v, --volume</strong>
@@ -831,9 +832,9 @@ sudo docker run -d -p 80:80 \
 
 				<section>
 					<h2>Volumes III</h2>
-					<p>Create a bind mount</p>
+					<p>Avoiding relabeling files on host</p>
 					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
-sudo docker run -d -p 80:80 -v /var/tmp/nginx:/usr/share/nginx/html:ro \
+$ sudo docker run -d -p 80:80 -v /var/tmp/nginx:/usr/share/nginx/html:ro \
 --privileged --name my-nginx nginx
 <span class="fragment" data-fragment-index="2">$ sudo docker exec -it my-nginx bash</span>
 <span class="fragment" data-fragment-index="3">root@b4f844a75727:/#</span><span class="fragment" data-fragment-index="3"> echo hi > /usr/share/nginx/html/test
@@ -844,16 +845,15 @@ bash: /usr/share/nginx/html/test: Read-only file system</span>
 hi</span>
 					</code></pre>
 					<pre class="fragment" data-fragment-index="10"><code data-trim data-noescape>
-sudo docker run -d -p 80:80 -v /var/tmp/nginx:/usr/share/nginx/html:ro \
---security-opt label:disable <span class="fragment" data-fragment-index="11">--user 1000:1000</span> \
---name my-nginx nginx
+$ sudo docker run -d -p 80:80 -v /var/tmp/nginx:/usr/share/nginx/html:ro \
+--security-opt label:disable <span class="fragment" data-fragment-index="11">--user 1000:1000</span> --name my-nginx nginx
 					</code></pre>
 
 					<aside class="notes">
 						<ul>
 							<li>-v has multiple formats</li>
 							<li>bind mount from host is not recommended</li>
-							<li>info about volumes in the image can be found in documentation or sudo docker inspect [image]</li>
+							<li>info about volumes in the image can be found in documentation or $ sudo docker inspect [image]</li>
 							<li>content from the image is not copied</li>
 						</ul>
 					</aside>
@@ -861,26 +861,26 @@ sudo docker run -d -p 80:80 -v /var/tmp/nginx:/usr/share/nginx/html:ro \
 
 				<section>
 					<h2>Volumes IV</h2>
+					<p>Named Docker volumes</p>
 					<pre><code data-trim data-noescape>
-sudo docker run -d -p 80:80 <span class="fragment">-v nginx-data:/usr/share/nginx/html:ro</span> \
---name my-nginx nginx
+$ sudo docker run -d -p 80:80 <span class="fragment">-v nginx-data:/usr/share/nginx/html:ro</span> --name my-nginx nginx
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
-sudo docker create -v nginx-data:/nginx-html --name nginx-data-c nginx
-<span class="fragment">sudo docker cp index.html nginx-data-c:nginx-html</span>
+$ sudo docker create -v nginx-data:/nginx-html --name nginx-data-c nginx
+<span class="fragment">$ sudo docker cp index.html nginx-data-c:nginx-html</span>
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
-sudo docker run -it --rm -v nginx-data:/nginx-html fedora bash
+$ sudo docker run -it --rm -v nginx-data:/nginx-html fedora bash
 <span class="fragment">[root@a8a678c6ce7b /]# ls /nginx-html/
 index.html</span>
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
-sudo docker volume ls
+$ sudo docker volume ls
 <span class="fragment">DRIVER              VOLUME NAME
 local               nginx-data</span>
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
-sudo docker rm -fv my-nginx
+$ sudo docker rm -fv my-nginx
 					</code></pre>
 
 					<aside class="notes">
@@ -893,7 +893,7 @@ sudo docker rm -fv my-nginx
 				<section>
 					<h2>Environment Variables</h2>
 					<pre><code data-trim data-noescape>
-sudo docker run -d<span class="fragment" data-fragment-index="2"> -e MYSQL_ROOT_PASSWORD=my-secret-pw</span> \
+$ sudo docker run -d<span class="fragment" data-fragment-index="2"> -e MYSQL_ROOT_PASSWORD=my-secret-pw</span> \
 -v mysql-data:/var/lib/mysql --name my-mariadb mariadb
 					</code></pre>
 					<dl>
@@ -905,15 +905,14 @@ sudo docker run -d<span class="fragment" data-fragment-index="2"> -e MYSQL_ROOT_
 				<section>
 					<h2>Linking containers</h2>
 					<pre><code data-trim data-noescape>
-sudo docker run -d -p 80:80<span class="fragment" data-fragment-index="2"> --link my-mariadb:mysql</span> \
---name my-wordpress wordpress
+$ sudo docker run -d -p 80:80<span class="fragment" data-fragment-index="2"> --link my-mariadb:mysql</span> --name my-wordpress wordpress
 					</code></pre>
 					<dl>
 						<dt class="fragment" data-fragment-index="2">--link</dt>
 							<dd class="fragment" data-fragment-index="2">Add link to another container</dd>
 					</dl>
 					<pre class="fragment" data-fragment-index="3"><code data-trim data-noescape>
-sudo docker exec -it my-wordpress bash
+$ sudo docker exec -it my-wordpress bash
 <span class="fragment" data-fragment-index="4">root@4faf138ae856:/var/www/html# env | grep MYSQL | sort
 MYSQL_ENV_MARIADB_MAJOR=10.1
 MYSQL_ENV_MARIADB_VERSION=10.1.13+maria-1~jessie
@@ -935,9 +934,8 @@ MYSQL_PORT_3306_TCP_PROTO=tcp</span>
 				<section>
 					<h2>Restart policy</h2>
 					<pre><code data-trim data-noescape>
-sudo docker run -d -v mysql-data:/var/lib/mysql \
--e MYSQL_ROOT_PASSWORD=my-secret --name my-mariadb \
-<span class="fragment" data-fragment-index="1">--restart always</span> mariadb
+$ sudo docker run -d -v mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret \
+--name my-mariadb <span class="fragment" data-fragment-index="1">--restart always</span> mariadb
 					</code></pre>
 					<dl>
 						<dt class="fragment" data-fragment-index="1">--restart</dt>
@@ -948,7 +946,7 @@ sudo docker run -d -v mysql-data:/var/lib/mysql \
 				<section>
 					<h2>Docker logs</h2>
 					<pre><code data-trim data-noescape>
-sudo docker logs <span class="fragment" data-fragment-index="2">-f</span> my-wordpress
+$ sudo docker logs <span class="fragment" data-fragment-index="2">-f</span> my-wordpress
 <span class="fragment" data-fragment-index="1">WordPress not found in /var/www/html - copying now...
 Complete! WordPress has been successfully copied to /var/www/html
 ...</span>
@@ -964,24 +962,24 @@ Complete! WordPress has been successfully copied to /var/www/html
 				<section>
 					<h2>Docker pause</h2>
 					<pre><code data-trim data-noescape>
-sudo docker pause my-wordpress
+$ sudo docker pause my-wordpress
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
-sudo docker unpause my-wordpress
+$ sudo docker unpause my-wordpress
 					</code></pre>
 				</section>
 
 				<section>
 					<h2>Docker rename</h2>
 					<pre><code data-trim data-noescape>
-sudo docker rename berserk_pasteur my-nginx
+$ sudo docker rename berserk_pasteur my-nginx
 					</code></pre>
 				</section>
 
 				<section>
 					<h2>Docker top</h2>
 					<pre><code data-trim data-noescape>
-sudo docker top my-wordpress axf
+$ sudo docker top my-wordpress axf
 PID   TTY  STAT  TIME  COMMAND
 4353  ?    Ss    0:00  | \_ apache2 -DFOREGROUND
 4531  ?    S     0:00  | | \_ apache2 -DFOREGROUND
@@ -992,7 +990,7 @@ PID   TTY  STAT  TIME  COMMAND
 				<section>
 					<h2>Docker stats</h2>
 					<pre><code data-trim data-noescape>
-sudo docker stats --no-stream my-mariadb my-wordpress
+$ sudo docker stats --no-stream my-mariadb my-wordpress
 CONTAINER     CPU %  MEM USAGE / LIMIT    MEM %  NET I/O             \
 my-mariadb    0.12%  244.3 MB / 12.28 GB  1.99%  2.722 kB / 1.326 kB \
 my-wordpress  0.01%  102.6 MB / 12.28 GB  0.84%  1.974 kB / 1.426 kB \
@@ -1009,7 +1007,7 @@ BLOCK I/O
 						<li>Uses image labels to manage containers</li>
 					</ul>
 					<pre><code data-trim data-noescape>
-						sudo dnf install atomic
+						$ sudo dnf install atomic
 					</code></pre>
 				</section>
 
@@ -1023,13 +1021,13 @@ BLOCK I/O
 LABEL RUN="docker run -d -p 80:80 --restart always --name NAME IMAGE"
 					</code></pre>
 					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
-sudo atomic run pschiffe/docker101-nginx
+$ sudo atomic run pschiffe/docker101-nginx
 <span class="fragment" data-fragment-index="3">docker run -d -p 80:80 --restart always --name docker101-nginx \
 pschiffe/docker101-nginx
 6f4a1e55ea73b70a388dad5fae541d623ac6eec228f6ee22d6029039e5351335</span>
 					</code></pre>
 					<pre class="fragment" data-fragment-index="4"><code data-trim data-noescape>
-curl -s localhost | grep '&lt;title&gt;' | head -n 1
+$ curl -s localhost | grep '&lt;title&gt;' | head -n 1
 &lt;title&gt;Linux Containers&lt;/title&gt;
 					</code></pre>
 				</section>
@@ -1038,7 +1036,7 @@ curl -s localhost | grep '&lt;title&gt;' | head -n 1
 					<h2>atomic stop</h2>
 					<p>Stops running container</p>
 					<pre><code data-trim data-noescape>
-						sudo atomic stop pschiffe/docker101-nginx
+						$ sudo atomic stop pschiffe/docker101-nginx
 					</code></pre>
 				</section>
 
@@ -1054,10 +1052,8 @@ LABEL INSTALL="docker run --rm --privileged -v /:/host \
 					</code></pre>
 					<pre class="fragment" data-fragment-index="2"><code data-trim data-noescape>
 #!/bin/sh
-sed "s%IMAGE%${IMAGE}%g; s%NAME%${NAME}%g;" \
-/etc/nginx.service.template \
+sed "s%IMAGE%${IMAGE}%g; s%NAME%${NAME}%g;" /etc/nginx.service.template \
 > ${HOST}/etc/systemd/system/${NAME}.service
-
 chroot $HOST systemctl daemon-reload
 echo "Service ${NAME}.service configured to run nginx container."
 					</code></pre>
@@ -1068,8 +1064,7 @@ After=docker.service
 [Service]
 ExecStart=/usr/bin/atomic run --name=NAME IMAGE
 ExecStop=/usr/bin/atomic stop --name=NAME IMAGE
-ExecReload=/usr/bin/docker exec -t NAME /bin/kill \
-    -s HUP $(cat /var/run/nginx.pid)
+ExecReload=/usr/bin/docker exec -t NAME /bin/kill -s HUP $(cat /var/run/nginx.pid)
 Type=oneshot
 RemainAfterExit=yes
 [Install]
@@ -1092,8 +1087,8 @@ WantedBy=multi-user.target
 						<li>Supports docker, kubernetes...</li>
 					</ul>
 					<pre class="fragment"><code data-trim data-noescape>
-sudo dnf install cockpit
-sudo systemctl start cockpit.socket
+$ sudo dnf install cockpit
+$ sudo systemctl start cockpit.socket
 					</code></pre>
 					<a href="http://localhost:9090/" class="fragment">localhost:9090</a>
 				</section>
@@ -1116,7 +1111,7 @@ sudo systemctl start cockpit.socket
 						<li>Service definitions are stored in the <code>docker-compose.yml</code></li>
 					</ul>
 					<pre><code data-trim data-noescape>
-						sudo dnf install docker-compose
+						$ sudo dnf install docker-compose
 					</code></pre>
 				</section>
 
@@ -1143,19 +1138,19 @@ my-wordpress:
 				<section>
 					<h2>Usage</h2>
 					<pre><code data-trim data-noescape>
-sudo docker-compose up -d
+$ sudo docker-compose up -d
 Creating compose_my-mariadb_1
 Creating compose_my-wordpress_1
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
-sudo docker-compose ps
+$ sudo docker-compose ps
 Name                    Command             State  Ports
 ---------------------------------------------------------------------
 compose_my-mariadb_1    /docker-entr ...    Up     3306/tcp
 compose_my-wordpress_1  /entrypoint.sh ...  Up     0.0.0.0:80->80/tcp
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
-sudo docker-compose down [-v]
+$ sudo docker-compose down [-v]
 Stopping compose_my-wordpress_1 ... done
 Stopping compose_my-mariadb_1 ... done
 Removing compose_my-wordpress_1 ... done
@@ -1170,11 +1165,11 @@ Removing compose_my-mariadb_1 ... done
 						<li>More powerful</li>
 					</ul>
 					<pre class="fragment"><code data-trim data-noescape>
-cat hosts
+$ cat hosts
 localhost              ansible_connection=local
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
-cat docker.yml
+$ cat docker.yml
 ---
 - hosts: localhost
   vars:
@@ -1378,7 +1373,7 @@ a9c95da98190: Download complete
 					<h2>Docker commit</h2>
 					<p>Manually create an image from existing container</p>
 					<pre><code data-trim data-noescape>
-						sudo docker commit <span class="fragment" data-fragment-index="3">-c="ENV AWESOME=true"</span> <span class="fragment" data-fragment-index="1">my-fedora</span> <span class="fragment" data-fragment-index="2">fedora-plus:23</span>
+						$ sudo docker commit <span class="fragment" data-fragment-index="3">-c="ENV AWESOME=true"</span> <span class="fragment" data-fragment-index="1">my-fedora</span> <span class="fragment" data-fragment-index="2">fedora-plus:23</span>
 					</code></pre>
 					<dl>
 						<dt class="fragment" data-fragment-index="3">-c, --change</dt>
@@ -1542,7 +1537,7 @@ CMD [ "executable", "param1" ]
 # shell form
 CMD command param1
 					</code></pre>
-					<p>In the shell form, command is passed to <code>/bin/sh -c</code>, so all the shell env vars are accessible, but the process is not running as PID 1 and won't receive the signals. For <code>CMD</code> and <code>ENTRYPOINT</code>, exec form is preferred; for <code>RUN</code>, you can safely use the shell form.</p>
+					<p>In the shell form, command is passed to <code>/bin/sh -c</code>, so all the shell env vars are accessible, but the process is not running as PID 1 and won't receive signals. For <code>CMD</code> and <code>ENTRYPOINT</code>, exec form is preferred; for <code>RUN</code>, you can safely use the shell form.</p>
 				</section>
 
 				<section>
@@ -1553,16 +1548,18 @@ ARG user
 USER ${user:-nobody}
 					</code></pre>
 					<pre><code data-trim data-noescape>
-sudo docker build --build-arg user=apache .
+$ sudo docker build --build-arg user=apache .
 					</code></pre>
 				</section>
 
 				<section>
 					<h2>Docker build</h2>
 					<pre><code data-trim data-noescape>
-sudo docker build <span class="fragment" data-fragment-index="2">-t docker.io/pschiffe/best-image:42</span> <span class="fragment" data-fragment-index="1">.</span>
+$ sudo docker build <span class="fragment" data-fragment-index="3">--pull</span> <span class="fragment" data-fragment-index="2">-t pschiffe/best-image:42</span> <span class="fragment" data-fragment-index="1">.</span>
 					</code></pre>
 					<dl>
+						<dt class="fragment" data-fragment-index="3">--pull</dt>
+							<dd class="fragment" data-fragment-index="3">Pull the latest version of base image before build</dd>
 						<dt class="fragment" data-fragment-index="2">-t, --tag</dt>
 							<dd class="fragment" data-fragment-index="2">Repository, name and tag to be applied to the image</dd>
 						<dt class="fragment" data-fragment-index="1">context</dt>
@@ -1574,17 +1571,15 @@ sudo docker build <span class="fragment" data-fragment-index="2">-t docker.io/ps
 					<h2>Docker build II</h2>
 					<dl>
 						<dt class="fragment" data-fragment-index="1">--build-arg</dt>
-						<dd class="fragment" data-fragment-index="1">Build-time environment variable</dd>
+							<dd class="fragment" data-fragment-index="1">Build-time environment variable</dd>
 						<dt class="fragment" data-fragment-index="2">-f, --file</dt>
-						<dd class="fragment" data-fragment-index="2">Name of the Dockerfile</dd>
+							<dd class="fragment" data-fragment-index="2">Name of the Dockerfile</dd>
 						<dt class="fragment" data-fragment-index="3">--force-rm</dt>
-						<dd class="fragment" data-fragment-index="3">Always remove intermediate containers</dd>
+							<dd class="fragment" data-fragment-index="3">Always remove intermediate containers</dd>
 						<dt class="fragment" data-fragment-index="4">--no-cache</dt>
-						<dd class="fragment" data-fragment-index="4">Do not use cache when building the image</dd>
-						<dt class="fragment" data-fragment-index="5">--pull</dt>
-						<dd class="fragment" data-fragment-index="5">Pull latest version of base image before build</dd>
-						<dt class="fragment" data-fragment-index="6">--rm=true</dt>
-						<dd class="fragment" data-fragment-index="6">Remove intermediate containers after a successful build</dd>
+							<dd class="fragment" data-fragment-index="4">Do not use cache when building the image</dd>
+						<dt class="fragment" data-fragment-index="5">--rm=true</dt>
+							<dd class="fragment" data-fragment-index="5">Remove intermediate containers after a successful build</dd>
 					</dl>
 				</section>
 
@@ -1671,7 +1666,7 @@ LABEL cache.hate.I=1
 					<h2>Distributing images</h2>
 					<ul>
 						<li>Exporting container's file system</li>
-						<li>Sending complete image with it's metadata</li>
+						<li>Exporting complete image with it's metadata</li>
 						<li>Centralized distribution with Registry</li>
 					</ul>
 
@@ -1757,22 +1752,22 @@ docker.io/fedora  latest  2d8ad197aafc  1 minute ago  204.5 MB
 					<h2>Registry</h2>
 					<p><strong>Image sharing and distribution</strong></p>
 					<ul>
-						<li>Registry packaged simply as Docker image</li>
+						<li>Registry packaged simply as a Docker image</li>
 						<li>By default Docker daemon expects registry secured by TLS</li>
 						<li>Non-production purposes - add hostname to daemon's settings options</li>
 					</ul>
 					<pre><code data-trim data-noescape>
-sudo vim /etc/sysconfig/docker
+$ sudo vim /etc/sysconfig/docker
 OPTIONS='--insecure-registry localhost/5000'
-sudo systemctl restart docker
+$ sudo systemctl restart docker
 					</code></pre>
 					<ul>
 						<li>Fully qualified image names specify where the registry is hosted</li>
 					</ul>
 					<pre><code data-trim data-noescape>
-sudo docker run -d -p 5000:5000 registry:2
-sudo docker tag fedora:23 localhost:5000/fedora:23
-sudo docker push localhost:5000/fedora:23
+$ sudo docker run -d -p 5000:5000 registry:2
+$ sudo docker tag fedora:23 localhost:5000/fedora:23
+$ sudo docker push localhost:5000/fedora:23
 					</code></pre>
 
 					<aside class="notes">
@@ -1812,7 +1807,7 @@ $ sudo docker login -u &lt;user&gt; -p &lt;password&gt; -e &lt;email&gt;
 $ sudo docker build -t &lt;user&gt;/my-image /source/dir
 $ sudo docker push &lt;user&gt;/my-image  # defaults to registry-1.docker.io
 					</code></pre>
-					<p>When using automatic build manual pushs are disabled</p>
+					<p>When using automatic build manual pushes are disabled</p>
 					<aside class="notes">
 						<ul>
 							<li></li>
@@ -1927,8 +1922,8 @@ bb827162ac24  8 days ago    /bin/sh -c echo "daemon off;" >> /etc/nginx/n   2.33
 				<section>
 					<h2>Thank you!</h2>
 					<a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a><br>
-					<a href="https://schiffer.typeform.com/to/IjtF0j">schiffer.typeform.com/to/IjtF0j</a><br>
-					<img src="img/qrcode2.png" alt="qrcode"><br>
+					<a href="https://schiffer.typeform.com/to/KisVgL">schiffer.typeform.com/to/KisVgL</a><br>
+					<img src="img/qrcode3.png" alt="qrcode"><br>
 					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
