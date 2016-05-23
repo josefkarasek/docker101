@@ -1687,7 +1687,6 @@ drwxr-xr-x. 47 jkarasek jkarasek      4096 May 22 18:21 etc
 $ docker import export.tar &amp;&amp; docker images
 REPOSITORY  TAG     IMAGE ID      CREATED         VIRTUAL SIZE
 &lt;none&gt;      &lt;none&gt;  fa37c0baeaaa  54 minutes ago  204.5 MB
-
 					</code></pre>
 
 					<aside class="notes">
@@ -1712,22 +1711,22 @@ REPOSITORY  TAG     IMAGE ID      CREATED         VIRTUAL SIZE
 					</ul>
 
 					<pre><code data-trim data-noescape>
-$ docker save -o save.tar fedora
+$ sudo docker save -o save.tar fedora
 $ tar -xf save.tar && ll
 total 416344
-drwxr-xr-x. 2 jkarasek jkarasek      4096 Feb 18 17:47 2d8ad197aafc87b9ef284df9a1bb89f4693b4c89a0db687979c48c346766bbf2
-drwxr-xr-x. 2 jkarasek jkarasek      4096 Jul 21  2015 369aca82a5c05d17006b9dca3bf92d1de7d39d7cd908ed665ef181649525464e
-drwxr-xr-x. 2 jkarasek jkarasek      4096 Jan  4 22:26 3fc68076e18498b8071eda63989ee5455182a2300fe6948f2383fb0dfb18f779
+drwxr-xr-x. 2 jkarasek jkarasek      4096 Feb 18 17:47 2d8ad197aa
+drwxr-xr-x. 2 jkarasek jkarasek      4096 Jul 21  2015 369aca82a5
+drwxr-xr-x. 2 jkarasek jkarasek      4096 Jan  4 22:26 3fc68076e1
 -rw-r--r--. 1 jkarasek jkarasek       171 Jan  1  1970 repositories
 -rw-rw-r--. 1 jkarasek jkarasek 426315776 May 22 18:26 save.tar
 $ cat repositories | python -m json.tool
 {
     "docker.io/fedora": {
-        "23": "3fc68076e18498b8071eda63989ee5455182a2300fe6948f2383fb0dfb18f779",
-        "latest": "2d8ad197aafc87b9ef284df9a1bb89f4693b4c89a0db687979c48c346766bbf2"
+        "23": "3fc68076e1",
+        "latest": "2d8ad197aa"
     }
 }
-$ docker load -i save.tar && docker images
+$ sudo docker load -i save.tar && docker images
 REPOSITORY        TAG     IMAGE ID      CREATED       VIRTUAL SIZE
 docker.io/fedora  latest  2d8ad197aafc  1 minute ago  204.5 MB
 					</code></pre>
