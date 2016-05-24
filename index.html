@@ -52,6 +52,16 @@
 						<li><a href="#/ansible">Ansible</a></li>
 					</ul>
 				</li>
+				<li>
+					<a href="#/session-3">Docker images, layers, creating images, registry</a>
+					<ul>
+						<li><a href="#/layers">Layers</a></li>
+						<li><a href="#/building-images">Building images</a></li>
+						<li><a href="#/building-tips">Building: tips &amp; tricks</a></li>
+						<li><a href="#/distributing-images">Distributing images</a></li>
+						<li><a href="#/image-metadata">Docker image metadata</a></li>
+					</ul>
+				</li>
 			</ul>
 
 			<div class="slides">
@@ -1247,7 +1257,7 @@ localhost             : ok=3    changed=2    unreachable=0    failed=0
 						<li><a href="#/layers">Layers</a></li>
 						<li><a href="#/building-images">Building images</a></li>
 						<li><a href="#/building-tips">Building: tips &amp; tricks</a></li>
-						<li><a href="#/building-tips">Docker registry</a></li>
+						<li><a href="#/distributing-images">Distributing images</a></li>
 						<li><a href="#/image-metadata">Docker image metadata</a></li>
 					</ul>
 				</section>
@@ -1537,9 +1547,9 @@ CMD [ "executable", "param1" ]
 CMD command param1
 					</code></pre>
 					<p>In the shell form, command is passed to <code>/bin/sh -c</code>, so all the shell env vars are accessible, but the process is not running as PID 1 and won't receive signals. For <code>CMD</code> and <code>ENTRYPOINT</code>, exec form is preferred; for <code>RUN</code>, you can safely use the shell form.</p>
-					<p>shell form gets expanded to</p>
+					<p>Shell form gets expanded to:</p>
 					<pre><code data-trim data-noescape>
-CMD ["/bin/sh" "-c" "sleep 99999"]
+CMD [ "/bin/sh", "-c", "sleep 99999" ]
 					</code></pre>
 				</section>
 
@@ -1658,7 +1668,7 @@ Please make sure you have the correct access rights
 						<li>No easy solution</li>
 						<li>Build and install with 2 docker images
 							<ul>
-								<li>Fetch (and build) the project with one dockerfile</li>
+								<li>Fetch (and build) the project with one Dockerfile</li>
 								<li>Install with another — this image can be shared</li>
 							</ul>
 						</li>
@@ -1678,7 +1688,7 @@ dnf install -y nginx
 						<li>Do production builds with <code>--no-cache</code></li>
 						<li>Workaround when developing a Dockerfile:
 							<pre><code data-trim data-noescape>
-RUN dnf update -y || :
+RUN dnf install -y nginx || :
 LABEL cache.invalidator=1
 							</code></pre>
 						</li>
@@ -1696,7 +1706,7 @@ LABEL cache.invalidator=1
 					</ul>
 				</section>
 
-				<section id="distributing_images">
+				<section id="distributing-images">
 					<h2>Distributing images</h2>
 					<ul>
 						<li>Exporting container's file system</li>
@@ -1782,7 +1792,7 @@ docker.io/fedora  latest  2d8ad197aafc  1 minute ago  204.5 MB
 					</aside>
 				</section>
 
-				<section id="registry_install">
+				<section id="registry-install">
 					<h2>Registry</h2>
 					<p><strong>Image sharing and distribution</strong></p>
 					<ul>
@@ -1812,7 +1822,7 @@ $ sudo docker push localhost:5000/fedora:23
 					</aside>
 				</section>
 
-				<section id="docker_hub">
+				<section id="docker-hub">
 					<h2>Docker hub</h2>
 					<p><strong>Not only image repository</strong></p>
 					<ul>
@@ -1833,9 +1843,9 @@ $ sudo docker push localhost:5000/fedora:23
 					</aside>
 				</section>
 
-				<section id="docker_login">
+				<section id="docker-login">
 					<h2>Docker hub — manual use </h2>
-					<p>Create account at hub.docker.com and get credentials</p>
+					<p>Create an account at hub.docker.com and get credentials</p>
 					<pre><code data-trim data-noescape>
 $ sudo docker login -u &lt;user&gt; -p &lt;password&gt; -e &lt;email&gt;
 $ sudo docker build -t &lt;user&gt;/my-image /source/dir
@@ -1849,12 +1859,12 @@ $ sudo docker push &lt;user&gt;/my-image  # defaults to registry-1.docker.io
 					</aside>
 				</section>
 
-				<section id="docker_hub_settings">
+				<section id="docker-hub-settings">
 					<h2>Docker hub — build settings</h2>
-					<img src="img/docker-hub-build-settings.png">
+					<img src="img/docker-hub-build-settings.png" alt="docker hub build settings">
 				</section>
 
-				<section>
+				<section id="image-metadata">
 					<h2>Docker history</h2>
 					<pre><code data-trim data-noescape>
 $ sudo docker history nginx
@@ -1870,7 +1880,7 @@ bb827162ac24  8 days ago    /bin/sh -c echo "daemon off;" >> /etc/nginx/n   2.33
 					</code></pre>
 				</section>
 
-				<section id="image-metadata">
+				<section>
 					<h2>Image metadata</h2>
 					<pre><code data-trim data-noescape>
 $ sudo docker inspect nginx
@@ -1942,12 +1952,12 @@ $ sudo docker inspect nginx
    { "blobSum": "sha256:cc8567d70002e957612902a8e985ea129d831ebe04057d88fb644857caa45d11" }
 "history": [
    {
-      "v1Compatibility": "{\"id\":\"e45a5af57b00862e5ef5782a9925979a02ba2b12dff832fd0991335f4a11e5c5\"..."
+      "v1Compatibility": "{\"id\":\"e45a5af57b00862e5ef5782a9925979a02ba2b12dff832fd0\"..."
    },
 					</code></pre>
 				</section>
 
-				<section id="links">
+				<section>
 					<h2>Links</h2>
 					<ul>
 						<li><a href="http://blog.tomecek.net/post/build-docker-image-in-two-steps/">Build and install in 2 steps</a></li>
