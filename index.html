@@ -1293,7 +1293,7 @@ $ cat repositories
 				<section>
 					<h2>Layers on filesystem III</h2>
 					<pre><code data-trim data-noescape>
-$ cat e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/json
+$ cat 1e10a9bd20093adae37b601baeba4f5ec569741979fb1c40cca4b63/json
     "config": {
         "Cmd": [ "/usr/sbin/nginx" ],
         "Env": [
@@ -1834,7 +1834,7 @@ $ sudo docker push localhost:5000/fedora:23
 				</section>
 
 				<section id="docker_login">
-					<h2>Docker hub - manual use </h2>
+					<h2>Docker hub — manual use </h2>
 					<p>Create account at hub.docker.com and get credentials</p>
 					<pre><code data-trim data-noescape>
 $ sudo docker login -u &lt;user&gt; -p &lt;password&gt; -e &lt;email&gt;
@@ -1847,6 +1847,11 @@ $ sudo docker push &lt;user&gt;/my-image  # defaults to registry-1.docker.io
 							<li></li>
 						</ul>
 					</aside>
+				</section>
+
+				<section id="docker_hub_settings">
+					<h2>Docker hub — build settings</h2>
+					<img src="img/docker-hub-build-settings.png">
 				</section>
 
 				<section>
