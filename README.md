@@ -4,7 +4,7 @@
 
 Slides are available here - [josefkarasek.github.io/docker101](https://josefkarasek.github.io/docker101/) (source files can be found in the gh-pages branch)
 
-Feedback form for the second session - [schiffer.typeform.com/to/IjtF0j](https://schiffer.typeform.com/to/IjtF0j)
+Feedback form for the third session - [schiffer.typeform.com/to/KisVgL](https://schiffer.typeform.com/to/KisVgL)
 
 PDF version and archive of the html slides can be found here - [github.com/pschiffe/docker101/releases](https://github.com/pschiffe/docker101/releases)
 
