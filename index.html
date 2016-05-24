@@ -1557,10 +1557,6 @@ CMD [ "/bin/sh", "-c", "sleep 99999" ]
 					<h3>ARG</h3>
 					<p>Modify parameters during the build time</p>
 					<pre><code data-trim data-noescape>
-ARG user
-USER ${user:-nobody}
-					</code></pre>
-					<pre><code data-trim data-noescape>
 ARG user=nobody
 USER ${user}
 					</code></pre>
@@ -1761,11 +1757,12 @@ REPOSITORY  TAG     IMAGE ID      CREATED         VIRTUAL SIZE
 
 					<ul>
 						<li>Operates on images</li>
-						<li>Complete image exported as a tar archive</li>
-						<ul>
-							<li>File system + metadata</li>
-							<li>Contains all related metadata, sorted in layers</li>
-						</ul>
+						<li>Complete image exported as a tar archive
+							<ul>
+								<li>File system + metadata</li>
+								<li>Contains all related metadata, sorted in layers</li>
+							</ul>
+						</li>
 					</ul>
 
 					<pre><code data-trim data-noescape>
@@ -1822,17 +1819,18 @@ $ sudo docker push localhost:5000/fedora:23
 					</aside>
 				</section>
 
-				<section id="docker-hub">
+				<section>
 					<h2>Docker hub</h2>
 					<p><strong>Not only image repository</strong></p>
 					<ul>
 						<li>Tooling that makes keeping images up to date a lot easier</li>
-						<li>Automatic builds</li>
-						<ul>
-							<li>Connection to SCM</li>
-							<li>Static watch on underlying image(s)</li>
-							<li>Repos with associated SCM also have source Dockerfile attached</li>
-						</ul>
+						<li>Automatic builds
+							<ul>
+								<li>Connection to SCM</li>
+								<li>Static watch on underlying image(s)</li>
+								<li>Repos with associated SCM also have source Dockerfile attached</li>
+							</ul>
+						</li>
 					</ul>
 
 					<aside class="notes">
