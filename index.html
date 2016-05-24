@@ -1557,10 +1557,6 @@ CMD [ "/bin/sh", "-c", "sleep 99999" ]
 					<h3>ARG</h3>
 					<p>Modify parameters during the build time</p>
 					<pre><code data-trim data-noescape>
-ARG user
-USER ${user:-nobody}
-					</code></pre>
-					<pre><code data-trim data-noescape>
 ARG user=nobody
 USER ${user}
 					</code></pre>
