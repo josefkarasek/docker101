@@ -1976,6 +1976,109 @@ $ sudo docker inspect nginx
 					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
+				<section id="session-4">
+					<h2>Session 4</h2>
+					<ul>
+						<li><a href="#/compiling-in-containers">Compiling in containers</a></li>
+					</ul>
+				</section>
+
+				<section id="compiling-in-containers">
+					<h2>Compiling in containers</h2>
+				</section>
+
+				<section>
+					<h2>Simple C program</h2>
+					<pre><code data-trim>
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a, b, c;
+
+    printf("Enter two numbers to add:\n");
+    scanf("%d%d", &amp;a, &amp;b);
+
+    c = a + b;
+
+    printf("Sum of entered numbers = %d\n", c);
+
+    return 0;
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Prepare Docker Image</h2>
+					<pre><code data-trim>
+FROM fedora:23
+MAINTAINER "Peter Schiffer" &lt;pschiffe@redhat.com&gt;
+
+RUN dnf -y --setopt=tsflags=nodocs install \
+    gcc \
+&amp;&amp; dnf -y clean all
+
+WORKDIR /gcc
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Create Makefile</h2>
+					<pre><code data-trim>
+CC=gcc
+SOURCES=sum.c
+EXECUTABLE=sum
+DOCKER_IMAGE=pschiffe/docker101-gcc
+DOCKER_IMAGE_PATH=/gcc
+
+.PHONY: all run
+
+all: $(EXECUTABLE)
+
+$(EXECUTABLE): $(SOURCES)
+    sudo docker pull $(DOCKER_IMAGE)
+    sudo sh -c 'docker run -v `pwd`:$(DOCKER_IMAGE_PATH) --rm --security-opt label:disable \
+        --user $$SUDO_UID:$$SUDO_GID $(DOCKER_IMAGE) $(CC) $(SOURCES) -o $@'
+
+run: $(EXECUTABLE)
+    sudo sh -c 'docker run -it -v `pwd`:$(DOCKER_IMAGE_PATH) --rm \
+        --security-opt label:disable --user $$SUDO_UID:$$SUDO_GID $(DOCKER_IMAGE) \
+        ./$(EXECUTABLE)'
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Profit $$$</h2>
+					<pre><code data-trim>
+$ make run
+sudo docker pull pschiffe/docker101-gcc
+Using default tag: latest
+Trying to pull repository docker.io/pschiffe/docker101-gcc ...
+88dae26494e2: Pull complete
+3923b16e01f5: Pull complete
+a83fba92099f: Pull complete
+Digest: sha256:86d69217f58e670062b9e2f9fed82b25ff7a4da329af84d54973bf7039cbef1b
+Status: Downloaded newer image for docker.io/pschiffe/docker101-gcc:latest
+
+sudo sh -c 'docker run -v `pwd`:/gcc --rm --security-opt label:disable \
+    --user $SUDO_UID:$SUDO_GID pschiffe/docker101-gcc gcc sum.c -o sum'
+sudo sh -c 'docker run -it -v `pwd`:/gcc --rm --security-opt label:disable \
+    --user $SUDO_UID:$SUDO_GID pschiffe/docker101-gcc ./sum'
+Enter two numbers to add:
+1
+2
+Sum of entered numbers = 3
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Thank you!</h2>
+					<a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a><br>
+					<a href="https://schiffer.typeform.com/to/KisVgL">schiffer.typeform.com/to/KisVgL</a><br>
+					<img src="img/qrcode3.png" alt="qrcode"><br>
+					<small><a href="#/table-of-content">Table of Content</a></small>
+				</section>
+
 <!--
 <section>
 	<h2>The wordpress example</h2>
@@ -2013,162 +2116,6 @@ back-tier:
 driver: bridge
 	</code></pre>
 </section>
-
-
-				<section>
-					<section>
-						<h2>Atomic Developer Bundle (ADB)</h2>
-					</section>
-
-					<section>
-						<h2>Atomic Developer Bundle (ADB)</h2>
-						<ul>
-							<li>Prepackaged development environment filled with pre-configured tools that makes container developer's lives easier</li>
-							<li>For Linux, Mac and Windows</li>
-						</ul>
-					</section>
-
-					<section>
-						<h2>Install guide for Windows</h2>
-						<ul>
-							<li>Install VirtualBox from <a href="https://www.virtualbox.org/wiki/Downloads">virtualbox.org</a></li>
-							<li>Install Vagrant 1.7.4 from <a href="https://releases.hashicorp.com/vagrant/1.7.4/vagrant_1.7.4.msi">vagrantup.com</a>
-								<ul>
-									<li>Version 1.8.x is buggy on Windows</li>
-								</ul>
-							</li>
-						</ul>
-					</section>
-
-					<section>
-						<h2>Install guide for Windows II</h2>
-						<ul>
-							<li>Install Cygwin from <a href="https://www.cygwin.com/">cygwin.com</a>
-								<ul>
-									<li>Select download site - <strong>mirrors.kernel.org</strong></li>
-								</ul>
-							</li>
-						</ul>
-						<img src="img/cygwin-mirrors.png" alt="cygwin-mirrors">
-					</section>
-
-					<section>
-						<h2>Install guide for Windows III</h2>
-						<ul>
-							<li>Select <strong>rsync</strong> and <strong>openssh</strong> during installation</li>
-						</ul>
-						<img src="img/cygwin-rsync.png" alt="cygwin-rsync" width="468">
-						<img src="img/cygwin-ssh.png" alt="cygwin-ssh" width="468">
-					</section>
-
-					<section>
-						<h2>Install guide for Windows IV</h2>
-						<ul>
-							<li>In <strong>CygWin64 Terminal</strong> write:</li>
-						</ul>
-						<pre><code data-trim data-noescape>
-export VAGRANT_DETECTED_OS=cygwin
-mkdir vagrant-images
-cd vagrant-images
-vagrant init projectatomic/adb
-vagrant up
-vagrant ssh
-						</code></pre>
-					</section>
-				</section>
-
-				<section>
-					<section>
-						<h2>GCC Example</h2>
-					</section>
-
-					<section>
-						<h2>Simple C program</h2>
-						<pre><code data-trim>
-#include &lt;stdio.h&gt;
-
-int main()
-{
-   int a, b, c;
-
-   printf("Enter two numbers to add:\n");
-   scanf("%d%d", &amp;a, &amp;b);
-
-   c = a + b;
-
-   printf("Sum of entered numbers = %d\n", c);
-
-   return 0;
-}
-						</code></pre>
-					</section>
-
-					<section>
-						<h2>Prepare Docker Image</h2>
-						<pre><code data-trim>
-FROM fedora:23
-MAINTAINER "Peter Schiffer" &lt;pschiffe@redhat.com&gt;
-
-RUN dnf -y - -setopt=tsflags=nodocs install \
-        gcc \
-    &amp;&amp; dnf -y clean all
-
-WORKDIR /gcc
-						</code></pre>
-					</section>
-
-					<section>
-						<h2>Create Makefile</h2>
-						<pre><code data-trim>
-CC=gcc
-SOURCES=sum.c
-EXECUTABLE=sum
-DOCKER_IMAGE=pschiffe/docker101-gcc
-DOCKER_IMAGE_PATH=/gcc
-
-all: $(EXECUTABLE)
-
-$(EXECUTABLE): $(SOURCES)
-	docker run - -rm -v `pwd`:$(DOCKER_IMAGE_PATH):Z \
-		$(DOCKER_IMAGE) $(CC) $(SOURCES) -o $@
-
-run: $(EXECUTABLE)
-	docker run -it - -rm -v `pwd`:$(DOCKER_IMAGE_PATH):Z \
-		$(DOCKER_IMAGE) ./$(EXECUTABLE)
-						</code></pre>
-					</section>
-
-					<section>
-						<h2>Profit $$$</h2>
-						<pre><code data-trim>
-$ make run
-docker run - -rm -v `pwd`:/gcc:Z pschiffe/docker101-gcc gcc sum.c -o sum
-Unable to find image 'pschiffe/docker101-gcc:latest' locally
-Trying to pull repository docker.io/pschiffe/docker101-gcc ... latest: Pulling from pschiffe/docker101-gcc
-b0082ba983ef: Already exists
-...
-42a6c75469ef: Pull complete
-Digest: sha256:ac4b5d46f46e64d8fc63e23bbcc9d95c96c847febab3d3e9e65d6ed9a044b538
-Status: Downloaded newer image for docker.io/pschiffe/docker101-gcc:latest
-
-docker run -it - -rm -v `pwd`:/gcc:Z pschiffe/docker101-gcc ./sum
-Enter two numbers to add:
-1
-2
-Sum of entered numbers = 3
-						</code></pre>
-					</section>
-				</section>
-
-				<section>
-					<h2>Links</h2>
-					<ul>
-						<li><a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a></li>
-						<li><a href="https://www.docker.com/">docker.com</a></li>
-						<li><a href="https://hub.docker.com/">hub.docker.com</a></li>
-						<li><a href="http://www.projectatomic.io/">projectatomic.io</a></li>
-					</ul>
-				</section>
 -->
 			</div>
 		</div>
