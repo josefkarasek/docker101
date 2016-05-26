@@ -858,6 +858,10 @@ hi</span>
 $ sudo docker run -d -p 80:80 -v /var/tmp/nginx:/usr/share/nginx/html:ro \
 --security-opt label:disable <span class="fragment" data-fragment-index="11">--user 1000:1000</span> --name my-nginx nginx
 					</code></pre>
+					<pre class="fragment" data-fragment-index="12"><code data-trim data-noescape>
+$ sudo sh -c 'docker run -d -p 80:80 -v /var/tmp/nginx:/usr/share/nginx/html:ro \
+--security-opt label:disable --user $SUDO_UID:$SUDO_GID --name my-nginx nginx'
+					</code></pre>
 
 					<aside class="notes">
 						<ul>
