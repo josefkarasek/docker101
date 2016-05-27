@@ -1983,6 +1983,68 @@ $ sudo docker inspect nginx
 					</ul>
 				</section>
 
+				<section>
+					<h2>Development with docker</h2>
+				</section>
+
+				<section>
+					<h2>Sample multi-container app</h2>
+					<ul>
+						<li>web — django</li>
+						<li>database — PostgreSQL</li>
+						<li>worker — redis</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>How to do this?</h2>
+					<ul>
+						<li>We need three containers</li>
+						<li>Worker and web may share an image</li>
+						<li>Sources can be mounted so we don't need to rebuild</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>How do we populate database?</h2>
+					<ul>
+						<li>= initializing service after it's up</li>
+						<li>Utility container</li>
+						<li><code>docker exec</code></li>
+						<li>Bake initialization into image</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Running tests in containers</h2>
+					<p>
+						What do I need to run my tests?
+					</p>
+					<ul>
+						<li>Test runner</li>
+						<li>Environment (=dependencies)</li>
+						<li>(Compile the code)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Running integration tests in containers</h2>
+					<p>
+						What do I need to run those tests?
+					</p>
+					<ul>
+						<li>Build the service</li>
+						<li>Deploy the service</li>
+						<li>Test runner</li>
+						<li>Environment (=dependencies)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Live Demo!</h2>
+					TODO: run via docker cli with links, docker-compose, ansible, via cli without links and connect to custom network
+				</section>
+
 				<section id="compiling-in-containers">
 					<h2>Compiling in containers</h2>
 				</section>
@@ -2069,6 +2131,54 @@ Enter two numbers to add:
 2
 Sum of entered numbers = 3
 					</code></pre>
+				</section>
+
+				<section id="gui-apps-in-containers">
+					<h2>Running GUI apps in containers</h2>
+					<ul>
+						<li>container needs access to X server:
+					<pre><code data-trim>
+-v /tmp/.X11-unix:/tmp/.X11-unix
+-e DISPLAY=$DISPLAY
+					</code></pre>
+						</li>
+						<li>...and also be authorized
+							<pre><code data-trim>
+-e XAUTHORITY=/.Xauthority
+-v ~/.Xauthority:/.Xauthority:ro
+							</code></pre>
+						</li>
+						<li>...and also be allowed
+							<pre><code data-trim>
+$ xhost +
+access control disabled, clients can connect from any host
+							</code></pre>
+						</li>
+					</ul>
+				</section>
+
+				<section id="firefox-in-container">
+					<h2>Running firefox in a container</h2>
+					<pre><code data-trim>
+FROM fedora:23
+RUN dnf install -y firefox libcanberra-gtk3
+CMD firefox --no-remote
+					</code></pre>
+					<pre><code data-trim>
+docker run \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -e DISPLAY=$DISPLAY \
+  -e XAUTHORITY=/.Xauthority \
+  -v ~/.Xauthority:/.Xauthority:ro \
+  firefox
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Links</h2>
+					<ul>
+						<li><a href="http://wiki.ros.org/docker/Tutorials/GUI">Running GUI apps in containers</a></li>
+					</ul>
 				</section>
 
 				<section>
