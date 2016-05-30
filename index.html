@@ -2559,18 +2559,18 @@ Running in a container, ignoring fstab device entry for /dev/disk/by-uuid/e9c6a2
 					<p><strong>Simple web server that implements HTTP/2.0</strong></p>
 					<ul>
 						<li>First compile source code to a standalone static executable</li>
-						<li>Then create 'from scratch' image. Resulting size is 11MB</li>
+						<li>Then create 'from scratch' image. Resulting size is 11MB
 						<pre><code data-trim data-noescape>
 FROM scratch
 COPY caddy /caddy
 COPY Caddyfile /Caddyfile
 COPY index.html /index.html
 CMD ["/caddy"]
-						</code></pre>
-						<li>Caddy runs by default on port 2015</li>
-					<pre><code data-trim data-noescape>
+						</code></pre></li>
+						<li>Caddy runs by default on port 2015
+						<pre><code data-trim data-noescape>
 $ sudo docker run -d -p 2015:2015 --name caddy jkarasek/caddy
-					</code></pre>
+						</code></pre></li>
 					</ul>
 
 					<aside class="notes">
@@ -2584,24 +2584,24 @@ $ sudo docker run -d -p 2015:2015 --name caddy jkarasek/caddy
 					<h2>Packaging a Terminal app</h2>
 					<p><strong>The Weechat IRC client</strong></p>
 					<ul>
-						<li>Create Docker image with weechat based on Fedora</li>
+						<li>Create Docker image with weechat based on Fedora
 						<pre><code data-trim data-noescape>
 FROM fedora:23
 RUN dnf -y --setopt=tsflags=nodocs install weechat \
     &amp;&amp; dnf -y clean all
 CMD ["weechat"]
-						</code></pre>
-						<li>Establish connection</li>
+						</code></pre></li>
+						<li>Establish connection
 						<pre><code data-trim data-noescape>
 $ sudo docker run -it --name weechat jkarasek/weechat
-						</code></pre>
-						<li>You can try out these basic commands</li>
+						</code></pre></li>
+						<li>You can try out these basic commands
 						<pre><code data-trim data-noescape>
 /server add freenode chat.freenode.net
 /set irc.server.freenode.nicks "my_nick"
 /connect freenode
 /join #rhel
-						</code></pre>
+						</code></pre></li>
 					</ul>
 
 					<aside class="notes">
