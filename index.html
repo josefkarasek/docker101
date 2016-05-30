@@ -1854,11 +1854,6 @@ $ sudo docker build -t &lt;user&gt;/my-image /source/dir
 $ sudo docker push &lt;user&gt;/my-image  # defaults to registry-1.docker.io
 					</code></pre>
 					<p>When using automatic build manual pushes are disabled</p>
-					<aside class="notes">
-						<ul>
-							<li></li>
-						</ul>
-					</aside>
 				</section>
 
 				<section id="docker-hub-settings">
@@ -1979,28 +1974,47 @@ $ sudo docker inspect nginx
 				<section id="session-4">
 					<h2>Session 4</h2>
 					<ul>
+						<li><a href="#/development-with-docker">Development with docker</a></li>
 						<li><a href="#/compiling-in-containers">Compiling in containers</a></li>
 						<li><a href="#/trying-unknown-code">Trying unknown code</a></li>
 					</ul>
 				</section>
 
-				<section>
+				<section id="development-with-docker">
 					<h2>Development with docker</h2>
 				</section>
 
 				<section>
 					<h2>Sample multi-container app</h2>
 					<ul>
-						<li>web — django</li>
-						<li>database — PostgreSQL</li>
-						<li>worker — redis</li>
+						<li>Web — django</li>
+						<li>Database — PostgreSQL</li>
+						<li>Cache — redis</li>
+						<li>Worker</li>
 					</ul>
+				</section>
+
+				<section>
+					<h2>Let's do this without docker</h2>
+					<ul>
+						<li>In one terminal we'll launch django</li>
+						<li>Worker in another</li>
+						<li>But first we need to install dependencies</li>
+						<li>Database: let's install, configure, start, configure, start, configure it</li>
+						<li>Redis: hold on, am searching internets how to use it</li>
+					</ul>
+					<p>I know! We'll create one jumbo script which creates, initiaties, starts all the everything.</p>
+				</section>
+
+				<section>
+					<h2>Nope</h2>
+					<h2 class="fragment" data-fragment-index="1">Let's try with docker now</h2>
 				</section>
 
 				<section>
 					<h2>How to do this?</h2>
 					<ul>
-						<li>We need three containers</li>
+						<li>We need four containers</li>
 						<li>Worker and web may share an image</li>
 						<li>Sources can be mounted so we don't need to rebuild</li>
 					</ul>
@@ -2017,15 +2031,201 @@ $ sudo docker inspect nginx
 				</section>
 
 				<section>
+					<h2>Dockerfile</h2>
+					<pre><code data-trim>
+FROM fedora:23
+RUN dnf install -y git python-pip gcc \
+    python-devel postgresql-devel redhat-rpm-config
+RUN mkdir -p /opt/app
+WORKDIR /opt/app
+RUN git clone https://github.com/jacobian/channels-example &amp;&amp; \
+    cd channels-example &amp;&amp; \
+    pip install -r ./requirements.txt
+CMD ["python", "/opt/app/channels-example/manage.py", \
+     "runserver", "--noworker", "-v3", "0.0.0.0:8000"]
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Running the project</h2>
+					<ul>
+						<li>Manually using docker CLI</li>
+						<li>Via docker-compose</li>
+						<li>Via ansible (2.1)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Manually using docker CLI</h2>
+					<pre><code data-trim>
+$ sudo docker run --name=redis redis
+$ sudo docker run -e POSTGRESQL_DATABASE=chat \
+                  -e POSTGRESQL_USER=user \
+                  -e POSTGRESQL_PASSWORD=containers-course \
+                  -e POSTGRESQL_CONTAINER_OPTS="assert_external_data = false"
+                  --name db
+                  praiskup/postgresql:APIv1.0.1-fedora23
+$ sudo docker build --tag=web-image .
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Manually using docker CLI II</h2>
+					<pre><code data-trim>
+$ sudo docker run -e DATABASE_URL=postgres://user:containers-course@db:5432/chat \
+                  -e REDIS_URL=redis://redis:6379/1 \
+                  --links redis \
+                  --links db \
+                  -v ./channels-example/:/opt/app/channels-example/ \
+                  -p 8000:8000 \
+                  --name=web \
+                  web-image
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Manually using docker CLI III</h2>
+					<pre><code data-trim>
+$ sudo docker run -e DATABASE_URL=postgres://user:containers-course@db:5432/chat \
+                  -e REDIS_URL=redis://redis:6379/1 \
+                  --links redis \
+                  --links db \
+                  -v ./channels-example/:/opt/app/channels-example/ \
+                  -p 8000:8000 \
+                  --name=worker \
+                  web-image \
+                  python /opt/app/channels-example/manage.py runworker -v3
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Make it easier, please!</h2>
+				</section>
+
+				<section>
+					<h2>docker-compose to the rescue</h2>
+					<pre><code data-trim>
+web:
+  build: .
+  ports:
+   - "8000:8000"
+  volumes:
+   - ./channels-example/:/opt/app/channels-example/
+  links:
+   - db
+   - redis
+  environment:
+    - DATABASE_URL=postgres://user:openhouse2016@db:5432/chat
+    - REDIS_URL=redis://redis:6379/1
+redis:
+  image: redis
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>docker-compose to the rescue II</h2>
+					<pre><code data-trim>
+worker:
+  build: .
+  environment:
+    - DATABASE_URL=postgres://user:openhouse2016@db:5432/chat
+    - REDIS_URL=redis://redis:6379/1
+  links:
+   - db
+   - redis
+  volumes:
+   - ./channels-example/:/opt/app/channels-example/
+  command: python /opt/app/channels-example/manage.py runworker -v3
+db:
+  image: praiskup/postgresql:APIv1.0.1-fedora23
+  environment:
+   - POSTGRESQL_DATABASE=chat
+   - POSTGRESQL_USER=user
+   - POSTGRESQL_PASSWORD=containers-course
+   - POSTGRESQL_CONTAINER_OPTS=assert_external_data = false
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>docker-compose to the rescue III</h2>
+					<pre><code data-trim>
+$ docker-compose up
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>ansible 2.1</h2>
+					<pre><code data-trim>
+- name: Deploy the service
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+    - docker_service:
+        project_src: ./ansible-2.1-demo/
+        state: present
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>ansible 2.1 — run it</h2>
+					<pre><code data-trim>
+$ sudo ansible-playbook ./ansible-2.1-demo/docker.yml
+PLAYBOOK: docker.yml ***********************************************************
+1 plays in ./docker.yml
+
+PLAY [Deploy the service] ******************************************************
+
+TASK [docker_service] **********************************************************
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=1    changed=1    unreachable=0    failed=0
+					</code></pre>
+				</section>
+
+				<section>
 					<h2>Running tests in containers</h2>
 					<p>
 						What do I need to run my tests?
 					</p>
 					<ul>
 						<li>Test runner</li>
+						<li>Tests</li>
 						<li>Environment (=dependencies)</li>
 						<li>(Compile the code)</li>
 					</ul>
+				</section>
+
+				<section>
+					<h2>Dockerfile</h2>
+					<pre><code data-trim>
+# use the project as a base, get all dependencies for free
+FROM project
+# install testing framework
+RUN dnf install -y python2-pytest
+# put the current code inside, we could also use git here
+COPY . /project
+WORKDIR /project
+# test-runner
+CMD ["py.test"]
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Script</h2>
+					<pre><code data-trim>
+gc() {
+  docker stop tests-container || :
+  docker rm -v tests-container || :
+}
+
+trap gc EXIT SIGINT
+
+docker build --tag=project .
+docker build -f Dockerfile.tests --tag=tests .
+
+docker run -t --name=tests-container tests py.test $@
+					</code></pre>
 				</section>
 
 				<section>
@@ -2034,16 +2234,22 @@ $ sudo docker inspect nginx
 						What do I need to run those tests?
 					</p>
 					<ul>
-						<li>Build the service</li>
-						<li>Deploy the service</li>
+						<li>Running project</li>
+						<li>Tests</li>
 						<li>Test runner</li>
 						<li>Environment (=dependencies)</li>
 					</ul>
 				</section>
 
 				<section>
-					<h2>Live Demo!</h2>
-					TODO: run via docker cli with links, docker-compose, ansible, via cli without links and connect to custom network
+					<h2>Workflow</h2>
+					<ul>
+						<li>Build the service</li>
+						<li>Deploy the service</li>
+						<li>Build tests image</li>
+						<li>Run Tests</li>
+						<li>Cleanup</li>
+					</ul>
 				</section>
 
 				<section id="compiling-in-containers">
@@ -2344,6 +2550,20 @@ docker run \
   -v ~/.Xauthority:/.Xauthority:ro \
   firefox
 					</code></pre>
+				</section>
+
+				<section>
+					<h2>Debugging GUI apps in a container</h2>
+					<ul>
+						<li>Verify that you can connect to X server:
+							<pre><code data-trim>
+$ xset -q
+							</code></pre>
+						</li>
+						<li>Install graphical backends (e.g. mesa)</li>
+						<li>Install proper graphical toolkits (gtk2, gtk3, qt...)</li>
+						<li>Sound or video card is not a problem!</li>
+					</ul>
 				</section>
 
 				<section>
