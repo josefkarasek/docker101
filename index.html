@@ -1977,6 +1977,8 @@ $ sudo docker inspect nginx
 						<li><a href="#/development-with-docker">Development with docker</a></li>
 						<li><a href="#/compiling-in-containers">Compiling in containers</a></li>
 						<li><a href="#/trying-unknown-code">Trying unknown code</a></li>
+						<li><a href="#/upgrading-mariadb">Upgrading MariaDB</a></li>
+						<li><a href="#/systemd-in-container">Systemd in a container</a></li>
 					</ul>
 				</section>
 
@@ -2439,7 +2441,105 @@ A /etc/rc.d/init.d/csf
 A /etc/rc.d/init.d/lfd
 A /etc/cron.d/csf-cron
 A /etc/cron.d/lfd-cron
-...</span>
+...
+					</code></pre>
+				</section>
+
+				<section id="upgrading-mariadb">
+					<h2>Upgrading MariaDB in container</h2>
+				</section>
+
+				<section>
+					<h2>Keys to successful upgrades</h2>
+					<ul>
+						<li>Persistent storage (named volumes, bind mount from host)</li>
+						<li>Config via env vars, scripts (bind mounted config files might be troublesome)</li>
+						<li>No modifications done via <code>docker exec</code></li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Upgrading MariaDB</h2>
+					<pre><code data-trim data-noescape>
+$ sudo docker run -d -e MYSQL_ROOT_PASSWORD=pw -v maria:/var/lib/mysql --name maria mariadb:5
+<span class="fragment">$ sudo docker run -d -p 8080:80 --link maria:db --name myadmin phpmyadmin/phpmyadmin</span>
+<span class="fragment">$ sudo docker stop maria
+$ sudo docker rm maria</span>
+<span class="fragment">$ sudo docker run -d -e MYSQL_ROOT_PASSWORD=pw -v maria:/var/lib/mysql --name maria mariadb:10</span>
+<span class="fragment">$ sudo docker exec -it maria sh -c 'mysql_upgrade -uroot -p"$MYSQL_ROOT_PASSWORD"'</span>
+<span class="fragment">$ sudo docker exec -it maria sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" \
+	-e "SELECT * FROM zombies" wwz'
++----+------------+------------------+---------------------------------------------+
+| id | name       | original         | address                                     |
++----+------------+------------------+---------------------------------------------+
+|  1 | Fatty Bob  | George B. Smith  | 4832 Armbrester Drive Culver City, CA 90232 |
+|  2 | Skinny Joe | Alan D. Townsend | 2882 Petunia Way Birmingham, AL 35203       |
++----+------------+------------------+---------------------------------------------+</span>
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Not every app is that easy</h2>
+					<p>PostgreSQL requires for upgrade binaries of old and new version and the data will be duplicated during the upgrade</p>
+					<p><a href="https://github.com/tianon/docker-postgres-upgrade">github.com/tianon/docker-postgres-upgrade</a></p>
+				</section>
+
+				<section id="systemd-in-container">
+					<h2>systemd in container</h2>
+				</section>
+
+				<section>
+					<h2>Why?</h2>
+					<ul>
+						<li>Multiple processes in one container</li>
+						<li>Leverage systemd unit files</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Dockerfile</h2>
+					<pre><code data-trim data-noescape>
+FROM fedora:23
+MAINTAINER "Peter Schiffer" &lt;pschiffe@redhat.com&gt;
+
+ENV container=docker
+
+RUN dnf -y --setopt=tsflags=nodocs install \
+        nginx \
+    &amp;&amp; dnf -y clean all
+
+RUN systemctl enable nginx
+
+EXPOSE 80
+
+VOLUME [ "/run", "/tmp", "/usr/share/nginx/html" ]
+
+CMD [ "/usr/sbin/init" ]
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Does it boot?</h2>
+					<pre><code data-trim data-noescape>
+$ sudo docker run -t -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p 8080:80 \
+	--name nginx pschiffe/docker101-systemd-nginx
+<span class="fragment">systemd 222 running in system mode. (+PAM +AUDIT +SELINUX +IMA -APPARMOR +SMACK +SYSVINIT +UTMP)
+Detected virtualization docker.
+Detected architecture x86-64.
+Running with unpopulated /etc.
+
+Welcome to Fedora 23 (Twenty Three)!
+
+Set hostname to &lt;d2292e97bbc3&gt;.
+Initializing machine ID from random generator.
+Populated /etc with preset unit settings.
+Running in a container, ignoring fstab device entry for /dev/disk/by-uuid/e9c6a28...
+[  OK  ] Reached target Swap.
+[  OK  ] Created slice Root Slice.
+[  OK  ] Listening on Journal Socket (/dev/log).
+[  OK  ] Reached target Encrypted Volumes.
+[  OK  ] Listening on /dev/initctl Compatibility Named Pipe.
+[  OK  ] Reached target Local File Systems.</span>
 					</code></pre>
 				</section>
 
