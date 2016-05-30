@@ -105,6 +105,7 @@
 						<li><a href="#/session-1">Introduction, history, underlying technologies</a></li>
 						<li><a href="#/session-2">Running containers, atomic, docker compose, ansible</a></li>
 						<li><a href="#/session-3">Docker images, layers, creating images, registry</a></li>
+						<li><a href="#/session-4">Docker for developers, packaging applications</a></li>
 					</ul>
 				</section>
 
@@ -1974,11 +1975,12 @@ $ sudo docker inspect nginx
 				<section id="session-4">
 					<h2>Session 4</h2>
 					<ul>
-						<li><a href="#/development-with-docker">Development with docker</a></li>
+						<li><a href="#/development-with-docker">Development with Docker</a></li>
 						<li><a href="#/compiling-in-containers">Compiling in containers</a></li>
 						<li><a href="#/trying-unknown-code">Trying unknown code</a></li>
 						<li><a href="#/upgrading-mariadb">Upgrading MariaDB</a></li>
 						<li><a href="#/systemd-in-container">Systemd in a container</a></li>
+						<li><a href="#/packaging-apps">Packaging applications</a></li>
 					</ul>
 				</section>
 
@@ -1989,9 +1991,9 @@ $ sudo docker inspect nginx
 				<section>
 					<h2>Sample multi-container app</h2>
 					<ul>
-						<li>Web — django</li>
+						<li>Web — Django</li>
 						<li>Database — PostgreSQL</li>
-						<li>Cache — redis</li>
+						<li>Cache — Redis</li>
 						<li>Worker</li>
 					</ul>
 				</section>
@@ -2543,22 +2545,20 @@ Running in a container, ignoring fstab device entry for /dev/disk/by-uuid/e9c6a2
 					</code></pre>
 				</section>
 
-<section>
+				<section id="packaging-apps">
 					<h2>Packaging applications into containers</h2>
-
 					<ul>
 						<li>Packaging a Service</li>
 						<li>Packaging a Terminal app</li>
 						<li>Packaging a GUI app</li>
 					</ul>
-					
 				</section>
 
 				<section id="caddy">
 					<h2>Packaging a service</h2>
 					<p><strong>Simple web server that implements HTTP/2.0</strong></p>
 					<ul>
-						<li>First compile source code to standalone static executable</li>
+						<li>First compile source code to a standalone static executable</li>
 						<li>Then create 'from scratch' image. Resulting size is 11MB</li>
 						<pre><code data-trim data-noescape>
 FROM scratch
@@ -2569,7 +2569,7 @@ CMD ["/caddy"]
 						</code></pre>
 						<li>Caddy runs by default on port 2015</li>
 					<pre><code data-trim data-noescape>
-sudo docker run --name caddy -d -p 2015:2015 jkarasek/caddy
+$ sudo docker run -d -p 2015:2015 --name caddy jkarasek/caddy
 					</code></pre>
 					</ul>
 
@@ -2593,7 +2593,7 @@ CMD ["weechat"]
 						</code></pre>
 						<li>Establish connection</li>
 						<pre><code data-trim data-noescape>
-sudo docker run --name weechat -it jkarasek/weechat
+$ sudo docker run -it --name weechat jkarasek/weechat
 						</code></pre>
 						<li>You can try out these basic commands</li>
 						<pre><code data-trim data-noescape>
@@ -2613,26 +2613,21 @@ sudo docker run --name weechat -it jkarasek/weechat
 
 				<section id="gui-apps-in-containers">
 					<h2>Running GUI apps in containers</h2>
-					<ul>
-						<li>container needs access to X server:
+					<p>Container needs access to the X server:</p>
 					<pre><code data-trim>
 -v /tmp/.X11-unix:/tmp/.X11-unix
 -e DISPLAY=$DISPLAY
 					</code></pre>
-						</li>
-						<li>...and also be authorized
-							<pre><code data-trim>
+					<p>... also it needs to be authorized:</p>
+					<pre><code data-trim>
 -e XAUTHORITY=/.Xauthority
 -v ~/.Xauthority:/.Xauthority:ro
-							</code></pre>
-						</li>
-						<li>...and also be allowed
-							<pre><code data-trim>
+					</code></pre>
+					<p>... and allowed:</p>
+					<pre><code data-trim>
 $ xhost +
 access control disabled, clients can connect from any host
-							</code></pre>
-						</li>
-					</ul>
+					</code></pre>
 				</section>
 
 				<section id="firefox-in-container">
@@ -2670,7 +2665,7 @@ $ xset -q
 					<h2>Links</h2>
 					<ul>
 						<li><a href="http://wiki.ros.org/docker/Tutorials/GUI">Running GUI apps in containers</a></li>
-						<li><a href="https://github.com/mholt/caddy">Caddy web server (golang)</a></li>
+						<li><a href="https://caddyserver.com/">Caddy web server (golang)</a></li>
 					</ul>
 				</section>
 
