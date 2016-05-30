@@ -2237,6 +2237,74 @@ A /etc/cron.d/lfd-cron
 					</code></pre>
 				</section>
 
+<section>
+					<h2>Packaging applications into containers</h2>
+
+					<ul>
+						<li>Packaging a Service</li>
+						<li>Packaging a Terminal app</li>
+						<li>Packaging a GUI app</li>
+					</ul>
+					
+				</section>
+
+				<section id="caddy">
+					<h2>Packaging a service</h2>
+					<p><strong>Simple web server that implements HTTP/2.0</strong></p>
+					<ul>
+						<li>First compile source code to standalone static executable</li>
+						<li>Then create 'from scratch' image. Resulting size is 11MB</li>
+						<pre><code data-trim data-noescape>
+FROM scratch
+COPY caddy /caddy
+COPY Caddyfile /Caddyfile
+COPY index.html /index.html
+CMD ["/caddy"]
+						</code></pre>
+						<li>Caddy runs by default on port 2015</li>
+					<pre><code data-trim data-noescape>
+sudo docker run --name caddy -d -p 2015:2015 jkarasek/caddy
+					</code></pre>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li></li>
+						</ul>
+					</aside>
+				</section>
+
+				<section id="weechat">
+					<h2>Packaging a Terminal app</h2>
+					<p><strong>The Weechat IRC client</strong></p>
+					<ul>
+						<li>Create Docker image with weechat based on Fedora</li>
+						<pre><code data-trim data-noescape>
+FROM fedora:23
+RUN dnf -y --setopt=tsflags=nodocs install weechat \
+    &amp;&amp; dnf -y clean all
+CMD ["weechat"]
+						</code></pre>
+						<li>Establish connection</li>
+						<pre><code data-trim data-noescape>
+sudo docker run --name weechat -it jkarasek/weechat
+						</code></pre>
+						<li>You can try out these basic commands</li>
+						<pre><code data-trim data-noescape>
+/server add freenode chat.freenode.net
+/set irc.server.freenode.nicks "my_nick"
+/connect freenode
+/join #rhel
+						</code></pre>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li></li>
+						</ul>
+					</aside>
+				</section>
+
 				<section id="gui-apps-in-containers">
 					<h2>Running GUI apps in containers</h2>
 					<ul>
@@ -2282,6 +2350,7 @@ docker run \
 					<h2>Links</h2>
 					<ul>
 						<li><a href="http://wiki.ros.org/docker/Tutorials/GUI">Running GUI apps in containers</a></li>
+						<li><a href="https://github.com/mholt/caddy">Caddy web server (golang)</a></li>
 					</ul>
 				</section>
 
