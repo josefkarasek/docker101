@@ -1980,6 +1980,7 @@ $ sudo docker inspect nginx
 					<h2>Session 4</h2>
 					<ul>
 						<li><a href="#/compiling-in-containers">Compiling in containers</a></li>
+						<li><a href="#/trying-unknown-code">Trying unknown code</a></li>
 					</ul>
 				</section>
 
@@ -2086,7 +2087,7 @@ WORKDIR /gcc
 
 				<section>
 					<h2>Create Makefile</h2>
-					<pre><code data-trim>
+					<pre><code data-trim data-noescape>
 CC=gcc
 SOURCES=sum.c
 EXECUTABLE=sum
@@ -2099,8 +2100,8 @@ all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(SOURCES)
     sudo docker pull $(DOCKER_IMAGE)
-    sudo sh -c 'docker run -v `pwd`:$(DOCKER_IMAGE_PATH) --rm --security-opt label:disable \
-        --user $$SUDO_UID:$$SUDO_GID $(DOCKER_IMAGE) $(CC) $(SOURCES) -o $@'
+    sudo <span class="fragment" data-fragment-index="1">sh -c '</span>docker run -v `pwd`:$(DOCKER_IMAGE_PATH) --rm --security-opt label:disable \
+        <span class="fragment" data-fragment-index="1">--user $$SUDO_UID:$$SUDO_GID</span> $(DOCKER_IMAGE) $(CC) $(SOURCES) -o $@<span class="fragment" data-fragment-index="1">'</span>
 
 run: $(EXECUTABLE)
     sudo sh -c 'docker run -it -v `pwd`:$(DOCKER_IMAGE_PATH) --rm \
@@ -2130,6 +2131,109 @@ Enter two numbers to add:
 1
 2
 Sum of entered numbers = 3
+					</code></pre>
+				</section>
+
+				<section id="trying-unknown-code">
+					<h2>Trying unknown code in container</h2>
+				</section>
+
+				<section>
+					<h2>Example app: CSF</h2>
+					<p><a href="http://www.configserver.com/cp/csf.html">ConfigServer Security &amp; Firewall</a> - A Stateful Packet Inspection (SPI) firewall, Login/Intrusion Detection and Security application for Linux servers.</p>
+					<pre class="fragment"><code data-trim data-noescape>
+wget https://download.configserver.com/csf.tgz
+tar -xzf csf.tgz
+cd csf
+sh install.sh
+					</code></pre>
+					<ul class="fragment">
+						<li>Written in Perl</li>
+						<li>No RPM</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Iteration 1</h2>
+					<p>Determine dependencies</p>
+					<pre class="fragment"><code data-trim data-noescape>
+$ sudo docker pull fedora
+$ sudo docker run -it --name csf fedora bash
+<span class="fragment"># dnf install wget tar perl</span>
+<span class="fragment"># cd root/
+# wget https://download.configserver.com/csf.tgz
+# tar -xzf csf.tgz
+# cd csf
+# sh install.sh
+...
+Can't locate Net/SMTP.pm in @INC (you may need to install the Net::SMTP module)
+Can't locate Math/BigInt.pm in @INC (you may need to install the Math::BigInt module)
+...</span>
+<span class="fragment"># dnf install perl-Net-SMTP-SSL perl-Math-BigInt
+# sh install.sh
+...
+cp: cannot create regular file '/etc/cron.d/csf-cron': No such file or directory
+...</span>
+<span class="fragment"># dnf install cronie
+# sh install.sh
+Installation Completed</span>
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Iteration 2</h2>
+					<p>Prepare Docker image</p>
+					<pre class="fragment"><code data-trim data-noescape>
+FROM fedora:23
+MAINTAINER "Peter Schiffer" &lt;pschiffe@redhat.com&gt;
+
+RUN dnf -y --setopt=tsflags=nodocs install \
+        wget \
+        tar \
+        perl \
+        perl-Net-SMTP-SSL \
+        perl-Math-BigInt \
+        perl-GDGraph \
+        cronie \
+    &amp;&amp; dnf -y clean all
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+$ sudo docker build -t csf --pull .
+$ sudo docker rm -fv csf
+$ sudo docker run -it --name csf csf bash
+<span class="fragment"># cd root/
+# wget https://download.configserver.com/csf.tgz
+# tar -xzf csf.tgz
+# cd csf
+# sh install.sh
+Installation Completed</span>
+<span class="fragment"># cd ..
+# rm -rf csf csf.tgz</span>
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Iteration 2 II</h2>
+					<pre><code data-trim data-noescape>
+$ sudo docker diff csf
+A /var/lib/csf
+A /var/lib/csf/backup
+A /var/lib/csf/backup/1464615996_pre_v8_26_upgrade
+A /var/lib/csf/lock
+A /usr/sbin/lfd
+A /usr/sbin/csf
+A /usr/local/man/man1/csf.1
+A /usr/local/csf/lib
+A /usr/local/csf/profiles
+A /usr/local/csf/tpl
+A /usr/local/csf/bin
+A /etc/logrotate.d/lfd
+A /etc/csf
+A /etc/rc.d/init.d/csf
+A /etc/rc.d/init.d/lfd
+A /etc/cron.d/csf-cron
+A /etc/cron.d/lfd-cron
+...</span>
 					</code></pre>
 				</section>
 
@@ -2184,8 +2288,8 @@ docker run \
 				<section>
 					<h2>Thank you!</h2>
 					<a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a><br>
-					<a href="https://schiffer.typeform.com/to/KisVgL">schiffer.typeform.com/to/KisVgL</a><br>
-					<img src="img/qrcode3.png" alt="qrcode"><br>
+					<a href="https://schiffer.typeform.com/to/EHalmr">schiffer.typeform.com/to/EHalmr</a><br>
+					<img src="img/qrcode4.png" alt="qrcode"><br>
 					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
