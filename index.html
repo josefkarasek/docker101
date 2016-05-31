@@ -33,7 +33,6 @@
 				<li>
 					<a href="#/session-1">Introduction, history, underlying technologies</a>
 					<ul>
-						<li><a href="#/intro">Intro</a></li>
 						<li><a href="#/history">History</a></li>
 						<li><a href="#/kernel-features">Underlying Kernel features</a></li>
 						<li><a href="#/why-containers">Why containers</a></li>
@@ -45,7 +44,6 @@
 				<li>
 					<a href="#/session-2">Running containers, atomic, docker compose, ansible</a>
 					<ul>
-						<li><a href="#/docker-cli">Docker cli</a></li>
 						<li><a href="#/atomic-command">Atomic command</a></li>
 						<li><a href="#/cockpit">Cockpit</a></li>
 						<li><a href="#/docker-compose">Docker compose</a></li>
@@ -55,11 +53,20 @@
 				<li>
 					<a href="#/session-3">Docker images, layers, creating images, registry</a>
 					<ul>
-						<li><a href="#/layers">Layers</a></li>
 						<li><a href="#/building-images">Building images</a></li>
 						<li><a href="#/building-tips">Building: tips &amp; tricks</a></li>
 						<li><a href="#/distributing-images">Distributing images</a></li>
 						<li><a href="#/image-metadata">Docker image metadata</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#/session-4">Docker for developers, packaging applications</a>
+					<ul>
+						<li><a href="#/packaging-apps">Packaging applications</a></li>
+						<li><a href="#/compiling-in-containers">Compiling in containers</a></li>
+						<li><a href="#/trying-unknown-code">Trying unknown code</a></li>
+						<li><a href="#/upgrading-mariadb">Upgrading MariaDB</a></li>
+						<li><a href="#/systemd-in-container">Systemd in a container</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -1976,11 +1983,11 @@ $ sudo docker inspect nginx
 					<h2>Session 4</h2>
 					<ul>
 						<li><a href="#/development-with-docker">Development with Docker</a></li>
+						<li><a href="#/packaging-apps">Packaging applications</a></li>
 						<li><a href="#/compiling-in-containers">Compiling in containers</a></li>
 						<li><a href="#/trying-unknown-code">Trying unknown code</a></li>
 						<li><a href="#/upgrading-mariadb">Upgrading MariaDB</a></li>
 						<li><a href="#/systemd-in-container">Systemd in a container</a></li>
-						<li><a href="#/packaging-apps">Packaging applications</a></li>
 					</ul>
 				</section>
 
@@ -2012,7 +2019,7 @@ $ sudo docker inspect nginx
 
 				<section>
 					<h2>Nope</h2>
-					<h2 class="fragment" data-fragment-index="1">Let's try with docker now</h2>
+					<h2 class="fragment">Let's try with docker now</h2>
 				</section>
 
 				<section>
@@ -2253,6 +2260,108 @@ docker run -t --name=tests-container tests py.test $@
 						<li>Build tests image</li>
 						<li>Run Tests</li>
 						<li>Cleanup</li>
+					</ul>
+				</section>
+
+				<section id="packaging-apps">
+					<h2>Packaging applications into containers</h2>
+					<ul>
+						<li>Packaging a Service</li>
+						<li>Packaging a Terminal app</li>
+						<li>Packaging a GUI app</li>
+					</ul>
+				</section>
+
+				<section id="caddy">
+					<h2>Packaging a service</h2>
+					<p><strong>Simple web server that implements HTTP/2.0</strong></p>
+					<ul>
+						<li>First compile source code to a standalone static executable</li>
+						<li>Then create 'from scratch' image. Resulting size is 11MB
+						<pre><code data-trim data-noescape>
+FROM scratch
+COPY caddy /caddy
+COPY Caddyfile /Caddyfile
+COPY index.html /index.html
+CMD ["/caddy"]
+						</code></pre></li>
+						<li>Caddy runs by default on port 2015</li>
+					</ul>
+					<pre><code data-trim data-noescape>
+$ sudo docker run -d -p 2015:2015 --name caddy jkarasek/caddy
+					</code></pre>
+				</section>
+
+				<section id="weechat">
+					<h2>Packaging a Terminal app</h2>
+					<p><strong>The Weechat IRC client</strong></p>
+					<p>Create Docker image with weechat based on Fedora:</p>
+					<pre><code data-trim data-noescape>
+FROM fedora:23
+RUN dnf -y --setopt=tsflags=nodocs install weechat \
+    &amp;&amp; dnf -y clean all
+CMD ["weechat"]
+					</code></pre>
+					<p>Establish connection:</p>
+					<pre><code data-trim data-noescape>
+$ sudo docker run -it --name weechat jkarasek/weechat
+					</code></pre>
+					<p>You can try out these basic commands:</p>
+					<pre><code data-trim data-noescape>
+/server add freenode chat.freenode.net
+/set irc.server.freenode.nicks "my_nick"
+/connect freenode
+/join #rhel
+					</code></pre>
+				</section>
+
+				<section id="gui-apps-in-containers">
+					<h2>Running GUI apps in containers</h2>
+					<p>Container needs access to the X server:</p>
+					<pre><code data-trim>
+-v /tmp/.X11-unix:/tmp/.X11-unix
+-e DISPLAY=$DISPLAY
+					</code></pre>
+					<p>... also it needs to be authorized:</p>
+					<pre><code data-trim>
+-e XAUTHORITY=/.Xauthority
+-v ~/.Xauthority:/.Xauthority:ro
+					</code></pre>
+					<p>... and allowed:</p>
+					<pre><code data-trim>
+$ xhost +
+access control disabled, clients can connect from any host
+					</code></pre>
+				</section>
+
+				<section id="firefox-in-container">
+					<h2>Running firefox in a container</h2>
+					<pre><code data-trim>
+FROM fedora:23
+RUN dnf install -y firefox libcanberra-gtk3
+CMD firefox --no-remote
+					</code></pre>
+					<pre><code data-trim>
+docker run \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -e DISPLAY=$DISPLAY \
+  -e XAUTHORITY=/.Xauthority \
+  -v ~/.Xauthority:/.Xauthority:ro \
+  firefox
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Debugging GUI apps in a container</h2>
+					<ul>
+						<li>Verify that you can connect to X server:
+							<pre><code data-trim>
+$ xset -q
+							</code></pre>
+						</li>
+						<li>Install graphical backends (e.g. mesa)</li>
+						<li>Install proper graphical toolkits (gtk2, gtk3, qt...)</li>
+						<li>Sound or video card is not a problem!</li>
 					</ul>
 				</section>
 
@@ -2535,120 +2644,6 @@ Running in a container, ignoring fstab device entry for /dev/disk/by-u...
 [  OK  ] Created slice Root Slice.
 [  OK  ] Listening on Journal Socket (/dev/log).</span>
 					</code></pre>
-				</section>
-
-				<section id="packaging-apps">
-					<h2>Packaging applications into containers</h2>
-					<ul>
-						<li>Packaging a Service</li>
-						<li>Packaging a Terminal app</li>
-						<li>Packaging a GUI app</li>
-					</ul>
-				</section>
-
-				<section id="caddy">
-					<h2>Packaging a service</h2>
-					<p><strong>Simple web server that implements HTTP/2.0</strong></p>
-					<ul>
-						<li>First compile source code to a standalone static executable</li>
-						<li>Then create 'from scratch' image. Resulting size is 11MB
-						<pre><code data-trim data-noescape>
-FROM scratch
-COPY caddy /caddy
-COPY Caddyfile /Caddyfile
-COPY index.html /index.html
-CMD ["/caddy"]
-						</code></pre></li>
-						<li>Caddy runs by default on port 2015</li>
-					</ul>
-					<pre><code data-trim data-noescape>
-$ sudo docker run -d -p 2015:2015 --name caddy jkarasek/caddy
-					</code></pre>
-
-					<aside class="notes">
-						<ul>
-							<li></li>
-						</ul>
-					</aside>
-				</section>
-
-				<section id="weechat">
-					<h2>Packaging a Terminal app</h2>
-					<p><strong>The Weechat IRC client</strong></p>
-					<p>Create Docker image with weechat based on Fedora:</p>
-					<pre><code data-trim data-noescape>
-FROM fedora:23
-RUN dnf -y --setopt=tsflags=nodocs install weechat \
-    &amp;&amp; dnf -y clean all
-CMD ["weechat"]
-					</code></pre>
-					<p>Establish connection:</p>
-					<pre><code data-trim data-noescape>
-$ sudo docker run -it --name weechat jkarasek/weechat
-					</code></pre>
-					<p>You can try out these basic commands:</p>
-					<pre><code data-trim data-noescape>
-/server add freenode chat.freenode.net
-/set irc.server.freenode.nicks "my_nick"
-/connect freenode
-/join #rhel
-					</code></pre>
-
-					<aside class="notes">
-						<ul>
-							<li></li>
-						</ul>
-					</aside>
-				</section>
-
-				<section id="gui-apps-in-containers">
-					<h2>Running GUI apps in containers</h2>
-					<p>Container needs access to the X server:</p>
-					<pre><code data-trim>
--v /tmp/.X11-unix:/tmp/.X11-unix
--e DISPLAY=$DISPLAY
-					</code></pre>
-					<p>... also it needs to be authorized:</p>
-					<pre><code data-trim>
--e XAUTHORITY=/.Xauthority
--v ~/.Xauthority:/.Xauthority:ro
-					</code></pre>
-					<p>... and allowed:</p>
-					<pre><code data-trim>
-$ xhost +
-access control disabled, clients can connect from any host
-					</code></pre>
-				</section>
-
-				<section id="firefox-in-container">
-					<h2>Running firefox in a container</h2>
-					<pre><code data-trim>
-FROM fedora:23
-RUN dnf install -y firefox libcanberra-gtk3
-CMD firefox --no-remote
-					</code></pre>
-					<pre><code data-trim>
-docker run \
-  -v /tmp/.X11-unix:/tmp/.X11-unix \
-  -e DISPLAY=$DISPLAY \
-  -e XAUTHORITY=/.Xauthority \
-  -v ~/.Xauthority:/.Xauthority:ro \
-  firefox
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Debugging GUI apps in a container</h2>
-					<ul>
-						<li>Verify that you can connect to X server:
-							<pre><code data-trim>
-$ xset -q
-							</code></pre>
-						</li>
-						<li>Install graphical backends (e.g. mesa)</li>
-						<li>Install proper graphical toolkits (gtk2, gtk3, qt...)</li>
-						<li>Sound or video card is not a problem!</li>
-					</ul>
 				</section>
 
 				<section>
