@@ -1,0 +1,8 @@
+- name: Deploy the service
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+    - docker_service:
+        project_src: /home/ttomecek/g/open-house-2016-demo/
+        state: present
