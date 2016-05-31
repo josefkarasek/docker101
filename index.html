@@ -2004,7 +2004,7 @@ $ sudo docker inspect nginx
 						<li>In one terminal we'll launch Django</li>
 						<li>Worker in another</li>
 						<li>But first we need to install dependencies</li>
-						<li>Database: let's install, configure, start, configure, start, configure it</li>
+						<li>Database: install, configure, start, configure, restart, configure, restart</li>
 						<li>Redis: hold on, am searching internets how to use it</li>
 					</ul>
 					<p>I know! We'll create one jumbo script which creates, initiaties, starts all the everything.</p>
@@ -2065,9 +2065,9 @@ CMD ["python", "/opt/app/channels-example/manage.py", \
 $ sudo docker run --name=redis redis
 $ sudo docker run -e POSTGRESQL_DATABASE=chat \
                   -e POSTGRESQL_USER=user \
-                  -e POSTGRESQL_PASSWORD=containers-course \
-                  -e POSTGRESQL_CONTAINER_OPTS="assert_external_data = false"
-                  --name db
+                  -e POSTGRESQL_PASSWORD=containers \
+                  -e POSTGRESQL_CONTAINER_OPTS="assert_external_data = false" \
+                  --name db \
                   praiskup/postgresql:APIv1.0.1-fedora23
 $ sudo docker build --tag=web-image .
 					</code></pre>
@@ -2076,7 +2076,7 @@ $ sudo docker build --tag=web-image .
 				<section>
 					<h2>Manually using docker CLI II</h2>
 					<pre><code data-trim>
-$ sudo docker run -e DATABASE_URL=postgres://user:containers-course@db:5432/chat\
+$ sudo docker run -e DATABASE_URL=postgres://user:containers@db:5432/chat \
                   -e REDIS_URL=redis://redis:6379/1 \
                   --links redis \
                   --links db \
@@ -2090,7 +2090,7 @@ $ sudo docker run -e DATABASE_URL=postgres://user:containers-course@db:5432/chat
 				<section>
 					<h2>Manually using docker CLI III</h2>
 					<pre><code data-trim>
-$ sudo docker run -e DATABASE_URL=postgres://user:containers-course@db:5432/chat\
+$ sudo docker run -e DATABASE_URL=postgres://user:containers@db:5432/chat \
                   -e REDIS_URL=redis://redis:6379/1 \
                   --links redis \
                   --links db \
@@ -2110,7 +2110,7 @@ $ sudo docker run -e DATABASE_URL=postgres://user:containers-course@db:5432/chat
 					<h2>docker-compose to the rescue</h2>
 					<pre><code data-trim>
 web:
-  build: .
+  build: https://github.com/TomasTomecek/open-house-2016-demo
   ports:
    - "8000:8000"
   volumes:
@@ -2119,7 +2119,7 @@ web:
    - db
    - redis
   environment:
-    - DATABASE_URL=postgres://user:openhouse2016@db:5432/chat
+    - DATABASE_URL=postgres://user:containers@db:5432/chat
     - REDIS_URL=redis://redis:6379/1
 redis:
   image: redis
@@ -2130,9 +2130,9 @@ redis:
 					<h2>docker-compose to the rescue II</h2>
 					<pre><code data-trim>
 worker:
-  build: .
+  build: https://github.com/TomasTomecek/open-house-2016-demo
   environment:
-    - DATABASE_URL=postgres://user:openhouse2016@db:5432/chat
+    - DATABASE_URL=postgres://user:containers@db:5432/chat
     - REDIS_URL=redis://redis:6379/1
   links:
    - db
@@ -2145,7 +2145,7 @@ db:
   environment:
    - POSTGRESQL_DATABASE=chat
    - POSTGRESQL_USER=user
-   - POSTGRESQL_PASSWORD=containers-course
+   - POSTGRESQL_PASSWORD=containers
    - POSTGRESQL_CONTAINER_OPTS=assert_external_data = false
 					</code></pre>
 				</section>
@@ -2384,7 +2384,7 @@ Installation Completed</span>
 				<section>
 					<h2>Iteration 2</h2>
 					<p>Prepare Docker image</p>
-					<pre class="fragment"><code data-trim data-noescape>
+					<pre><code data-trim data-noescape>
 FROM fedora:23
 MAINTAINER "Peter Schiffer" &lt;pschiffe@redhat.com&gt;
 
@@ -2398,7 +2398,12 @@ RUN dnf -y --setopt=tsflags=nodocs install \
         cronie \
     &amp;&amp; dnf -y clean all
 					</code></pre>
-					<pre class="fragment"><code data-trim data-noescape>
+				</section>
+
+				<section>
+					<h2>Iteration 2 II</h2>
+					<p>Run it</p>
+					<pre><code data-trim data-noescape>
 $ sudo docker build -t csf --pull .
 $ sudo docker rm -fv csf
 $ sudo docker run -it --name csf csf bash
@@ -2414,7 +2419,7 @@ Installation Completed</span>
 				</section>
 
 				<section>
-					<h2>Iteration 2 II</h2>
+					<h2>Iteration 2 III</h2>
 					<pre><code data-trim data-noescape>
 $ sudo docker diff csf
 A /var/lib/csf
