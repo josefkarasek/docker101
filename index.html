@@ -2001,7 +2001,7 @@ $ sudo docker inspect nginx
 				<section>
 					<h2>Let's do this without docker</h2>
 					<ul>
-						<li>In one terminal we'll launch django</li>
+						<li>In one terminal we'll launch Django</li>
 						<li>Worker in another</li>
 						<li>But first we need to install dependencies</li>
 						<li>Database: let's install, configure, start, configure, start, configure it</li>
@@ -2076,7 +2076,7 @@ $ sudo docker build --tag=web-image .
 				<section>
 					<h2>Manually using docker CLI II</h2>
 					<pre><code data-trim>
-$ sudo docker run -e DATABASE_URL=postgres://user:containers-course@db:5432/chat \
+$ sudo docker run -e DATABASE_URL=postgres://user:containers-course@db:5432/chat\
                   -e REDIS_URL=redis://redis:6379/1 \
                   --links redis \
                   --links db \
@@ -2090,7 +2090,7 @@ $ sudo docker run -e DATABASE_URL=postgres://user:containers-course@db:5432/chat
 				<section>
 					<h2>Manually using docker CLI III</h2>
 					<pre><code data-trim>
-$ sudo docker run -e DATABASE_URL=postgres://user:containers-course@db:5432/chat \
+$ sudo docker run -e DATABASE_URL=postgres://user:containers-course@db:5432/chat\
                   -e REDIS_URL=redis://redis:6379/1 \
                   --links redis \
                   --links db \
@@ -2303,20 +2303,17 @@ SOURCES=sum.c
 EXECUTABLE=sum
 DOCKER_IMAGE=pschiffe/docker101-gcc
 DOCKER_IMAGE_PATH=/gcc
-
 .PHONY: all run
-
 all: $(EXECUTABLE)
-
 $(EXECUTABLE): $(SOURCES)
     sudo docker pull $(DOCKER_IMAGE)
-    sudo <span class="fragment" data-fragment-index="1">sh -c '</span>docker run -v `pwd`:$(DOCKER_IMAGE_PATH) --rm --security-opt label:disable \
-        <span class="fragment" data-fragment-index="1">--user $$SUDO_UID:$$SUDO_GID</span> $(DOCKER_IMAGE) $(CC) $(SOURCES) -o $@<span class="fragment" data-fragment-index="1">'</span>
-
+    sudo <span class="fragment" data-fragment-index="1">sh -c '</span>docker run -v `pwd`:$(DOCKER_IMAGE_PATH) --rm \
+        --security-opt label:disable <span class="fragment" data-fragment-index="1">--user $$SUDO_UID:$$SUDO_GID</span> \
+        $(DOCKER_IMAGE) $(CC) $(SOURCES) -o $@<span class="fragment" data-fragment-index="1">'</span>
 run: $(EXECUTABLE)
     sudo sh -c 'docker run -it -v `pwd`:$(DOCKER_IMAGE_PATH) --rm \
-        --security-opt label:disable --user $$SUDO_UID:$$SUDO_GID $(DOCKER_IMAGE) \
-        ./$(EXECUTABLE)'
+        --security-opt label:disable --user $$SUDO_UID:$$SUDO_GID \
+        $(DOCKER_IMAGE) ./$(EXECUTABLE)'
 					</code></pre>
 				</section>
 
@@ -2327,8 +2324,6 @@ $ make run
 sudo docker pull pschiffe/docker101-gcc
 Using default tag: latest
 Trying to pull repository docker.io/pschiffe/docker101-gcc ...
-88dae26494e2: Pull complete
-3923b16e01f5: Pull complete
 a83fba92099f: Pull complete
 Digest: sha256:86d69217f58e670062b9e2f9fed82b25ff7a4da329af84d54973bf7039cbef1b
 Status: Downloaded newer image for docker.io/pschiffe/docker101-gcc:latest
@@ -2375,15 +2370,11 @@ $ sudo docker run -it --name csf fedora bash
 # tar -xzf csf.tgz
 # cd csf
 # sh install.sh
-...
 Can't locate Net/SMTP.pm in @INC (you may need to install the Net::SMTP module)
-Can't locate Math/BigInt.pm in @INC (you may need to install the Math::BigInt module)
-...</span>
+Can't locate Math/BigInt.pm in @INC (you may need to install the Math::BigInt)</span>
 <span class="fragment"># dnf install perl-Net-SMTP-SSL perl-Math-BigInt
 # sh install.sh
-...
-cp: cannot create regular file '/etc/cron.d/csf-cron': No such file or directory
-...</span>
+cp: cannot create regular file '/etc/cron.d/csf-cron': No such file or directory</span>
 <span class="fragment"># dnf install cronie
 # sh install.sh
 Installation Completed</span>
@@ -2428,14 +2419,11 @@ Installation Completed</span>
 $ sudo docker diff csf
 A /var/lib/csf
 A /var/lib/csf/backup
-A /var/lib/csf/backup/1464615996_pre_v8_26_upgrade
 A /var/lib/csf/lock
 A /usr/sbin/lfd
 A /usr/sbin/csf
 A /usr/local/man/man1/csf.1
 A /usr/local/csf/lib
-A /usr/local/csf/profiles
-A /usr/local/csf/tpl
 A /usr/local/csf/bin
 A /etc/logrotate.d/lfd
 A /etc/csf
@@ -2463,20 +2451,22 @@ A /etc/cron.d/lfd-cron
 				<section>
 					<h2>Upgrading MariaDB</h2>
 					<pre><code data-trim data-noescape>
-$ sudo docker run -d -e MYSQL_ROOT_PASSWORD=pw -v maria:/var/lib/mysql --name maria mariadb:5
-<span class="fragment">$ sudo docker run -d -p 8080:80 --link maria:db --name myadmin phpmyadmin/phpmyadmin</span>
+$ sudo docker run -d -e MYSQL_ROOT_PASSWORD=pw -v maria:/var/lib/mysql \
+    --name maria mariadb:5
+<span class="fragment">$ sudo docker run -d -p 8080:80 --link maria:db --name adm phpmyadmin/phpmyadmin</span>
 <span class="fragment">$ sudo docker stop maria
 $ sudo docker rm maria</span>
-<span class="fragment">$ sudo docker run -d -e MYSQL_ROOT_PASSWORD=pw -v maria:/var/lib/mysql --name maria mariadb:10</span>
-<span class="fragment">$ sudo docker exec -it maria sh -c 'mysql_upgrade -uroot -p"$MYSQL_ROOT_PASSWORD"'</span>
-<span class="fragment">$ sudo docker exec -it maria sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" \
+<span class="fragment">$ sudo docker run -d -e MYSQL_ROOT_PASSWORD=pw -v maria:/var/lib/mysql \
+    --name maria mariadb:10</span>
+<span class="fragment">$ sudo docker exec maria sh -c 'mysql_upgrade -uroot -p"$MYSQL_ROOT_PASSWORD"'</span>
+<span class="fragment">$ sudo docker exec maria sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" \
 	-e "SELECT * FROM zombies" wwz'
-+----+------------+------------------+---------------------------------------------+
-| id | name       | original         | address                                     |
-+----+------------+------------------+---------------------------------------------+
-|  1 | Fatty Bob  | George B. Smith  | 4832 Armbrester Drive Culver City, CA 90232 |
-|  2 | Skinny Joe | Alan D. Townsend | 2882 Petunia Way Birmingham, AL 35203       |
-+----+------------+------------------+---------------------------------------------+</span>
++----+------------+------------------+-----------------------------------+
+| id | name       | original         | address                           |
++----+------------+------------------+-----------------------------------+
+|  1 | Fatty Bob  | George B. Smith  | 4832 Armbrester Drive Culver City |
+|  2 | Skinny Joe | Alan D. Townsend | 2882 Petunia Way Birmingham       |
++----+------------+------------------+-----------------------------------+</span>
 					</code></pre>
 				</section>
 
@@ -2525,7 +2515,7 @@ CMD [ "/usr/sbin/init" ]
 					<pre><code data-trim data-noescape>
 $ sudo docker run -t -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p 8080:80 \
 	--name nginx pschiffe/docker101-systemd-nginx
-<span class="fragment">systemd 222 running in system mode. (+PAM +AUDIT +SELINUX +IMA -APPARMOR +SMACK +SYSVINIT +UTMP)
+<span class="fragment">systemd 222 running in system mode. (+PAM +AUDIT +SELINUX +IMA -APPARMOR +SMACK)
 Detected virtualization docker.
 Detected architecture x86-64.
 Running with unpopulated /etc.
@@ -2535,13 +2525,10 @@ Welcome to Fedora 23 (Twenty Three)!
 Set hostname to &lt;d2292e97bbc3&gt;.
 Initializing machine ID from random generator.
 Populated /etc with preset unit settings.
-Running in a container, ignoring fstab device entry for /dev/disk/by-uuid/e9c6a28...
+Running in a container, ignoring fstab device entry for /dev/disk/by-u...
 [  OK  ] Reached target Swap.
 [  OK  ] Created slice Root Slice.
-[  OK  ] Listening on Journal Socket (/dev/log).
-[  OK  ] Reached target Encrypted Volumes.
-[  OK  ] Listening on /dev/initctl Compatibility Named Pipe.
-[  OK  ] Reached target Local File Systems.</span>
+[  OK  ] Listening on Journal Socket (/dev/log).</span>
 					</code></pre>
 				</section>
 
@@ -2567,11 +2554,11 @@ COPY Caddyfile /Caddyfile
 COPY index.html /index.html
 CMD ["/caddy"]
 						</code></pre></li>
-						<li>Caddy runs by default on port 2015
-						<pre><code data-trim data-noescape>
-$ sudo docker run -d -p 2015:2015 --name caddy jkarasek/caddy
-						</code></pre></li>
+						<li>Caddy runs by default on port 2015</li>
 					</ul>
+					<pre><code data-trim data-noescape>
+$ sudo docker run -d -p 2015:2015 --name caddy jkarasek/caddy
+					</code></pre>
 
 					<aside class="notes">
 						<ul>
@@ -2583,26 +2570,24 @@ $ sudo docker run -d -p 2015:2015 --name caddy jkarasek/caddy
 				<section id="weechat">
 					<h2>Packaging a Terminal app</h2>
 					<p><strong>The Weechat IRC client</strong></p>
-					<ul>
-						<li>Create Docker image with weechat based on Fedora
-						<pre><code data-trim data-noescape>
+					<p>Create Docker image with weechat based on Fedora:</p>
+					<pre><code data-trim data-noescape>
 FROM fedora:23
 RUN dnf -y --setopt=tsflags=nodocs install weechat \
     &amp;&amp; dnf -y clean all
 CMD ["weechat"]
-						</code></pre></li>
-						<li>Establish connection
-						<pre><code data-trim data-noescape>
+					</code></pre>
+					<p>Establish connection:</p>
+					<pre><code data-trim data-noescape>
 $ sudo docker run -it --name weechat jkarasek/weechat
-						</code></pre></li>
-						<li>You can try out these basic commands
-						<pre><code data-trim data-noescape>
+					</code></pre>
+					<p>You can try out these basic commands:</p>
+					<pre><code data-trim data-noescape>
 /server add freenode chat.freenode.net
 /set irc.server.freenode.nicks "my_nick"
 /connect freenode
 /join #rhel
-						</code></pre></li>
-					</ul>
+					</code></pre>
 
 					<aside class="notes">
 						<ul>
