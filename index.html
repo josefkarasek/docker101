@@ -2110,7 +2110,7 @@ $ sudo docker run -e DATABASE_URL=postgres://user:containers@db:5432/chat \
 					<h2>docker-compose to the rescue</h2>
 					<pre><code data-trim>
 web:
-  build: https://github.com/TomasTomecek/open-house-2016-demo
+  build: https://raw.githubusercontent.com/TomasTomecek/open-house-2016-demo/master/Dockerfile
   ports:
    - "8000:8000"
   volumes:
@@ -2130,7 +2130,7 @@ redis:
 					<h2>docker-compose to the rescue II</h2>
 					<pre><code data-trim>
 worker:
-  build: https://github.com/TomasTomecek/open-house-2016-demo
+  build: https://raw.githubusercontent.com/TomasTomecek/open-house-2016-demo/master/Dockerfile
   environment:
     - DATABASE_URL=postgres://user:containers@db:5432/chat
     - REDIS_URL=redis://redis:6379/1
