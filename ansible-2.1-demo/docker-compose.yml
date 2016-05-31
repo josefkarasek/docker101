@@ -1,0 +1,35 @@
+web:
+  build: .
+  ports:
+   - "8000:8000"
+  volumes:
+   - ./channels-example/:/opt/app/channels-example/
+  links:
+   - db
+   - redis
+  environment:
+    - DATABASE_URL=postgres://user:openhouse2016@db:5432/chat
+    - REDIS_URL=redis://redis:6379/1
+db:
+  image: praiskup/postgresql:APIv1.0.1-fedora23
+#  volumes:
+#   - ./db:/var/lib/pgsql/data
+  environment:
+   - POSTGRESQL_DATABASE=chat
+   - POSTGRESQL_USER=user
+   - POSTGRESQL_PASSWORD=openhouse2016
+   - POSTGRESQL_CONTAINER_OPTS=assert_external_data = false
+worker:
+  build: .
+  environment:
+    - DATABASE_URL=postgres://user:openhouse2016@db:5432/chat
+    - REDIS_URL=redis://redis:6379/1
+  links:
+   - db
+   - redis
+  volumes:
+   - ./channels-example/:/opt/app/channels-example/
+  command: python /opt/app/channels-example/manage.py runworker -v3
+redis:
+  image: redis
+
