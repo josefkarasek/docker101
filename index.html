@@ -2662,6 +2662,94 @@ Running in a container, ignoring fstab device entry for /dev/disk/by-u...
 					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
+				<section id="session-5">
+					<h2>Session 5</h2>
+					<ul>
+						<li><a href="#/debugging-container-environment">Debugging container environment</a></li>
+					</ul>
+				</section>
+
+				<section id="debugging-container-environment">
+					<h2>Debugging container environment</h2>
+				</section>
+
+				<section>
+					<h2>Insecure Registry</h2>
+					<pre><code data-trim data-noescape>
+$ sudo docker pull registry.example.com/image
+Using default tag: latest
+Trying to pull repository registry.example.com/image ... failed
+unable to ping registry endpoint registry.example.com/v0/
+v2 ping attempt failed with error: Get https://registry.example.com/v2/: \
+  dial tcp 10.0.0.1:443: getsockopt: connection refused
+v1 ping attempt failed with error: Get https://registry.example.com/v1/_ping: \
+  dial tcp 10.0.0.1:443: getsockopt: connection refused
+					</code></pre>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+$ cat /etc/sysconfig/docker
+OPTIONS="--insecure-registry registry.example.com"
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Load or Import?</h2>
+					<pre><code data-trim data-noescape>
+$ sudo docker import image.tar
+6603294d8f99233d855b9780e5f6d4e5ea9d6f075a02b1c5f3e14a61a71fec83
+$ sudo docker inspect 6603294d8f99233d855b9780e5f6d4e5ea9d6f075a02b1c5f3e14a61a71fec83
+[
+{
+    "Id": "6603294d8f99233d855b9780e5f6d4e5ea9d6f075a02b1c5f3e14a61a71fec83",
+    "Comment": "Imported from -",
+    "Config": {
+        "Env": null,
+        "Cmd": null,
+        "Image": "",
+...
+					</code></pre>
+					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+$ sudo docker run -ti 6603294d8f99 /bin/sh
+exec: "/bin/sh": stat /bin/sh: no such file or directory
+Error response from daemon: Cannot start container 4e61bfee34d9d055de89d57fb0c2745fab9797ee53c165639042b102dcf4db02: \
+  [8] System error: exec: "/bin/sh": stat /bin/sh: no such file or directory
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Load or Import? II</h2>
+					<pre><code data-trim data-noescape>
+$ mkdir ./image-output
+$ sudo docker cp 4e61bfee34d9:/ ./image-output
+<span class="fragment">$ ll ./image-output
+total 4.0K
+drwxr-xr-x. 1 ttomecek ttomecek  40 Mar 18 19:22 0d380282e68b755298e8260191124eb84defc04c1de31173df2d837d64e504b8
+drwxr-xr-x. 1 ttomecek ttomecek  40 Mar 18 19:22 597f79aa54ea6a1c9a107c577eda046955102e80b293078d57c72848bc976341
+drwxr-xr-x. 1 ttomecek ttomecek  26 Jun  2 13:59 dev
+drwxr-xr-x. 1 ttomecek ttomecek  56 Jun  2 13:59 etc
+drwxr-xr-x. 1 ttomecek ttomecek   0 Jun  2 13:59 proc
+-rw-r--r--. 1 ttomecek ttomecek 100 Jan  1  1970 repositories
+drwxr-xr-x. 1 ttomecek ttomecek   0 Jun  2 13:59 sys</span>
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Permission denied</h2>
+					<pre><code data-trim data-noescape>
+$ sudo docker run -ti -v $PWD:/mount fedora:23 bash
+<span class="fragment">[root@8ba6bcc60bda /]# cd /mount</span>
+<span class="fragment">[root@8ba6bcc60bda mount]# ls
+ls: cannot open directory .: Permission denied</span>
+<span class="fragment">[root@8ba6bcc60bda mount]# ll -Z -d .
+drwx------. 1 19533 19533 unconfined_u:object_r:unlabeled_t:s0 2724 Jun  2 11:43 .</span>
+<span class="fragment">$ sudo docker run -ti -v $PWD/asdqwe/:/mount:z fedora:23 bash
+[root@ea97f817b917 /]# cd /mount</span>
+<span class="fragment">[root@ea97f817b917 mount]# ll
+total 0
+[root@ea97f817b917 mount]# ll -Z -d .
+drwxrwxr-x. 1 19533 19533 system_u:object_r:svirt_sandbox_file_t:s0 0 Jun  2 12:19 .</span>
+					</code></pre>
+				</section>
+
 <!--
 <section>
 	<h2>The wordpress example</h2>
