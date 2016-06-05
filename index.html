@@ -113,6 +113,7 @@
 						<li><a href="#/session-2">Running containers, atomic, docker compose, ansible</a></li>
 						<li><a href="#/session-3">Docker images, layers, creating images, registry</a></li>
 						<li><a href="#/session-4">Docker for developers, packaging applications</a></li>
+						<li><a href="#/session-5">Administrating and debugging docker</a></li>
 					</ul>
 				</section>
 
@@ -2674,6 +2675,132 @@ Running in a container, ignoring fstab device entry for /dev/disk/by-u...
 				</section>
 
 				<section>
+					<h2>How?</h2>
+					<ul>
+						<li>Identify the problem</li>
+						<li>Get close</li>
+						<li>Figure out solution</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Let's identify then...</h2>
+					<pre><code data-trim data-noescape>
+$ cat /etc/sysconfig/docker
+OPTIONS='-l debug'
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+$ sudo journalctl -u docker
+Calling POST /v1.23/containers/fedora-container/exec"
+form data: {\"AttachStderr\":true,\"AttachStdin\":true,\"AttachStdout\":true,\"Cmd\":[\"bash\"],\"Container\":\"fedora-container\",\"Detach\":false,\"DetachKeys\":\"\",\"Privileged\":false,\"Tty\":true,\"User\":\"\"}"
+info {Action=start, Username=tt, LoginUID=1000, PID=13309}"
+Calling POST /v1.23/exec/241.../start"
+form data: {\"AttachStderr\":true,\"AttachStdin\":true,\"AttachStdout\":true,\"Cmd\":[\"bash\"],\"Container\":\"fedora-container\",\"Detach\":false,\"DetachKeys\":\"\",\"Privileged\":false,\"Tty\":true,\"User\":\"\"}"
+starting exec command 241... in container 050..."
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Let's identify then... II</h2>
+					<pre><code data-trim data-noescape>
+$ sudo strace docker exec -ti fedora-container bash
+<span class="fragment">stat("/home/tt/.docker/config.json", {st_mode=S_IFREG|0600, st_size=142}) = 0
+connect(5, {sa_family=AF_LOCAL, sun_path="/var/run/docker.sock"}, 23) = 0
+write(5, "POST /v1.23/containers/fedora-container/ex"..., 318) = 318
+write(6, "POST /v1.23/exec/241.../start"..., 406) = 406
+read(6, "HTTP/1.1 101 UPGRADED\r\nContent-T"..., 4096) = 109</span>
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>docker version</h2>
+					<pre><code data-trim data-noescape>
+$ sudo docker version
+Client:
+ Version:         1.11.2
+ API version:     1.23
+ Package version: docker-1.11.2-1.git40ea190.fc25.x86_64
+ Go version:      go1.6.2
+ Git commit:      40ea190/1.11.2
+ Built:
+ OS/Arch:         linux/amd64
+
+Server:
+ Version:         1.11.2
+ API version:     1.23
+ Package version: docker-1.11.2-1.git40ea190.fc25.x86_64
+ Go version:      go1.6.2
+ Git commit:      40ea190/1.11.2
+ Built:
+ OS/Arch:         linux/amd64
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>docker info</h2>
+					<pre><code data-trim data-noescape>
+$ sudo docker info
+Containers: 54
+ Running: 1
+ Paused: 0
+ Stopped: 53
+Images: 282
+Server Version: 1.11.2
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>docker info II</h2>
+					<pre><code data-trim data-noescape>
+Storage Driver: devicemapper
+ Pool Name: docker-253:0-268692144-pool
+ Pool Blocksize: 65.54 kB
+ Base Device Size: 10.74 GB
+ Backing Filesystem: xfs
+ Data file: /dev/loop0
+ Metadata file: /dev/loop1
+ Data Space Used: 25.21 GB
+ Data Space Total: 107.4 GB
+ Data Space Available: 64.62 GB
+ Metadata Space Used: 38.11 MB
+ Metadata Space Total: 2.147 GB
+ Metadata Space Available: 2.109 GB
+ Data loop file: /var/lib/docker/devicemapper/devicemapper/data
+ Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata
+Logging Driver: json-file
+Cgroup Driver: systemd
+Plugins:
+ Volume: local
+ Network: null host bridge
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>docker info III</h2>
+					<pre><code data-trim data-noescape>
+Kernel Version: 4.5.3-300.fc24.x86_64
+Operating System: Fedora 25 (Rawhide)
+OSType: linux
+Architecture: x86_64
+Number of Docker Hooks: 2
+CPUs: 4
+Total Memory: 11.44 GiB
+Name: oat
+ID: YC7N:MYIE:6SEL:JYLU:SRIG:PCVV:APZD:WTH4:4MGR:N4BG:CT53:XXXX
+Docker Root Dir: /var/lib/docker
+Debug mode (client): false
+Debug mode (server): true
+ File Descriptors: 17
+ Goroutines: 32
+ System Time: 2016-06-05T12:25:16.87248824+02:00
+ EventsListeners: 0
+Username: tomastomecek
+Registry: https://index.docker.io/v1/
+Registries: docker.io (secure)
+					</code></pre>
+				</section>
+
+				<section>
 					<h2>Insecure Registry</h2>
 					<pre><code data-trim data-noescape>
 $ sudo docker pull registry.example.com/image
@@ -2689,6 +2816,18 @@ v1 ping attempt failed with error: Get https://registry.example.com/v1/_ping: \
 $ cat /etc/sysconfig/docker
 OPTIONS="--insecure-registry registry.example.com"
 					</code></pre>
+				</section>
+
+				<section>
+					<h2>Client is newer...</h2>
+					<pre><code data-trim data-noescape>
+$ sudo docker images
+Error response from daemon: client is newer than server \
+  (client API version: 1.23, server API version: 1.22)
+					</code></pre>
+					<ul>
+						<li>Client got an upgrade, server not</li>
+					</ul>
 				</section>
 
 				<section>
