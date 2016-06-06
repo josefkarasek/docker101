@@ -2707,7 +2707,7 @@ sudo systemctl enable docker
 					</aside>
 				</section>
 
-				<section id="redhat/docker">
+				<section id="redhat-docker">
 					<h2>How Docker gets distributed to Red Hat customers</h2>
 					<p><strong>Notable differences kept on <a href="https://github.com/projectatomic/docker/tree/fedora-1.9">projectatomic/docker</a></strong></p>
 					<ul>
@@ -2715,11 +2715,6 @@ sudo systemctl enable docker
 						<li>When running Device mapper on loopback, warn the user of potential performance problems</li>
 						<li>Provide subscription management information from the host into containers</li>
 					</ul>
-					<aside class="notes">
-						<ul>
-							<li></li>
-						</ul>
-					</aside>
 				</section>
 
 				<section id="migration">
@@ -2741,6 +2736,58 @@ sudo systemctl enable docker
 							<li>Need to calculate the SHA256 checksum</li>
 						</ul>
 					</aside>
+				</section>
+
+				<section>
+					<h2>Alternative storage drivers</h2>
+					<p>SELinux supported only with DeviceMapper</p>
+					<h3>Overlay</h3>
+					<p><code>/etc/sysconfig/docker-storage-setup</code></p>
+					<pre><code data-trim data-noescape>
+						STORAGE_DRIVER=overlay
+					</code></pre>
+					<div class="fragment">
+					<h3>BTRFS</h3>
+					<p><code>/etc/sysconfig/docker-storage</code></p>
+					<pre><code data-trim data-noescape>
+						DOCKER_STORAGE_OPTIONS="--storage-driver btrfs --graph /mnt/btrfs_partition"
+					</code></pre>
+					</div>
+				</section>
+
+				<section>
+					<h2>SELinux</h2>
+					<p><code>/etc/sysconfig/docker</code></p>
+					<pre><code data-trim data-noescape>
+						OPTIONS='--selinux-enabled'
+					</code></pre>
+					<p><code>$ ps axjfZ</code></p>
+					<pre><code data-trim data-noescape>
+						system_u:system_r:svirt_lxc_net_t:s0:c10,c370
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+						system_u:system_r:spc_t:s0
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Log driver</h2>
+					<p><code>/etc/sysconfig/docker</code></p>
+					<pre><code data-trim data-noescape>
+						OPTIONS='--log-driver=journald'
+					</code></pre>
+					<pre><code data-trim data-noescape>
+$ sudo docker logs nginx  # only supported with journald and json-file
+...
+$ journalctl CONTAINER_NAME=nginx
+...
+					</code></pre>
+					<div class="fragment">
+					<h4>syslog</h4>
+					<pre><code data-trim data-noescape>
+OPTIONS='--log-driver=syslog --log-opt syslog-address=tcp://192.168.0.42:123'
+					</code></pre>
+					</div>
 				</section>
 
 				<section id="debugging-container-environment">
