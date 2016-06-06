@@ -2670,6 +2670,78 @@ Running in a container, ignoring fstab device entry for /dev/disk/by-u...
 					</ul>
 				</section>
 
+				<section id="install">
+					<h2>Docker installation on Fedora</h2>
+					<ul>
+						<li>A distinct distribution from Docker built pcks</li>
+						<li>Recap: client-server architecture</li>
+						<ul>
+							<li>Daemon listening on Unix socket</li>
+							<li>Need for root priviliges</li>
+						</ul>
+					</ul>
+					<pre><code data-trim data-noescape>
+$ ls -alZ /var/run/docker.sock
+      UID  GID          SELinux Type
+[...] root docker [...]:svirt_sandbox_file_t:[...] [...] /var/run/docker.sock
+					</code></pre>
+					<ul>
+						<li>On Fedora you can add user to a <code>docker</code> group to allow him to talk to Docker</li>
+					</ul>
+					<pre><code data-trim data-noescape>
+sudo dnf install docker
+sudo groupadd docker
+sudo gpasswd -a &#36;&#123;USER&#125; docker
+sudo systemctl start docker
+sudo systemctl enable docker
+					</code></pre>
+					<p>See Dan Walsh's <a href="http://www.projectatomic.io/blog/2014/09/granting-rights-to-users-to-use-docker-in-fedora/">article</a> for more details about security related settings</p>
+
+					<aside class="notes">
+						<ul>
+							<li>Red Hat carefully selects docker releases, not all of them are targeted to RH release</li>
+							<li>Need to be root to talk to Docker Daemon</li>
+							<li>Adding user to Docker group makes gives him great privileges!!</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section id="redhat/docker">
+					<h2>How Docker gets distributed to Red Hat customers</h2>
+					<p><strong>Notable differences kept on <a href="https://github.com/projectatomic/docker/tree/fedora-1.9">projectatomic/docker</a></strong></p>
+					<ul>
+						<li>When searching for an image, use Red Hat registry first (registry.access.redhat.com)</li>
+						<li>When running Device mapper on loopback, warn the user of potential performance problems</li>
+						<li>Provide subscription management information from the host into containers</li>
+					</ul>
+					<aside class="notes">
+						<ul>
+							<li></li>
+						</ul>
+					</aside>
+				</section>
+
+				<section id="migration">
+					<h2>Migrate to Docker v1.10</h2>
+					<p><strong>Image format has changed - all layers are now SHA256 signed</strong><br>There are two ways of migrating your old images to the new format:</p>
+					<ul>
+						<li>Automatic conversion performed by Docker daemon</li>
+						<ul>
+							<li>Daemon can not be accessed throughout this process</li>
+						</ul>
+						<li>Conversion performed by a dedicated <a href="https://github.com/docker/v1.10-migrator">script</a></li>
+						<ul>
+							<li>Daemon remains responsive throughout this process</li>
+							<li>Only converted images are available</li>
+						</ul>
+					</ul>
+					<aside class="notes">
+						<ul>
+							<li>Need to calculate the SHA256 checksum</li>
+						</ul>
+					</aside>
+				</section>
+
 				<section id="debugging-container-environment">
 					<h2>Debugging container environment</h2>
 				</section>
