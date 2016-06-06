@@ -69,6 +69,13 @@
 						<li><a href="#/systemd-in-container">Systemd in a container</a></li>
 					</ul>
 				</li>
+				<li>
+					<a href="#/session-5">Administrating and debugging docker</a>
+					<ul>
+						<li><a href="#/debugging-container-environment">Debugging container environment</a></li>
+						<li><a href="#/session-5-api">API</a></li>
+					</ul>
+				</li>
 			</ul>
 
 			<div class="slides">
@@ -2666,6 +2673,7 @@ Running in a container, ignoring fstab device entry for /dev/disk/by-u...
 				<section id="session-5">
 					<h2>Session 5</h2>
 					<ul>
+						<li><a href="#/install">Installing and configuring Docker daemon</a></li>
 						<li><a href="#/debugging-container-environment">Debugging container environment</a></li>
 						<li><a href="#/session-5-api">API</a></li>
 					</ul>
@@ -2675,11 +2683,12 @@ Running in a container, ignoring fstab device entry for /dev/disk/by-u...
 					<h2>Docker installation on Fedora</h2>
 					<ul>
 						<li>A distinct distribution from Docker built pcks</li>
-						<li>Recap: client-server architecture</li>
-						<ul>
-							<li>Daemon listening on Unix socket</li>
-							<li>Need for root priviliges</li>
-						</ul>
+						<li>Recap: client-server architecture
+							<ul>
+								<li>Daemon listening on Unix socket</li>
+								<li>Need for root privileges</li>
+							</ul>
+						</li>
 					</ul>
 					<pre><code data-trim data-noescape>
 $ ls -alZ /var/run/docker.sock
@@ -2700,9 +2709,8 @@ sudo systemctl enable docker
 
 					<aside class="notes">
 						<ul>
-							<li>Red Hat carefully selects docker releases, not all of them are targeted to RH release</li>
-							<li>Need to be root to talk to Docker Daemon</li>
-							<li>Adding user to Docker group makes gives him great privileges!!</li>
+							<li>Red Hat carefully selects Docker releases, not all of them are targeted for RH release</li>
+							<li>Need to be root or member of the docker group to talk to Docker Daemon</li>
 						</ul>
 					</aside>
 				</section>
@@ -2721,15 +2729,17 @@ sudo systemctl enable docker
 					<h2>Migrate to Docker v1.10</h2>
 					<p><strong>Image format has changed - all layers are now SHA256 signed</strong><br>There are two ways of migrating your old images to the new format:</p>
 					<ul>
-						<li>Automatic conversion performed by Docker daemon</li>
-						<ul>
-							<li>Daemon can not be accessed throughout this process</li>
-						</ul>
-						<li>Conversion performed by a dedicated <a href="https://github.com/docker/v1.10-migrator">script</a></li>
-						<ul>
-							<li>Daemon remains responsive throughout this process</li>
-							<li>Only converted images are available</li>
-						</ul>
+						<li>Automatic conversion performed by Docker daemon
+							<ul>
+								<li>Daemon can not be accessed throughout this process</li>
+							</ul>
+						</li>
+						<li>Conversion performed by a dedicated <a href="https://github.com/docker/v1.10-migrator">script</a>
+							<ul>
+								<li>Daemon remains responsive throughout this process</li>
+								<li>Only converted images are available</li>
+							</ul>
+						</li>
 					</ul>
 					<aside class="notes">
 						<ul>
@@ -2790,6 +2800,35 @@ OPTIONS='--log-driver=syslog --log-opt syslog-address=tcp://192.168.0.42:123'
 					</div>
 				</section>
 
+				<section>
+					<h2>Secrets in ansible</h2>
+					<pre class="fragment"><code data-trim data-noescape>
+$ ansible-vault create vault.yml
+$ ansible-vault edit vault.yml
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+---
+mysql_root_pw: my-secret-pw
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+---
+- hosts: localhost
+  vars:
+    c_state: reloaded
+  vars_files:
+    - vault.yml
+  tasks:
+  - name: mariadb container
+...
+  env:
+    MYSQL_ROOT_PASSWORD: "{{ mysql_root_pw }}"
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+$ ansible-playbook -i hosts --ask-vault-pass docker.yml
+$ ansible-playbook -i hosts --vault-password-file ~/.vault_pass.txt docker.yml
+					</code></pre>
+				</section>
+
 				<section id="debugging-container-environment">
 					<h2>Debugging container environment</h2>
 				</section>
@@ -2807,7 +2846,7 @@ OPTIONS='--log-driver=syslog --log-opt syslog-address=tcp://192.168.0.42:123'
 					<h2>Let's identify then...</h2>
 					<p>Your first step should be</p>
 					<pre><code data-trim data-noescape>
-$ sudo docker run -ti --name=c fedora cat /etc/isue
+$ sudo docker run -it --name c fedora cat /etc/isue
 <span class="fragment">$ sudo docker logs c
 cat: /etc/isue: No such file or directory</span>
 <span class="fragment">$ sudo docker inspect c | grep -A 3 Cmd
@@ -2827,10 +2866,14 @@ OPTIONS='-l debug'
 					<pre class="fragment"><code data-trim data-noescape>
 $ sudo journalctl -u docker
 Calling POST /v1.23/containers/fedora-container/exec"
-form data: {\"AttachStderr\":true,\"AttachStdin\":true,\"AttachStdout\":true,\"Cmd\":[\"bash\"],\"Container\":\"fedora-container\",\"Detach\":false,\"DetachKeys\":\"\",\"Privileged\":false,\"Tty\":true,\"User\":\"\"}"
+form data: {\"AttachStderr\":true,\"AttachStdin\":true,\"AttachStdout\":true,
+\"Cmd\":[\"bash\"],\"Container\":\"fedora-container\",\"Detach\":false,
+\"DetachKeys\":\"\",\"Privileged\":false,\"Tty\":true,\"User\":\"\"}"
 info {Action=start, Username=tt, LoginUID=1000, PID=13309}"
 Calling POST /v1.23/exec/241.../start"
-form data: {\"AttachStderr\":true,\"AttachStdin\":true,\"AttachStdout\":true,\"Cmd\":[\"bash\"],\"Container\":\"fedora-container\",\"Detach\":false,\"DetachKeys\":\"\",\"Privileged\":false,\"Tty\":true,\"User\":\"\"}"
+form data: {\"AttachStderr\":true,\"AttachStdin\":true,\"AttachStdout\":true,
+\"Cmd\":[\"bash\"],\"Container\":\"fedora-container\",\"Detach\":false,
+\"DetachKeys\":\"\",\"Privileged\":false,\"Tty\":true,\"User\":\"\"}"
 starting exec command 241... in container 050..."
 					</code></pre>
 				</section>
@@ -2838,7 +2881,7 @@ starting exec command 241... in container 050..."
 				<section>
 					<h2>Let's identify then... III</h2>
 					<pre><code data-trim data-noescape>
-$ sudo strace docker exec -ti fedora-container bash
+$ sudo strace docker exec -it fedora-container bash
 <span class="fragment">stat("/home/tt/.docker/config.json", {st_mode=S_IFREG|0600, st_size=142}) = 0
 connect(5, {sa_family=AF_LOCAL, sun_path="/var/run/docker.sock"}, 23) = 0
 write(5, "POST /v1.23/containers/fedora-container/ex"..., 318) = 318
@@ -2970,7 +3013,7 @@ Error response from daemon: client is newer than server \
 					<pre><code data-trim data-noescape>
 $ sudo docker import image.tar
 6603294d8f99233d855b9780e5f6d4e5ea9d6f075a02b1c5f3e14a61a71fec83
-<span class="fragment">$ sudo docker inspect 6603294d8f99233d855b9780e5f6d4e5ea9d6f075a02b1c5f3e14a61a71fec83
+<span class="fragment">$ sudo docker inspect 6603294d8f99233d855b9780e5f6d4e5ea9d6f075a02b...
 [
 {
     "Id": "6603294d8f99233d855b9780e5f6d4e5ea9d6f075a02b1c5f3e14a61a71fec83",
@@ -2982,9 +3025,9 @@ $ sudo docker import image.tar
 ...</span>
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
-$ sudo docker run -ti 6603294d8f99 /bin/sh
+$ sudo docker run -it 6603294d8f99 /bin/sh
 exec: "/bin/sh": stat /bin/sh: no such file or directory
-Error response from daemon: Cannot start container 4e61bfee34d9d055de89d57fb0c2745fab9797ee53c165639042b102dcf4db02: \
+Error response from daemon: Cannot start container 4e61bfee34d9d055de89...: \
   [8] System error: exec: "/bin/sh": stat /bin/sh: no such file or directory
 					</code></pre>
 				</section>
@@ -2996,8 +3039,8 @@ $ mkdir ./image-output
 $ sudo docker cp 4e61bfee34d9:/ ./image-output
 <span class="fragment">$ ll ./image-output
 total 4.0K
-drwxr-xr-x. 1 ttomecek ttomecek  40 Mar 18 19:22 0d380282e68b755298e8260191124eb84defc04c1de31173df2d837d64e504b8
-drwxr-xr-x. 1 ttomecek ttomecek  40 Mar 18 19:22 597f79aa54ea6a1c9a107c577eda046955102e80b293078d57c72848bc976341
+drwxr-xr-x. 1 ttomecek ttomecek  40 Mar 18 19:22 0d380282e68b755298e82...
+drwxr-xr-x. 1 ttomecek ttomecek  40 Mar 18 19:22 597f79aa54ea6a1c9a107...
 drwxr-xr-x. 1 ttomecek ttomecek  26 Jun  2 13:59 dev
 drwxr-xr-x. 1 ttomecek ttomecek  56 Jun  2 13:59 etc
 drwxr-xr-x. 1 ttomecek ttomecek   0 Jun  2 13:59 proc
@@ -3009,18 +3052,18 @@ drwxr-xr-x. 1 ttomecek ttomecek   0 Jun  2 13:59 sys</span>
 				<section>
 					<h2>Permission denied</h2>
 					<pre><code data-trim data-noescape>
-$ sudo docker run -ti -v $PWD:/mount fedora:23 bash
+$ sudo docker run -it -v $PWD:/mount fedora:23 bash
 <span class="fragment">[root@8ba6bcc60bda /]# cd /mount</span>
 <span class="fragment">[root@8ba6bcc60bda mount]# ls
 ls: cannot open directory .: Permission denied</span>
 <span class="fragment">[root@8ba6bcc60bda mount]# ll -Z -d .
-drwx------. 1 19533 19533 unconfined_u:object_r:unlabeled_t:s0 2724 Jun  2 11:43 .</span>
+drwx------. 1 19533 19533 unconfined_u:object_r:unlabeled_t:s0 2724 .</span>
 <span class="fragment">$ sudo docker run -ti -v $PWD/asdqwe/:/mount:z fedora:23 bash
 [root@ea97f817b917 /]# cd /mount</span>
 <span class="fragment">[root@ea97f817b917 mount]# ll
 total 0
 [root@ea97f817b917 mount]# ll -Z -d .
-drwxrwxr-x. 1 19533 19533 system_u:object_r:svirt_sandbox_file_t:s0 0 Jun  2 12:19 .</span>
+drwxrwxr-x. 1 19533 19533 system_u:object_r:svirt_sandbox_file_t:s0 0 .</span>
 					</code></pre>
 				</section>
 
@@ -3090,12 +3133,11 @@ Out[5]:
  'StartedAt': '2016-06-05T09:32:21.136615988Z',
  'Status': 'exited'}
 					</code></pre>
-					</ul>
 				</section>
 
 				<section>
 					<h2>docker registry API</h2>
-							<pre><code data-trim data-noescape>
+						<pre><code data-trim data-noescape>
 $ curl -s -L \
     https://registry.hub.docker.com/v2/repositories/library/fedora/tags | \
     python -m json.tool
@@ -3121,18 +3163,24 @@ $ curl -s -L \
 
 				<section>
 					<h2>registry.access.redhat.com</h2>
-							<pre><code data-trim data-noescape>
-$ firefox https://registry.access.redhat.com/crane/repositories
-							</code></pre>
-							<img src="img/registry-access-redhat-com.png">
+<a href="https://registry.access.redhat.com/crane/repositories">registry.access.redhat.com/crane/repositories</a>
+					<img src="img/registry-access-redhat-com.png" alt="registry-access-redhat-com">
 				</section>
 
 				<section>
 					<h2>Links</h2>
 					<ul>
 						<li><a href="https://docs.docker.com/engine/reference/api/docker_remote_api/">Docker Remote API</a></li>
-						<li><a href="https://docs.docker.com/registry/spec/api/">Docker Registry HTTP API V2</a></li>
+						<li><a href="https://docs.docker.com/registry/spec/api/">Docker Registry HTTP API v2</a></li>
 					</ul>
+				</section>
+
+				<section>
+					<h2>Thank you!</h2>
+					<a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a><br>
+					<a href="https://schiffer.typeform.com/to/cOl04R">schiffer.typeform.com/to/cOl04R</a><br>
+					<img src="img/qrcode5.png" alt="qrcode"><br>
+					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
 <!--
