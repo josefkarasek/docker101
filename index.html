@@ -2667,6 +2667,7 @@ Running in a container, ignoring fstab device entry for /dev/disk/by-u...
 					<h2>Session 5</h2>
 					<ul>
 						<li><a href="#/debugging-container-environment">Debugging container environment</a></li>
+						<li><a href="#/session-5-api">API</a></li>
 					</ul>
 				</section>
 
@@ -2757,6 +2758,21 @@ sudo systemctl enable docker
 
 				<section>
 					<h2>Let's identify then...</h2>
+					<p>Your first step should be</p>
+					<pre><code data-trim data-noescape>
+$ sudo docker run -ti --name=c fedora cat /etc/isue
+<span class="fragment">$ sudo docker logs c
+cat: /etc/isue: No such file or directory</span>
+<span class="fragment">$ sudo docker inspect c | grep -A 3 Cmd
+"Cmd": [
+  "cat",
+  "/etc/isue"
+],</span>
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Let's identify then... II</h2>
 					<pre><code data-trim data-noescape>
 $ cat /etc/sysconfig/docker
 OPTIONS='-l debug'
@@ -2773,7 +2789,7 @@ starting exec command 241... in container 050..."
 				</section>
 
 				<section>
-					<h2>Let's identify then... II</h2>
+					<h2>Let's identify then... III</h2>
 					<pre><code data-trim data-noescape>
 $ sudo strace docker exec -ti fedora-container bash
 <span class="fragment">stat("/home/tt/.docker/config.json", {st_mode=S_IFREG|0600, st_size=142}) = 0
@@ -2897,7 +2913,7 @@ $ sudo docker images
 Error response from daemon: client is newer than server \
   (client API version: 1.23, server API version: 1.22)
 					</code></pre>
-					<ul>
+					<ul class="fragment">
 						<li>Client got an upgrade, server not</li>
 					</ul>
 				</section>
@@ -2907,7 +2923,7 @@ Error response from daemon: client is newer than server \
 					<pre><code data-trim data-noescape>
 $ sudo docker import image.tar
 6603294d8f99233d855b9780e5f6d4e5ea9d6f075a02b1c5f3e14a61a71fec83
-$ sudo docker inspect 6603294d8f99233d855b9780e5f6d4e5ea9d6f075a02b1c5f3e14a61a71fec83
+<span class="fragment">$ sudo docker inspect 6603294d8f99233d855b9780e5f6d4e5ea9d6f075a02b1c5f3e14a61a71fec83
 [
 {
     "Id": "6603294d8f99233d855b9780e5f6d4e5ea9d6f075a02b1c5f3e14a61a71fec83",
@@ -2916,9 +2932,9 @@ $ sudo docker inspect 6603294d8f99233d855b9780e5f6d4e5ea9d6f075a02b1c5f3e14a61a7
         "Env": null,
         "Cmd": null,
         "Image": "",
-...
+...</span>
 					</code></pre>
-					<pre class="fragment" data-fragment-index="1"><code data-trim data-noescape>
+					<pre class="fragment"><code data-trim data-noescape>
 $ sudo docker run -ti 6603294d8f99 /bin/sh
 exec: "/bin/sh": stat /bin/sh: no such file or directory
 Error response from daemon: Cannot start container 4e61bfee34d9d055de89d57fb0c2745fab9797ee53c165639042b102dcf4db02: \
@@ -2959,6 +2975,109 @@ total 0
 [root@ea97f817b917 mount]# ll -Z -d .
 drwxrwxr-x. 1 19533 19533 system_u:object_r:svirt_sandbox_file_t:s0 0 Jun  2 12:19 .</span>
 					</code></pre>
+				</section>
+
+				<section id="session-5-api">
+					<h2>API</h2>
+				</section>
+
+				<section>
+					<h2>docker engine API I</h2>
+					<ul>
+						<li>Sort of a REST API</li>
+						<li>Strictly versioned</li>
+						<li>Changes are documented</li>
+						<li><a href="https://docs.docker.com/engine/reference/api/docker_remote_api/">Docker Remote API</a></li>
+					</ul>
+							<pre class="fragment"><code data-trim data-noescape>
+$ ncat -U /var/run/docker.sock
+GET /containers/json HTTP/1.1
+Host: localhost
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+Server: Docker/1.11.2 (linux)
+Date: Mon, 06 Jun 2016 13:37:00 GMT
+Content-Length: 1569
+
+[{"Id":"05016040a78b0627abeba81bf8230d559d14e253067c812c3e4802c9bea30359","Nam...
+							</code></pre>
+				</section>
+
+				<section>
+					<h2>docker engine API II</h2>
+					<ul>
+						<li>Feel free to use docker binary in your shell script</li>
+						<li class="fragment">
+							But expect...
+							<pre><code data-trim data-noescape>
+							34M /usr/bin/docker
+							</code></pre>
+						</li>
+						<li class="fragment">Since Red Hat ❤ python</li>
+						<li class="fragment">I suggest using docker-py</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>docker engine API III</h2>
+					<pre><code data-trim data-noescape>
+In [1]: import docker
+
+In [2]: d = docker.AutoVersionClient()
+
+In [3]: cs = d.containers()
+
+In [4]: d.stop(cs[0])
+
+In [5]: d.inspect_container(cs[0])["State"]
+Out[5]:
+{'Dead': False,
+ 'Error': '',
+ 'ExitCode': 137,
+ 'FinishedAt': '2016-06-06T13:40:09.419167105Z',
+ 'Paused': False,
+ 'Pid': 0,
+ 'Restarting': False,
+ 'Running': False,
+ 'StartedAt': '2016-06-05T09:32:21.136615988Z',
+ 'Status': 'exited'}
+					</code></pre>
+					</ul>
+				</section>
+
+				<section>
+					<h2>docker registry API</h2>
+							<pre><code data-trim data-noescape>
+$ curl -s -L \
+    https://registry.hub.docker.com/v2/repositories/library/fedora/tags | \
+    python -m json.tool
+{
+    "count": 7,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "name": "20",
+            ...
+        },
+        { "name": "heisenbug", ... },
+        { "name": "rawhide", ... },
+        { "name": "21", ... },
+        { "name": "22", ... },
+        { "name": "latest", ... },
+        { "name": "23", ... }
+    ]
+}
+							</code></pre>
+				</section>
+
+				<section>
+					<h2>registry.access.redhat.com</h2>
+							<pre><code data-trim data-noescape>
+$ firefox https://registry.access.redhat.com/crane/repositories
+							</code></pre>
+							<img src="img/registry-access-redhat-com.png">
 				</section>
 
 <!--
