@@ -2,6 +2,8 @@
 - hosts: localhost
   vars:
     c_state: reloaded
+  vars_files:
+    - vault.yml
   tasks:
   - name: mariadb container
     docker:
@@ -13,7 +15,7 @@
       net: bridge
       volumes: mariadb-data:/var/lib/mysql
       env:
-        MYSQL_ROOT_PASSWORD: my-secret-pw
+        MYSQL_ROOT_PASSWORD: "{{ mysql_root_pw }}"
   - name: wordpress container
     docker:
       name: my-wordpress
