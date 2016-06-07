@@ -2723,6 +2723,13 @@ sudo systemctl enable docker
 						<li>When running Device mapper on loopback, warn the user of potential performance problems</li>
 						<li>Provide subscription management information from the host into containers</li>
 					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Changes specific to Red Hat, e.g. linking with subscription manager</li>
+							<li>Omitting/modifiying parts that are not recognized as secure enough for enterprise deployment</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section id="migration">
@@ -2744,6 +2751,55 @@ sudo systemctl enable docker
 					<aside class="notes">
 						<ul>
 							<li>Need to calculate the SHA256 checksum</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section id="storage-setup">
+					<h2>Docker storage setup</h2>
+					<ul>
+						<li>Storage backed by loopback device</li>
+						<ul>
+							<li>That's the default on Fedora</li>
+							<li>Easy to setup</li>
+							<li>Poor performance</li>
+						</ul>
+						<pre><code data-trim data-noescape>
+$ sudo cat /etc/sysconfig/docker-storage
+DOCKER_STORAGE_OPTIONS=" --storage-opt dm.no_warn_on_loop_devices=true"
+						</code></pre>
+
+						<li>Storage backed by attached device</li>
+						<ul>
+							<li>The only way of using Docker &amp; DeviceMapper in production</li>
+							<li>Provides production ready performance and stability</li>
+							<li>Need to setup dedicated physical volume</li>
+						</ul>
+					</ul>
+					<aside class="notes">
+						<ul>
+							<li></li>
+						</ul>
+					</aside>
+				</section>
+
+				<section id="dm-produciton">
+					<h2>Device mapper for production</h2>
+					<ul>
+						<li>Dedicate at least 10GB of space ( = attach the device)</li>
+						<li>Create physical volume using <code>pvcreate</code></li>
+						<li>Add the physical volume to the volume group</li>
+						<li>Project Atomic contains script that will do the heavy lifting from now. Only tell it where the device is mounted</li>
+					</ul>
+					<pre><code data-trim data-noescape>
+$ sudo cat /etc/sysconfig/docker-storage-setup
+DEVS=/dev/vdb   # mount point of the device
+VG=docker-vg    # name of the volume group
+SETUP_LVM_THIN_POOL=yes  # use thin pool
+					</code></pre>
+					<aside class="notes">
+						<ul>
+							<li></li>
 						</ul>
 					</aside>
 				</section>
