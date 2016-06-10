@@ -2921,16 +2921,12 @@ OPTIONS='-l debug'
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
 $ sudo journalctl -u docker
-Calling POST /v1.23/containers/fedora-container/exec"
-form data: {\"AttachStderr\":true,\"AttachStdin\":true,\"AttachStdout\":true,
-\"Cmd\":[\"bash\"],\"Container\":\"fedora-container\",\"Detach\":false,
-\"DetachKeys\":\"\",\"Privileged\":false,\"Tty\":true,\"User\":\"\"}"
-info {Action=start, Username=tt, LoginUID=1000, PID=13309}"
-Calling POST /v1.23/exec/241.../start"
-form data: {\"AttachStderr\":true,\"AttachStdin\":true,\"AttachStdout\":true,
-\"Cmd\":[\"bash\"],\"Container\":\"fedora-container\",\"Detach\":false,
-\"DetachKeys\":\"\",\"Privileged\":false,\"Tty\":true,\"User\":\"\"}"
-starting exec command 241... in container 050..."
+debug Calling POST /v1.23/containers/fedora-container/exec"
+debug form data: {\"AttachStderr\":true,\"Cmd\":[\"bash\"],...
+info  {Action=start, Username=tt, LoginUID=1000, PID=13309}"
+debug Calling POST /v1.23/exec/241.../start"
+debug form data: {\"AttachStderr\":true,\"Container\":\"fedora-container\"
+debug starting exec command 241... in container 050..."
 					</code></pre>
 				</section>
 
@@ -3035,6 +3031,10 @@ Registries: docker.io (secure)
 				</section>
 
 				<section>
+					<h2>Common pitfalls</h2>
+				</section>
+
+				<section>
 					<h2>Insecure Registry</h2>
 					<pre><code data-trim data-noescape>
 $ sudo docker pull registry.example.com/image
@@ -3114,13 +3114,25 @@ $ sudo docker run -it -v $PWD:/mount fedora:23 bash
 ls: cannot open directory .: Permission denied</span>
 <span class="fragment">[root@8ba6bcc60bda mount]# ll -Z -d .
 drwx------. 1 19533 19533 unconfined_u:object_r:unlabeled_t:s0 2724 .</span>
-<span class="fragment">$ sudo docker run -ti -v $PWD/asdqwe/:/mount:z fedora:23 bash
-[root@ea97f817b917 /]# cd /mount</span>
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Permission denied: solutions</h2>
+					<pre><code data-trim data-noescape>
+$ sudo docker run -ti -v $PWD:/mount:z fedora:23 bash
+[root@ea97f817b917 /]# cd /mount
 <span class="fragment">[root@ea97f817b917 mount]# ll
 total 0
 [root@ea97f817b917 mount]# ll -Z -d .
 drwxrwxr-x. 1 19533 19533 system_u:object_r:svirt_sandbox_file_t:s0 0 .</span>
 					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+$ sudo docker run -ti \
+    -v $PWD:/mount --security-opt label:disable \
+    fedora:23 bash
+					</code></pre>
+					<p>label is unchanged</p>
 				</section>
 
 				<section id="session-5-api">
@@ -3130,7 +3142,7 @@ drwxrwxr-x. 1 19533 19533 system_u:object_r:svirt_sandbox_file_t:s0 0 .</span>
 				<section>
 					<h2>docker engine API I</h2>
 					<ul>
-						<li>Sort of a REST API</li>
+						<li>REST API</li>
 						<li>Strictly versioned</li>
 						<li>Changes are documented</li>
 						<li><a href="https://docs.docker.com/engine/reference/api/docker_remote_api/">Docker Remote API</a></li>
