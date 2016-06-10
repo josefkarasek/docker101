@@ -2696,16 +2696,98 @@ Running in a container, ignoring fstab device entry for /dev/disk/by-u...
 					<pre><code data-trim data-noescape>
 $ sudo dnf install docker
 					</code></pre>
-
 				</section>
 
-				<!-- Configure storage slide -->
+				<section>
+					<h2>Docker Storage</h2>
+					<ul>
+						<li>Configured by <code>docker-storage-config</code> script
+							<ul>
+								<li>Config file <code>/etc/sysconfig/docker-storage-setup</code></li>
+							</ul>
+						</li>
+						<li>Multiple storage drivers
+							<ul>
+								<li>Device Mapper: loop-lvm</li>
+								<li>Device Mapper: direct-lvm</li>
+								<li>OverlayFS</li>
+								<li>btrfs</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Device Mapper: loop-lvm</h2>
+					<ul>
+						<li>Default</li>
+						<li>Easy to setup</li>
+						<li>Poor performance</li>
+					</ul>
+					<pre><code data-trim data-noescape>
+$ sudo docker run -it --rm fedora bash
+Usage of loopback devices is strongly discouraged for production use.
+Either use `--storage-opt dm.thinpooldev`
+or use `--storage-opt dm.no_warn_on_loop_devices=true` to suppress this warning.
+					</code></pre>
+					<code>/etc/sysconfig/docker-storage</code>
+					<pre><code data-trim data-noescape>
+DOCKER_STORAGE_OPTIONS='--storage-opt dm.no_warn_on_loop_devices=true'
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Device Mapper: direct-lvm</h2>
+					<ul>
+						<li>Recommended for production use</li>
+						<li>Requires volume group with free space or spare partition</li>
+						<li>Make sure you have at least 10 GB of storage for it</li>
+					</ul>
+					<p><strong>/etc/sysconfig/docker-storage-setup</strong></p>
+					<p>If you have space in volume group:</p>
+					<pre><code data-trim data-noescape>
+VG='your-volume-group'
+					</code></pre>
+					<p>Or if you have spare disk / partition:</p>
+					<pre><code data-trim data-noescape>
+DEVS='/dev/sdb'
+VG='docker-vg'
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Alternative storage drivers</h2>
+					<p>SELinux supported only with DeviceMapper</p>
+					<h3>Overlay</h3>
+					<p><code>/etc/sysconfig/docker-storage-setup</code></p>
+					<pre><code data-trim data-noescape>
+						STORAGE_DRIVER=overlay
+					</code></pre>
+					<div class="fragment">
+					<h3>BTRFS</h3>
+					<p><code>/etc/sysconfig/docker-storage</code></p>
+					<pre><code data-trim data-noescape>
+						DOCKER_STORAGE_OPTIONS="--storage-driver btrfs --graph /mnt/btrfs_partition"
+					</code></pre>
+					<p>But Docker will select this storage driver by default if you are using btrfs</p>
+					</div>
+				</section>
+
+				<section>
+					<h2>To change storage driver</h2>
+					<pre><code data-trim data-noescape>
+$ sudo systemctl stop docker
+$ sudo rm -rf /var/lib/docker
+$ sudo vim /etc/sysconfig/docker-storage-setup
+$ sudo systemctl start docker
+					</code></pre>
+				</section>
 
 				<section id="docker-group">
 					<h2>avoiding sudo</h2>
 					<ul>
 						<li>Diverting from Docker upstream - sudo used for auditing</li>
-						<li>If Docker user group is 
+						<li>If Docker user group is
 							<ul>
 								<li>present, daemon's socket will be owned by <code>docker</code> group</li>
 								<li>not present, daemon's socket will be owned by <code>root</code> group</li>
@@ -2726,15 +2808,12 @@ $ ls -l /var/run/docker.sock
 srw-rw----. 1 root docker 0 Jun  6 14:25 /var/run/docker.sock
 					</code></pre>
 
-
 					<aside class="notes">
 						<ul>
 							<li>Need to be root or member of the docker group to talk to Docker Daemon</li>
 						</ul>
 					</aside>
 				</section>
-
-				
 
 				<section id="migration">
 					<h2>Migrate to Docker v1.10</h2>
@@ -2774,72 +2853,6 @@ srw-rw----. 1 root docker 0 Jun  6 14:25 /var/run/docker.sock
 							<li>Omitting/modifiying parts that are not recognized as secure enough for enterprise deployment</li>
 						</ul>
 					</aside>
-				</section>
-
-				<section id="storage-setup">
-					<h2>Docker storage setup</h2>
-					<ul>
-						<li>Storage backed by loopback device</li>
-						<ul>
-							<li>That's the default on Fedora</li>
-							<li>Easy to setup</li>
-							<li>Poor performance</li>
-						</ul>
-						<pre><code data-trim data-noescape>
-$ sudo cat /etc/sysconfig/docker-storage
-DOCKER_STORAGE_OPTIONS=" --storage-opt dm.no_warn_on_loop_devices=true"
-						</code></pre>
-
-						<li>Storage backed by attached device</li>
-						<ul>
-							<li>The only way of using Docker &amp; DeviceMapper in production</li>
-							<li>Provides production ready performance and stability</li>
-							<li>Need to setup dedicated physical volume</li>
-						</ul>
-					</ul>
-					<aside class="notes">
-						<ul>
-							<li></li>
-						</ul>
-					</aside>
-				</section>
-
-				<section id="dm-produciton">
-					<h2>Device mapper for production</h2>
-					<ul>
-						<li>Dedicate at least 10GB of space ( = attach the device)</li>
-						<li>Create physical volume using <code>pvcreate</code></li>
-						<li>Add the physical volume to the volume group</li>
-						<li>Project Atomic contains script that will do the heavy lifting from now. Only tell it where the device is mounted</li>
-					</ul>
-					<pre><code data-trim data-noescape>
-$ sudo cat /etc/sysconfig/docker-storage-setup
-DEVS=/dev/vdb   # mount point of the device
-VG=docker-vg    # name of the volume group
-SETUP_LVM_THIN_POOL=yes  # use thin pool
-					</code></pre>
-					<aside class="notes">
-						<ul>
-							<li></li>
-						</ul>
-					</aside>
-				</section>
-
-				<section>
-					<h2>Alternative storage drivers</h2>
-					<p>SELinux supported only with DeviceMapper</p>
-					<h3>Overlay</h3>
-					<p><code>/etc/sysconfig/docker-storage-setup</code></p>
-					<pre><code data-trim data-noescape>
-						STORAGE_DRIVER=overlay
-					</code></pre>
-					<div class="fragment">
-					<h3>BTRFS</h3>
-					<p><code>/etc/sysconfig/docker-storage</code></p>
-					<pre><code data-trim data-noescape>
-						DOCKER_STORAGE_OPTIONS="--storage-driver btrfs --graph /mnt/btrfs_partition"
-					</code></pre>
-					</div>
 				</section>
 
 				<section>
