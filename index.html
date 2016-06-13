@@ -3137,6 +3137,7 @@ drwxr-xr-x. 1 ttomecek ttomecek   0 Jun  2 13:59 proc
 -rw-r--r--. 1 ttomecek ttomecek 100 Jan  1  1970 repositories
 drwxr-xr-x. 1 ttomecek ttomecek   0 Jun  2 13:59 sys</span>
 					</code></pre>
+					<p class="fragment"><code>load</code> is the solution</p>
 				</section>
 
 				<section>
@@ -3166,7 +3167,37 @@ $ sudo docker run -ti \
     -v $PWD:/mount --security-opt label:disable \
     fedora:23 bash
 					</code></pre>
-					<p>label is unchanged</p>
+					<p class="fragment">label is unchanged</p>
+				</section>
+
+				<section>
+					<h2>Where are my files?</h2>
+					<pre><code data-trim data-noescape>
+$ sudo docker run -ti -v $HOME:/mount my-favorite-ide bash
+<span class="fragment">[root@3e6bb211030f ~]# cd /mount/projects
+[root@3e6bb211030f projects]# ll
+total 0</span>
+<span class="fragment">$ ll $HOME/projects
+drwxrwxr-x 33 tt tt 4.0K Mar 13 09:19 docker
+drwxrwxr-x 11 tt tt 4.0K Jun 13 09:31 docker101</span>
+					</code></pre>
+					<pre><code data-trim data-noescape>
+<span class="fragment">$ ll -d $HOME/projects
+lrwxrwxrwx  1 tt   tt      3 Jun 13 09:19 projects -&gt; /mnt/my-other-disk</span>
+<span class="fragment">$ mount --bind /mnt/my-other-disk $HOME/projects</span>
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Internet's not working :(</h2>
+					<pre><code data-trim data-noescape>
+[root@8bc0e57a1335 /]# curl https://redhat.com
+curl: (6) Could not resolve host: redhat.com
+					</code></pre>
+					<ul class="fragment">
+						<li>your network configuration changed</li>
+						<li>restart docker daemon to pick up the new changes</li>
+					</ul>
 				</section>
 
 				<section id="session-5-api">
