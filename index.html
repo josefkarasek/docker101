@@ -3318,6 +3318,62 @@ $ curl -s -L \
 					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
+				<section id="session-6">
+					<h2>Session 6</h2>
+					<ul>
+						<li><a href="#/docker-features-per-release">Features in docker releases</a></li>
+					</ul>
+				</section>
+
+				<section id="docker-features-per-release">
+					<h2>Features in docker releases</h2>
+				</section>
+
+				<section>
+					<h2>docker-1.10 — read-only containers</h2>
+						<pre><code data-trim data-noescape>
+$ sudo docker run --read-only -ti --tmpfs /etc --tmpfs /tmp fedora bash
+container$ mount
+/dev/... on / type xfs (ro,...)
+tmpfs on /tmp type tmpfs )rw,nosuid,...
+tmpfs on /etc type tmpfs )rw,nosuid,...
+						</pre></code>
+					<p>
+						<a href="http://www.projectatomic.io/blog/2015/12/making-docker-images-write-only-in-production/">Blog post</a>
+						from Dan Walsh.
+					</p>
+				</section>
+
+				<section>
+					<h2>docker-1.10 — user namespaces</h2>
+					<p>Run docker daemon with <code>--userns-remap=default</code>.</p>
+					<p>
+						Populate <code>/etc/sub{uid,gid}</code>:
+						<pre><code data-trim data-noescape>
+$ cat /etc/subuid
+dockremap:66666:10000
+
+$ cat /etc/subgid
+dockremap:66666:10000
+						</pre></code>
+				</section>
+
+				<section>
+					<h2>docker-1.10 — user namespaces II</h2>
+					<pre><code data-trim data-noescape>
+$ sudo docker run -ti -v /:/host fedora bash
+[root@02cdcf7d02e7 /]# cat /host/etc/shadow
+<span class="fragment">cat: /host/etc/shadow: Permission denied</span>
+<span class="fragment">[root@02cdcf7d02e7 /]# id
+uid=0(root) gid=0(root) groups=0(root)</span>
+					</pre></code>
+					<pre class="fragment"><code data-trim data-noescape>
+$ ps aux | grep bash
+66666    13540  0.0  0.0  12568  3780 pts/23   Ss+  14:16   0:00 bash
+					</pre></code>
+				</section>
+
+
 <!--
 <section>
 	<h2>The wordpress example</h2>
