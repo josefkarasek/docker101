@@ -2701,7 +2701,7 @@ $ sudo dnf install docker
 				<section>
 					<h2>Docker Storage</h2>
 					<ul>
-						<li>Configured by <code>docker-storage-config</code> script
+						<li>Configured by <code>docker-storage-setup</code> script
 							<ul>
 								<li>Config file <code>/etc/sysconfig/docker-storage-setup</code></li>
 							</ul>
@@ -3330,13 +3330,30 @@ $ curl -s -L \
 				</section>
 
 				<section>
+					<h2>docker-1.10 — /var/lib/docker revamp</h2>
+				</section>
+
+				<section>
+					<h2>docker-1.10 — seccomp</h2>
+					<ul>
+						<li>in-place by default</li>
+						<li>blocks syscalls like <code>clone, clock_*, *_module, keyctl, ptrace, reboot, mount, ...</code></li>
+						<li>you can create your own profiles
+							<pre><code data-trim data-noescape>
+$ sudo docker run --security-opt seccomp=path/to/profile.json
+							</pre></code>
+						</li>
+					</ul>
+				</section>
+
+				<section>
 					<h2>docker-1.10 — read-only containers</h2>
 						<pre><code data-trim data-noescape>
 $ sudo docker run --read-only -ti --tmpfs /etc --tmpfs /tmp fedora bash
 container$ mount
 /dev/... on / type xfs (ro,...)
-tmpfs on /tmp type tmpfs )rw,nosuid,...
-tmpfs on /etc type tmpfs )rw,nosuid,...
+tmpfs on /tmp type tmpfs (rw,nosuid,...
+tmpfs on /etc type tmpfs (rw,nosuid,...
 						</pre></code>
 					<p>
 						<a href="http://www.projectatomic.io/blog/2015/12/making-docker-images-write-only-in-production/">Blog post</a>
@@ -3373,7 +3390,28 @@ $ ps aux | grep bash
 					</pre></code>
 				</section>
 
+				<section>
+					<h2>docker-1.11 — architecture change</h2>
+					<p>docker is now made of 4 binaries:
+					<ul>
+						<li><code>docker</code></li>
+						<li><code>docker-containerd</code></li>
+						<li><code>docker-containerd-shim</code></li>
+						<li><code>docker-runc</code></li>
+					</ul></p>
+				</section>
 
+				<section>
+					<h2>docker-1.12</h2>
+					<ul>
+						<li><code>swarm</code> mode</li>
+						<li><code>stack</code> and <code>deploy</code>: multi-container applications</li>
+						<li>new <code>HEALTHCHECK</code> instruction</li>
+						<li><code>docker</code> client binary and <code>dockerd</code> daemon</li>
+						<li><code>--live-restore</code> daemon flag:
+							<ul><li>keep containers running when daemon shuts down</li></ul></li>
+					</ul>
+				</section>
 <!--
 <section>
 	<h2>The wordpress example</h2>
