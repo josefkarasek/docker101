@@ -3412,6 +3412,42 @@ $ ps aux | grep bash
 							<ul><li>keep containers running when daemon shuts down</li></ul></li>
 					</ul>
 				</section>
+
+				<section>
+					<h2>Flatpak (xdg app)</h2>
+					<ul>
+						<li>Containers for GUI apps
+							<ul><li>no Docker</li></ul>
+						</li>
+						<li>cgroups, namespaces, SELinux, wayland, OSTree</li>
+						<li>Additional component compared to Docker containers:
+							<ul>
+								<li>Sandboxed app</li>
+								<li>Shared runtime (org.gnome.Platform)</li>
+								<li>Host OS</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Flatpak (xdg app) II.</h2>
+					<pre><code data-trim data-noescape>
+$ sudo dnf install flatpak    # Fedora 23+
+$ wget https://sdk.gnome.org/keys/gnome-sdk.gpg
+$ flatpak remote-add --gpg-import=gnome-sdk.gpg gnome \
+    https://sdk.gnome.org/repo/
+$ flatpak remote-add --gpg-import=gnome-sdk.gpg gnome-apps \
+    https://sdk.gnome.org/repo-apps/
+$ flatpak install gnome org.gnome.Platform 3.20
+$ flatpak install gnome-apps org.gnome.Maps stable
+$ flatpak run org.gnome.Maps
+
+$ flatpak remote-ls gnome-apps --app    # List apps
+$ flatpak update org.gnome.Maps stable    # Update
+					</pre></code>
+				</section>
+
 <!--
 <section>
 	<h2>The wordpress example</h2>
