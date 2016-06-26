@@ -3414,6 +3414,82 @@ $ ps aux | grep bash
 				</section>
 
 				<section>
+					<h2>Ansible Container</h2>
+					<ul>
+						<li>Build, run and ship Docker containers with Ansible</li>
+						<li><code>ansible-container init</code>
+							<ul>
+								<li>Initialize environment</li>
+							</ul>
+						</li>
+						<li><code>ansible-container build</code>
+							<ul>
+								<li>Create Docker image with Ansible playbook (no Dockerfile)</li>
+							</ul>
+						</li>
+						<li><code>ansible-container run</code>
+							<ul>
+								<li>Similar to <code>docker-compose run</code></li>
+							</ul>
+						</li>
+						<li><code>ansible-container push</code>
+							<ul>
+								<li>Push images to remote registry</li>
+							</ul>
+						</li>
+						<li><code>ansible-container shipit</code>
+							<ul>
+								<li>Deploy containers to orchestrator, e.g. kube, OpenShift..</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Ansible Container II.</h2>
+					<pre><code data-trim data-noescape>
+ansible/
+    container.yml
+    main.yml
+    requirements.txt
+					</pre></code>
+					<pre><code data-trim data-noescape>
+$ cat container.yml
+version: "1"
+services:
+  django:
+    image: centos:7
+    expose:
+      - "8080"
+    working_dir: '/django'
+    links:
+      - postgresql
+    command: ['/usr/bin/dumb-init', 'gunicorn', ... 'example.wsgi:app']
+    dev_overrides:
+      command: ['/usr/bin/dumb-init', 'python', 'manage.py', 'runserver']
+      volumes:
+        - "$PWD:/django"
+					</pre></code>
+				</section>
+
+				<section>
+					<h2>Ansible Container II.</h2>
+					<pre><code data-trim data-noescape>
+$ cat main.yml
+- hosts: django,gulp,static
+  tasks:
+    - name: Install dumb init
+      get_url: dest=/usr/bin/dumb-init url=http...dumb-init_1.0.2_amd64 mode=0775
+- hosts: django
+  tasks:
+    - name: Install python deps
+      yum: name=postgresql-devel,python-devel state=latest
+    - name: Make Django user
+      user: name=django state=present createhome=yes home=/django
+					</pre></code>
+				</section>
+
+				<section>
 					<h2>Flatpak (xdg app)</h2>
 					<ul>
 						<li>Containers for GUI apps
