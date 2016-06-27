@@ -121,6 +121,7 @@
 						<li><a href="#/session-3">Docker images, layers, creating images, registry</a></li>
 						<li><a href="#/session-4">Docker for developers, packaging applications</a></li>
 						<li><a href="#/session-5">Administrating and debugging docker</a></li>
+						<li><a href="#/session-6">New Docker features and alternative container technologies</a></li>
 					</ul>
 				</section>
 
@@ -3339,12 +3340,11 @@ $ curl -s -L \
 					<ul>
 						<li>in-place by default</li>
 						<li>blocks syscalls like <code>clone, clock_*, *_module, keyctl, ptrace, reboot, mount, ...</code></li>
-						<li>you can create your own profiles
-							<pre><code data-trim data-noescape>
-$ sudo docker run --security-opt seccomp=path/to/profile.json
-							</pre></code>
-						</li>
+						<li>you can create your own profiles</li>
 					</ul>
+					<pre><code data-trim data-noescape>
+$ sudo docker run --security-opt seccomp=path/to/profile.json
+					</pre></code>
 				</section>
 
 				<section>
@@ -3465,7 +3465,7 @@ fed    7564    running    /root/containers    2016-06-27T08:35:59.314873626Z</sp
 					</pre></code>
 				</section>
 
-				<section>
+				<section id="ansible-container">
 					<h2>Ansible Container</h2>
 					<ul>
 						<li>Build, run and ship Docker containers with Ansible</li>
@@ -3541,7 +3541,7 @@ $ cat main.yml
 					</pre></code>
 				</section>
 
-				<section>
+				<section id="flatpak">
 					<h2>Flatpak (xdg app)</h2>
 					<ul>
 						<li>Containers for GUI apps
@@ -3574,6 +3574,25 @@ $ flatpak run org.gnome.Maps
 $ flatpak remote-ls gnome-apps --app    # List apps
 $ flatpak update org.gnome.Maps stable    # Update
 					</pre></code>
+				</section>
+
+				<section>
+					<h2>Application containers - Firefox</h2>
+					<img src="img/firefox-containers.jpg" alt="firefox containers">
+					<ul>
+						<li>Isolating group of tabs</li>
+						<li>Separate cookies, localStorage, cache</li>
+						<li>History, bookmarks, passwords stay shared</li>
+						<li>Better security, tracking protection, multiple logins on single site</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Thank you!</h2>
+					<a href="https://github.com/josefkarasek/docker101">github.com/josefkarasek/docker101</a><br>
+					<a href="https://schiffer.typeform.com/to/c8TdDO">schiffer.typeform.com/to/c8TdDO</a><br>
+					<img src="img/qrcode6.png" alt="qrcode"><br>
+					<small><a href="#/table-of-content">Table of Content</a></small>
 				</section>
 
 <!--
