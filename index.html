@@ -3344,7 +3344,7 @@ $ curl -s -L \
 					</ul>
 					<pre><code data-trim data-noescape>
 $ sudo docker run --security-opt seccomp=path/to/profile.json
-					</pre></code>
+					</code></pre>
 				</section>
 
 				<section>
@@ -3355,7 +3355,7 @@ container$ mount
 /dev/... on / type xfs (ro,...)
 tmpfs on /tmp type tmpfs (rw,nosuid,...
 tmpfs on /etc type tmpfs (rw,nosuid,...
-						</pre></code>
+						</code></pre>
 					<p>
 						<a href="http://www.projectatomic.io/blog/2015/12/making-docker-images-write-only-in-production/">Blog post</a>
 						from Dan Walsh.
@@ -3373,7 +3373,7 @@ dockremap:66666:10000
 
 $ cat /etc/subgid
 dockremap:66666:10000
-						</pre></code>
+						</code></pre>
 				</section>
 
 				<section>
@@ -3384,22 +3384,22 @@ $ sudo docker run -ti -v /:/host fedora bash
 <span class="fragment">cat: /host/etc/shadow: Permission denied</span>
 <span class="fragment">[root@02cdcf7d02e7 /]# id
 uid=0(root) gid=0(root) groups=0(root)</span>
-					</pre></code>
+					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
 $ ps aux | grep bash
 66666    13540  0.0  0.0  12568  3780 pts/23   Ss+  14:16   0:00 bash
-					</pre></code>
+					</code></pre>
 				</section>
 
 				<section>
 					<h2>docker-1.11 — architecture change</h2>
-					<p>docker is now made of 4 binaries:
+					<p>docker is now made of 4 binaries:</p>
 					<ul>
 						<li><code>docker</code></li>
 						<li><code>docker-containerd</code></li>
 						<li><code>docker-containerd-shim</code></li>
 						<li><code>docker-runc</code></li>
-					</ul></p>
+					</ul>
 				</section>
 
 				<section>
@@ -3462,7 +3462,7 @@ uid=0(root) gid=0(root) groups=0(root)</span>
 <span class="fragment">$ sudo runc list
 ID     PID     STATUS     BUNDLE              CREATED
 fed    7564    running    /root/containers    2016-06-27T08:35:59.314873626Z</span>
-					</pre></code>
+					</code></pre>
 				</section>
 
 				<section id="ansible-container">
@@ -3504,7 +3504,7 @@ ansible/
     container.yml
     main.yml
     requirements.txt
-					</pre></code>
+					</code></pre>
 					<pre><code data-trim data-noescape>
 $ cat container.yml
 version: "1"
@@ -3521,7 +3521,7 @@ services:
       command: ['/usr/bin/dumb-init', 'python', 'manage.py', 'runserver']
       volumes:
         - "$PWD:/django"
-					</pre></code>
+					</code></pre>
 				</section>
 
 				<section>
@@ -3538,7 +3538,7 @@ $ cat main.yml
       yum: name=postgresql-devel,python-devel state=latest
     - name: Make Django user
       user: name=django state=present createhome=yes home=/django
-					</pre></code>
+					</code></pre>
 				</section>
 
 				<section id="flatpak">
@@ -3573,7 +3573,7 @@ $ flatpak run org.gnome.Maps
 
 $ flatpak remote-ls gnome-apps --app    # List apps
 $ flatpak update org.gnome.Maps stable    # Update
-					</pre></code>
+					</code></pre>
 				</section>
 
 				<section>
