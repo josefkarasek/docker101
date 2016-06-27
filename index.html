@@ -3449,19 +3449,19 @@ $ ps aux | grep bash
 					<h2>runc — demo</h2>
 					<pre><code data-trim data-noescape>
 $ sudo dnf install -y runc
-<span class="fragment">$ sudo docker create --name=fed fedora:23 bash</span>
-<span class="fragment">$ mkdir fed ; cd fed
-$ sudo docker export fed | tar -xf - ; cd ..</span>
+<span class="fragment">$ sudo docker create --name=my-container fedora:23 bash</span>
+<span class="fragment">$ mkdir rootfs ; cd rootfs
+$ sudo docker export my-container | tar -xf - ; cd ..</span>
 <span class="fragment">$ sudo runc spec
 $ $EDITOR config.json</span>
-<span class="fragment">$ sudo runc start fed
+<span class="fragment">$ sudo runc start container
 sh-4.3# pwd
 /
 sh-4.3# id
 uid=0(root) gid=0(root) groups=0(root)</span>
 <span class="fragment">$ sudo runc list
-ID     PID     STATUS     BUNDLE              CREATED
-fed    7564    running    /root/containers    2016-06-27T08:35:59.314873626Z</span>
+ID          PID     STATUS     BUNDLE              CREATED
+container   7564    running    /root/containers    2016-06-27T08:35:59.314873626Z</span>
 					</code></pre>
 				</section>
 
