@@ -3322,6 +3322,7 @@ $ curl -s -L \
 					<h2>Session 6</h2>
 					<ul>
 						<li><a href="#/docker-features-per-release">Features in docker releases</a></li>
+						<li><a href="#/other-container-technologies">Other container technologies</a></li>
 					</ul>
 				</section>
 
@@ -3411,6 +3412,57 @@ $ ps aux | grep bash
 						<li><code>--live-restore</code> daemon flag:
 							<ul><li>keep containers running when daemon shuts down</li></ul></li>
 					</ul>
+				</section>
+
+				<section id="other-container-technologies">
+					<h2>Other container technologies</h2>
+				</section>
+
+				<section>
+					<h2>runc</h2>
+					<ul>
+						<li>OCI</li>
+						<li><code>libcontainer</code></li>
+						<li>specification</li>
+						<li><code>config.json</code></li>
+						<li><code>./rootfs/</code></li>
+						<li>implementation</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>runc — features</h2>
+					<ul>
+						<li>starting a container</li>
+						<li>sending signals to containers</li>
+						<li>print info about containers</li>
+						<li>spawn a process in a container</li>
+						<li>generate a spec</li>
+						<li>update resource constraints</li>
+						<li>list processes spawned in a container</li>
+						<li>pause, resume</li>
+						<li>checkpoint, restore — CRIU</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>runc — demo</h2>
+					<pre><code data-trim data-noescape>
+$ sudo dnf install -y runc
+<span class="fragment">$ sudo docker create --name=fed fedora:23 bash</span>
+<span class="fragment">$ mkdir fed ; cd fed
+$ sudo docker export fed | tar -xf - ; cd ..</span>
+<span class="fragment">$ sudo runc spec
+$ $EDITOR config.json</span>
+<span class="fragment">$ sudo runc start fed
+sh-4.3# pwd
+/
+sh-4.3# id
+uid=0(root) gid=0(root) groups=0(root)</span>
+<span class="fragment">$ sudo runc list
+ID     PID     STATUS     BUNDLE              CREATED
+fed    7564    running    /root/containers    2016-06-27T08:35:59.314873626Z</span>
+					</pre></code>
 				</section>
 
 				<section>
