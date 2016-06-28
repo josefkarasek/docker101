@@ -3421,27 +3421,27 @@ $ ps aux | grep bash
 				<section>
 					<h2>runc</h2>
 					<ul>
-						<li>OCI</li>
+						<li>Open Container Iniciative (OCI)</li>
+						<li>Specification</li>
 						<li><code>libcontainer</code></li>
-						<li>specification</li>
+						<li>runc</li>
 						<li><code>config.json</code></li>
 						<li><code>./rootfs/</code></li>
-						<li>implementation</li>
 					</ul>
 				</section>
 
 				<section>
 					<h2>runc — features</h2>
 					<ul>
-						<li>starting a container</li>
-						<li>sending signals to containers</li>
-						<li>print info about containers</li>
-						<li>spawn a process in a container</li>
-						<li>generate a spec</li>
-						<li>update resource constraints</li>
-						<li>list processes spawned in a container</li>
-						<li>pause, resume</li>
-						<li>checkpoint, restore — CRIU</li>
+						<li>Starting a container</li>
+						<li>Sending signals to containers</li>
+						<li>Print info about containers</li>
+						<li>Spawn a process in a container</li>
+						<li>Generate a spec</li>
+						<li>Update resource constraints</li>
+						<li>List processes spawned in a container</li>
+						<li>Ppause, resume</li>
+						<li>Checkpoint, restore — CRIU</li>
 					</ul>
 				</section>
 
@@ -3462,6 +3462,35 @@ uid=0(root) gid=0(root) groups=0(root)</span>
 <span class="fragment">$ sudo runc list
 ID          PID     STATUS     BUNDLE              CREATED
 container   7564    running    /root/containers    2016-06-27T08:35:59.314873626Z</span>
+					</code></pre>
+				</section>
+
+				<section id="rkt">
+					<h2>rkt (Rocket)</h2>
+					<ul>
+						<li>Container runtime by CoreOS
+							<ul><li>Docker was for them too bloated single binary</li></ul>
+						</li>
+						<li>Better security features (SELinux, TPM, KVM)</li>
+						<li>Better composability (systemd, upstart, kube, nomad, swappable exec engines)</li>
+						<li>Exec. engines: systemd-nspawn or lkvm</li>
+						<li>Building images with <code>acbuild</code> tool, supports Docker images</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>rkt (Rocket) II</h2>
+					<pre><code data-trim data-noescape>
+$ sudo dnf install rkt
+$ sudo setenforce Permissive
+$ sudo firewall-cmd --add-source=172.16.28.0/24 --zone=trusted
+
+$ sudo rkt trust --prefix=coreos.com/etcd
+$ sudo rkt fetch coreos.com/etcd:v2.0.9
+$ sudo rkt run coreos.com/etcd:v2.0.9
+# Press ^] three times to kill container
+
+$ sudo rkt run --stage1-name=coreos.com/rkt/stage1-kvm:1.9.1 coreos.com/etcd:v2.0
 					</code></pre>
 				</section>
 
