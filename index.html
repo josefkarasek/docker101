@@ -3333,6 +3333,13 @@ $ curl -s -L \
 
 				<section>
 					<h2>docker-1.10 — /var/lib/docker revamp</h2>
+
+					<aside class="notes">
+						<ul>
+							<li>All layers are sha256 signed</li>
+							<li>No parent link. Layer contains list of root layers.</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -3360,6 +3367,13 @@ tmpfs on /etc type tmpfs (rw,nosuid,...
 						<a href="http://www.projectatomic.io/blog/2015/12/making-docker-images-write-only-in-production/">Blog post</a>
 						from Dan Walsh.
 					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>DEV -> QE</li>
+							<li>Malware -> any backdoor introduced is ephemeral</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -3374,6 +3388,15 @@ dockremap:66666:10000
 $ cat /etc/subgid
 dockremap:66666:10000
 						</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li>Zero UID in container, but non-zero on the host.</li>
+							<li>If user breaks out, he becomse ROOT on the host.</li>
+							<li>Multitenancy</li>
+							<li>Also use SELinux</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -3400,6 +3423,15 @@ $ ps aux | grep bash
 						<li><code>docker-containerd-shim</code></li>
 						<li><code>docker-runc</code></li>
 					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>docker daemon - mostly works with images</li>
+							<li>containerd - daemon that controls runC, checkpoint, restore, live migration</li>
+							<li>shim - loosely coupled bridge between containerd and runC</li>
+							<li>runC implements Open Container Specification, seccomp</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -3412,6 +3444,12 @@ $ ps aux | grep bash
 						<li><code>--live-restore</code> daemon flag:
 							<ul><li>keep containers running when daemon shuts down</li></ul></li>
 					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>check container health by running a command inside the container</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section id="other-container-technologies">
