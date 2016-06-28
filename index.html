@@ -3322,7 +3322,7 @@ $ curl -s -L \
 				<section id="session-6">
 					<h2>Session 6</h2>
 					<ul>
-						<li><a href="#/docker-features-per-release">Features in docker releases</a></li>
+						<li><a href="#/docker-features-per-release">Features in Docker releases</a></li>
 						<li><a href="#/other-container-technologies">Other container technologies</a></li>
 					</ul>
 				</section>
@@ -3345,9 +3345,9 @@ $ curl -s -L \
 				<section>
 					<h2>docker-1.10 — seccomp</h2>
 					<ul>
-						<li>in-place by default</li>
-						<li>blocks syscalls like <code>clone, clock_*, *_module, keyctl, ptrace, reboot, mount, ...</code></li>
-						<li>you can create your own profiles</li>
+						<li>In-place by default</li>
+						<li>Blocks syscalls like <code>clone, clock_*, *_module, keyctl, ptrace, reboot, mount, ...</code></li>
+						<li>You can create your own profiles</li>
 					</ul>
 					<pre><code data-trim data-noescape>
 $ sudo docker run --security-opt seccomp=path/to/profile.json
@@ -3416,7 +3416,7 @@ $ ps aux | grep bash
 
 				<section>
 					<h2>docker-1.11 — architecture change</h2>
-					<p>docker is now made of 4 binaries:</p>
+					<p>Docker is now made of 4 binaries:</p>
 					<ul>
 						<li><code>docker</code></li>
 						<li><code>docker-containerd</code></li>
@@ -3439,10 +3439,10 @@ $ ps aux | grep bash
 					<ul>
 						<li><code>swarm</code> mode</li>
 						<li><code>stack</code> and <code>deploy</code>: multi-container applications</li>
-						<li>new <code>HEALTHCHECK</code> instruction</li>
+						<li>New <code>HEALTHCHECK</code> instruction</li>
 						<li><code>docker</code> client binary and <code>dockerd</code> daemon</li>
 						<li><code>--live-restore</code> daemon flag:
-							<ul><li>keep containers running when daemon shuts down</li></ul></li>
+							<ul><li>Keep containers running when daemon shuts down</li></ul></li>
 					</ul>
 
 					<aside class="notes">
@@ -3478,7 +3478,7 @@ $ ps aux | grep bash
 						<li>Generate a spec</li>
 						<li>Update resource constraints</li>
 						<li>List processes spawned in a container</li>
-						<li>Ppause, resume</li>
+						<li>Pause, resume</li>
 						<li>Checkpoint, restore — CRIU</li>
 					</ul>
 				</section>
@@ -3486,7 +3486,7 @@ $ ps aux | grep bash
 				<section>
 					<h2>runc — demo</h2>
 					<pre><code data-trim data-noescape>
-$ sudo dnf install -y runc
+$ sudo dnf install runc
 <span class="fragment">$ sudo docker create --name=my-container fedora:23 bash</span>
 <span class="fragment">$ mkdir rootfs ; cd rootfs
 $ sudo docker export my-container | tar -xf - ; cd ..</span>
